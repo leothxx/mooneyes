@@ -15,7 +15,7 @@
 	    bottom: -30px;
 	    padding: 60px 60px 60px 60px;
 	    background: #f9f9f9;
-	    z-index: 9999;
+	    z-index: 9998;
 	    color: #000;
 	    word-break: keep-all;
 	    text-align: center;

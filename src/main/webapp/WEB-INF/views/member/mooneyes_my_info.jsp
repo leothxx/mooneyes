@@ -11,6 +11,20 @@
 	<script type="text/javascript" src="${ctp}/js/menu.js"></script>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   	<script src="${ctp}/js/postcode.js"></script>
+  	<script>
+  		'use strict';
+  		$(function(){
+  			modal.style.display = "none";
+  			
+  			if($(window).scrollTop() + $(window).height() == $(document).height()) {
+	  			modal.style.display = "none";
+  		    }
+  		});
+  		
+  		function modal_close() {
+  			modal.style.display = "none";
+  		}
+	</script>
 	<style>
 		.my_info {
 		    font-family: 'Noto Sans KR','Malgun Gothic','맑은 고딕',Dotum,'돋움','AppleGothic','Apple SD Gothic Neo',sans-serif;
@@ -52,7 +66,14 @@
 			border: 1px solid #ececec;
 			padding-left: 10px;
 		}
-		.update_field:focus {
+		.update_refund {
+			font-size: 0.9rem;
+			width: 100%;
+			font-weight: 300;
+			border: 1px solid #ececec;
+			padding-left: 10px;
+		}
+		.update_field:focus, .update_refund:focus {
 			outline: none;
 		}
 		.post_option {
@@ -74,7 +95,16 @@
 			width: 33%;
 			height: 5vh;
 		}
-		.black_btn:hover {
+		.black_modal_btn {
+			background-color: #000;
+			color: #fff;
+			text-align: center;
+			font-weight: 300;
+			font-size: 0.9rem;
+			width: 100%;
+			height: 3vh;
+		}
+		.black_btn:hover, .black_modal_btn:hover, .white_btn:hover, .white_modal_btn:hover {
 			text-decoration: none;
 			color: #aaa;
 		}
@@ -88,33 +118,40 @@
 			height: 5vh;
 			border: 1px solid #ececec;
 		}
-		.white_btn:hover {
-			text-decoration: none;
-			color: #aaa;
+		.white_modal_btn {
+			background-color: #fff;
+			color: #000;
+			text-align: center;
+			font-weight: 300;
+			font-size: 0.9rem;
+			width: 100%;
+			height: 3vh;
+			border: 1px solid #ececec;
 		}
 	</style>
 	<style>
 		/* modal style */
 		#modal.modal-overlay {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            left: 0;
-            top: 0;
+            position: fixed;
+            z-index: 9999;
+            left: 40%;
+            top: 30%;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: rgba(255, 255, 255, 0.25);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            /*background: rgba(255, 255, 255, 0.25);*/
+            /*box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);*/
             backdrop-filter: blur(1.5px);
             -webkit-backdrop-filter: blur(1.5px);
             border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.18);
         }
         #modal .modal-window {
-            background: rgba( 69, 139, 197, 0.70 );
-            box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+            /*background: rgba( 255, 255, 0, 0.70 );*/
+            background-image: url("${ctp}/images/logo3_modal.jpg");
+            background-repeat: no-repeat;
+            box-shadow: 0 8px 32px 0 rgba( 0, 0, 0, 0.37 );
             backdrop-filter: blur( 13.5px );
             -webkit-backdrop-filter: blur( 13.5px );
             border-radius: 10px;
@@ -129,7 +166,7 @@
             padding-left: 10px;
             display: inline;
             text-shadow: 1px 1px 2px gray;
-            color: white;
+            color: black;
             
         }
         #modal .title h2 {
@@ -141,13 +178,13 @@
             padding-right: 10px;
             cursor: pointer;
             text-shadow: 1px 1px 2px gray;
-            color: white;
+            color: black;
         }
         #modal .content {
             margin-top: 20px;
             padding: 0px 10px;
             text-shadow: 1px 1px 2px gray;
-            color: white;
+            color: black;
         }
         #modal .modal-overlay {
         	display: none;
@@ -299,7 +336,7 @@
 			<div class="row main_bar mt-2">환불계좌</div>
 			<div class="row sub_bar">
 				<div class="col-2">계좌정보</div>
-				<div class="col"><button id="btn-modal">환불계좌변경</button></div>
+				<div class="col"><input type="button" id="btn-modal" name="btn-modal" value="환불계좌변경" /></div>
 			</div>
 			<div class="row mt-2">
 				<div class="col" style="margin: 0 auto;">
@@ -313,14 +350,26 @@
 			<div id="modal" class="modal-overlay">
         		<div class="modal-window">
             		<div class="title">
-                		<h2>모달</h2>
+                		<h2>환불계좌변경</h2>
             		</div>
           			<div class="close-area">X</div>
 		            <div class="content">
-		                <p>가나다라마바사 아자차카타파하</p>
-		                <p>가나다라마바사 아자차카타파하</p>
-		                <p>가나다라마바사 아자차카타파하</p>
-		                <p>가나다라마바사 아자차카타파하</p>
+		                <div class="row mb-2">
+		                	<div class="col-3"><font style="font-size: 0.9rem;">은행명</font></div>
+		                	<div class="col"><input type="text" id="member_refund_bank" name="member_refund_bank" value="${vo.member_refund_bank}" class="update_refund"/></div>
+	                	</div>
+		                <div class="row mb-2">
+		                	<div class="col-3"><font style="font-size: 0.9rem;">계좌번호</font></div>
+		                	<div class="col"><input type="text" id="member_refund_number" name="member_refund_number" value="${vo.member_refund_number}" class="update_refund"/></div>
+	                	</div>
+		                <div class="row">
+		                	<div class="col-3"><font style="font-size: 0.9rem;">예금주</font></div>
+		                	<div class="col"><input type="text" id="member_refund_name" name="member_refund_name" value="${vo.member_refund_name}" class="update_refund"/></div>
+	                	</div>
+	                	<div class="row" style="margin-top: 270px;">
+	                		<div class="col"><input type="button" value="등록" onclick="" class="black_modal_btn" /></div>
+	                		<div class="col"><input type="button" value="취소" onclick="modal_close()" class="white_modal_btn" /></div>
+	                	</div>
 		            </div>
         		</div>
   			</div>
@@ -332,24 +381,30 @@
 	<script>
 		'use strict';
 		
-		const modal = document.getElementById("modal")
+		const modal = document.getElementById("modal");
+		
 		function modalOn() {
 		    modal.style.display = "flex"
 		}
+		
 		function isModalOn() {
 		    return modal.style.display === "flex"
 		}
+		
 		function modalOff() {
 		    modal.style.display = "none"
 		}
+		
 		const btnModal = document.getElementById("btn-modal")
 		btnModal.addEventListener("click", e => {
 		    modalOn()
 		})
+		
 		const closeBtn = modal.querySelector(".close-area")
 		closeBtn.addEventListener("click", e => {
 		    modalOff()
 		})
+		
 		modal.addEventListener("click", e => {
 		    const evTarget = e.target
 		    if(evTarget.classList.contains("modal-overlay")) {
@@ -360,7 +415,6 @@
 		    if(isModalOn() && e.key === "Escape") {
 		        modalOff()
 		    }
-		})
 		})
 	</script>
 </body>
