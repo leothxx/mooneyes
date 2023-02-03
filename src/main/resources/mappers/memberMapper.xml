@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.green2209S_09.dao.MemberDAO">
+	<select id="get_mooneyes_member_check" resultType="com.spring.green2209S_09.vo.MemberVO">
+		SELECT * FROM mooneyes_member WHERE member_mid = #{member_mid};
+	</select>
+	<select id="getmooneyes_member_emailCheck" resultType="com.spring.green2209S_09.vo.MemberVO">
+		SELECT * FROM mooneyes_member WHERE member_email = #{member_email};
+	</select>
+	<select id="get_member_nameEmail_Check" resultType="com.spring.green2209S_09.vo.MemberVO">
+		SELECT * FROM mooneyes_member WHERE member_email = #{member_email} and member_name = #{member_name};
+	</select>
+		
+	<insert id="set_mooneyes_member_join">
+		INSERT INTO mooneyes_member VALUES (DEFAULT, #{vo.member_mid}, #{vo.member_pwd}, #{vo.member_name}, #{vo.member_email}, null, null, #{vo.member_phone}, #{vo.member_sms_check}, #{vo.member_email_check}, null, null, null, null, null, null, DEFAULT, #{vo.member_signIp}, #{vo.member_signIp}, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, #{vo.member_email_key});
+	</insert>
+	<insert id="set_kakao_member_InputOk">
+		INSERT INTO mooneyes_member VALUES (DEFAULT, #{vo.member_mid}, #{vo.member_pwd}, #{vo.member_name}, #{vo.member_email}, null, null, #{vo.member_phone}, 'Y', 'Y', null, null, null, null, null, null, DEFAULT, #{vo.member_signIp}, #{vo.member_signIp}, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, #{vo.member_email_key});
+	</insert>
+	
+	<update id="set_member_visit_update">
+		UPDATE mooneyes_member SET member_visitIp = #{vo.member_visitIp}, member_visit_date = now() WHERE member_mid = #{vo.member_mid};
+	</update>	
+	<update id="set_member_userDelCheck">
+		UPDATE mooneyes_member SET member_delete_check = 'N' WHERE member_mid = #{member_mid};
+	</update>	
+</mapper>
