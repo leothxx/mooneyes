@@ -13,16 +13,160 @@
   	<script src="${ctp}/js/postcode.js"></script>
   	<script>
   		'use strict';
+  		let regbeforePwdCheck = false;
+  		let regPwdCheck = false;
+	    let regPwd2Check = false;
+	    let regNameCheck = false;
+	    let regPhoneCheck= false;
+	    
+	    let user_tel= "";
+	    let user_phone= "";
+	    let user_email= "";
+	    
+	    const regPwd = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+	    const regName = /^[가-힣a-zA-Z]+$/;
+	    const regPhone = /\d{2,3}-\d{3,4}-\d{4}$/g;
+	    
   		$(function(){
   			modal.style.display = "none";
   			
   			if($(window).scrollTop() + $(window).height() == $(document).height()) {
 	  			modal.style.display = "none";
   		    }
+  			
+  			let pwdCheckSw = 0;
+  	      	let beforePwdCheckSw = 0;
+  	      	
+  			// 이전 비밀번호 유효성 체크
+  	   		$("#member_pwd").blur(function(event) {
+  	   			if(pwdCheckSw != 0){
+		     		$("#member_new_pwd").blur();
+	     		}
+  	  			if($("#member_pwd").val() == "") {
+  					$("#beforePwdComent").html("<font color='red' class='signInfo'> 이전 비밀번호를 입력하세요!</font>");
+  					regbeforePwdCheck = false;
+  	  				return false;
+				}
+  	  			else {
+  	  				let user_beforePwd = $("#member_pwd").val();
+  	  				let user_id = "${vo.member_mid}";
+  	  				let query = {
+  							member_before_pwd : user_beforePwd,
+  							member_mid : user_id
+  	  				};
+  	  				
+  	  				$.ajax({
+  	  					url : "${ctp}/member/before_pwd_check",
+  	  					type : "post",
+  	  					data : query,
+  	  					success : function(res) {
+  	  						if(res == '1') {
+  	  							$("#beforePwdComent").html("<font color='blue' class='signInfo'> 이전 비밀번호와 일치합니다.</font>");
+  	  							regbeforePwdCheck = true;
+  	  						}
+  	  						else {
+  	  							$("#beforePwdComent").html("<font color='red' class='signInfo'> 이전 비밀번호가 올바르지 않습니다! </font>");
+  	  							regbeforePwdCheck = false;
+  	  						}
+  	  					},
+  	  					error : function() {
+  	  						alert("전송 오류 발생!");
+  	  					}
+  	  				});
+  	  			}
+  	  		});
+  			
+  	   		// 비밀번호 유효성 체크
+  	     	$("#member_new_pwd").blur(function(event) {
+  	     		if(pwdCheckSw != 0){
+  		     		$("#member_new_pwd2").blur();
+  	     		}
+  	    		if($("#member_new_pwd").val() == "") {
+  	    			$("#pwdComent").html("<font color='red' class='signInfo'> 비밀번호를 입력하세요!</font>");
+  	    			regPwdCheck = false;
+  	    			return false;
+  	  			}
+  	    		else {
+  	    			let member_new_pwd = $("#member_new_pwd").val();
+  	    			if(!regPwd.test(member_new_pwd)) {
+  		    			$("#pwdComent").html("<font color='red' class='signInfo'> 비밀번호 양식에 올바르지 않습니다! </font> <font color='#000' class='signInfo'><br/>비밀번호는 1개이상의 문자와 특수문자, 숫자가 포함되어야 하며. 최소 8자리 이상이여야 합니다.</font>");
+  		    			regPwdCheck = false;
+  		    			return false;
+  	    			}
+  	    			else {
+  		    			$("#pwdComent").html("<font color='blue' class='signInfo'> 비밀번호 형식에 일치합니다.</font>");
+  		    			pwdCheckSw = 1;
+  		    			regPwdCheck = true;
+  	    			}
+  	    		}
+  	    	});
+  	   		
+  	   		// 비밀번호 확인 유효성 체크
+  	     	$("#member_new_pwd2").blur(function(event) {
+  	    		if($("#member_new_pwd2").val() == "") {
+  	    			$("#pwdCheckComent").html("<font color='red' class='signInfo'> 비밀번호를 입력하세요!</font>");
+  	    			regPwd2Check = false;
+  	    			return false;
+  	  			}
+  	    		else {
+  	    			let member_new_pwd = $("#member_new_pwd").val();
+  	    			let member_new_pwd2 = $("#member_new_pwd2").val();
+  	    			if(member_new_pwd != member_new_pwd2) {
+  		    			$("#pwdCheckComent").html("<font color='red' class='signInfo'> 비밀번호가 올바르지 않습니다! </font> <font color='#000' class='signInfo'><br/>위와 동일한 비밀번호를 입력하세요.</font>");
+  		    			regPwd2Check = false;
+  		    			return false;
+  	    			}
+  	    			else {
+  		    			$("#pwdCheckComent").html("<font color='blue' class='signInfo'> 비밀번호가 일치합니다.</font>");
+  		    			regPwd2Check = true;
+  	    			}
+  	    		}
+  	    	});
+  			
   		});
   		
   		function modal_close() {
   			modal.style.display = "none";
+  		}
+  		
+  		// 회원 수정하기 버튼
+  		function member_update() {
+		    
+  		}
+  		
+  		// 환불계좌 등록 버튼
+  		function refund_update() {
+  			let member_refund_bank = document.getElementById("member_refund_bank").value;
+  			let member_refund_number = document.getElementById("member_refund_number").value;
+  			let member_refund_name = document.getElementById("member_refund_name").value;
+  			
+  			let query = {
+  					member_mid : "${vo.member_mid}",
+  					member_refund_bank : member_refund_bank,
+  					member_refund_number : member_refund_number,
+  					member_refund_name : member_refund_name
+  			}
+  			
+  			if(member_refund_bank != null && member_refund_number != null && member_refund_name != null) {
+	  			$.ajax({
+	  				type : "post",
+	  				url : "${ctp}/member/refund_update",
+	  				data : query,
+	  				success : function(res) {
+	  					if(res == 1){
+	  						modal_close();
+		  					$('#bank_account').load(location.href+' #bank_account');
+	  					}
+	  					else alert("환불계좌 업데이트중 오류가 발생하였습니다.\n다시 입력해주세요!");
+	  				},
+	  				error : function() {
+	  					alert("전송 오류 발생!");
+	  				}
+	  			});
+  			}
+  			else {
+  				alert("환불 계좌의 모든 정보를 입력해주세요!");
+  			}
   		}
 	</script>
 	<style>
@@ -70,7 +214,7 @@
 			font-size: 0.9rem;
 			width: 100%;
 			font-weight: 300;
-			border: 1px solid #ececec;
+			border: 1px solid black;
 			padding-left: 10px;
 		}
 		.update_field:focus, .update_refund:focus {
@@ -127,6 +271,15 @@
 			width: 100%;
 			height: 3vh;
 			border: 1px solid #ececec;
+		}
+		.btn-modal {
+			border-radius: 10px;
+			border: 1px solid #ececec;
+			margin-top: 5px;
+			margin-bottom: 5px;
+			padding: 5px;
+			font-size: 0.8rem;
+			background-color: #ececec;
 		}
 	</style>
 	<style>
@@ -212,19 +365,19 @@
 			<div class="row main_bar"><div class="col-11 text-left pl-0">기본정보</div><div class="col text-right"><font color="blue">*</font>&nbsp;<font style="font-size: 0.8rem; font-weight: 300;">필수</font></div></div>
 			<div class="row sub_bar">
 				<div class="col-2">아이디 <font color="blue">*</font></div>
-				<div class="col"><input type="text" id="member_mid" name="member_mid" value="${vo.member_mid}" required class="update_field" /></div>
+				<div class="col"><input type="text" id="member_mid" name="member_mid" value="${vo.member_mid}" required readonly class="update_field" /></div>
 			</div>
 			<div class="row sub_bar">
 				<div class="col-2">현재 비밀번호 </div>
-				<div class="col"><input type="password" id="member_pwd" name="member_pwd" class="update_field" /><br/><span style="color: #aaa; font-weight: 300; font-size: 0.8rem;">- (1개 이상 문자, 특수문자, 숫자 포함 최소 8자 이상)</span></div>
+				<div class="col"><input type="password" id="member_pwd" name="member_pwd" class="update_field" /><br/><span style="color: #aaa; font-weight: 300; font-size: 0.8rem;">- (1개 이상 문자, 특수문자, 숫자 포함 최소 8자 이상)</span><div id="beforePwdComent"></div></div>
 			</div>
 			<div class="row sub_bar">
 				<div class="col-2">새 비밀번호 </div>
-				<div class="col"><input type="password" id="member_new_pwd" name="member_new_pwd" class="update_field" /><br/><span style="color: #aaa; font-weight: 300; font-size: 0.8rem;">- (1개 이상 문자, 특수문자, 숫자 포함 최소 8자 이상)</span></div>
+				<div class="col"><input type="password" id="member_new_pwd" name="member_new_pwd" class="update_field" /><br/><span style="color: #aaa; font-weight: 300; font-size: 0.8rem;">- (1개 이상 문자, 특수문자, 숫자 포함 최소 8자 이상)</span><div id="pwdComent"></div></div>
 			</div>
 			<div class="row sub_bar">
 				<div class="col-2">새 비밀번호 확인 </div>
-				<div class="col"><input type="password" id="member_new_pwd2" name="member_new_pwd2" class="update_field" /></div>
+				<div class="col"><input type="password" id="member_new_pwd2" name="member_new_pwd2" class="update_field" /><div id="pwdCheckComent"></div></div>
 			</div>
 			<div class="row sub_bar">
 				<div class="col-2">이름 <font color="blue">*</font></div>
@@ -292,9 +445,9 @@
 			<div class="row sub_bar">
 				<div class="col-2">이메일 <font color="blue">*</font></div>
 				<div class="col">
-					<input type="text" id="member_email1" name="member_eamil1" value="${member_email1}" class="update_field" style="width: 48%;" />
+					<input type="text" id="member_email1" name="member_eamil1" value="${member_email1}" class="update_field" style="width: 48%;" readonly />
 					<span>&nbsp;@&nbsp;</span>
-					<select name="member_email2" id="member_email2" class="update_field" style="width: 48%;">
+					<select name="member_email2" id="member_email2" class="update_field" style="width: 48%;" disabled>
 					    <option value="naver.com" ${member_email2 == 'naver.com' ? 'selected' : ''}>naver.com</option>
 					    <option value="hanmail.net" ${member_email2 == 'hanmail.net' ? 'selected' : ''}>hanmail.net</option>
 					    <option value="hotmail.com" ${member_email2 == 'hotmail.com' ? 'selected' : ''}>hotmail.com</option>
@@ -336,11 +489,14 @@
 			<div class="row main_bar mt-2">환불계좌</div>
 			<div class="row sub_bar">
 				<div class="col-2">계좌정보</div>
-				<div class="col"><input type="button" id="btn-modal" name="btn-modal" value="환불계좌변경" /></div>
+				<div class="col">
+					<span id="bank_account"><c:if test="${vo.member_refund_bank != null}"><span>[${vo.member_refund_bank}] ${vo.member_refund_number} 예금주: ${vo.member_refund_name}</span></c:if></span><br/>
+					<input type="button" id="btn-modal" name="btn-modal" value="환불계좌변경" class="btn-modal" />
+				</div>
 			</div>
 			<div class="row mt-2">
 				<div class="col" style="margin: 0 auto;">
-					<input type="button" value="회원정보수정" onclick="" class="black_btn" />
+					<input type="button" value="회원정보수정" onclick="member_update();" class="black_btn" />
 					<input type="button" value="회원탈퇴" onclick="" class="black_btn" />
 					<input type="button" value="취소" onclick="location.href='${ctp}/';" class="white_btn" />
 				</div>
@@ -367,8 +523,8 @@
 		                	<div class="col"><input type="text" id="member_refund_name" name="member_refund_name" value="${vo.member_refund_name}" class="update_refund"/></div>
 	                	</div>
 	                	<div class="row" style="margin-top: 270px;">
-	                		<div class="col"><input type="button" value="등록" onclick="" class="black_modal_btn" /></div>
-	                		<div class="col"><input type="button" value="취소" onclick="modal_close()" class="white_modal_btn" /></div>
+	                		<div class="col"><input type="button" value="등록" onclick="refund_update();" class="black_modal_btn" /></div>
+	                		<div class="col"><input type="button" value="취소" onclick="modal_close();" class="white_modal_btn" /></div>
 	                	</div>
 		            </div>
         		</div>

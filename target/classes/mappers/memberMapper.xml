@@ -24,4 +24,7 @@
 	<update id="set_member_userDelCheck">
 		UPDATE mooneyes_member SET member_delete_check = 'N' WHERE member_mid = #{member_mid};
 	</update>	
+	<update id="set_member_refund_update">
+		UPDATE mooneyes_member SET member_refund_bank = #{vo.member_refund_bank}, member_refund_number = #{vo.member_refund_number}, member_refund_name = #{vo.member_refund_name} WHERE member_mid = #{vo.member_mid};
+	</update>	
 </mapper>

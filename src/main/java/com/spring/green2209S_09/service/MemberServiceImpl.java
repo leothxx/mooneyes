@@ -45,4 +45,9 @@ public class MemberServiceImpl implements MemberService {
 	public void set_member_userDelCheck(String member_mid) {
 		memberDAO.set_member_userDelCheck(member_mid);
 	}
+
+	@Override
+	public int set_member_refund_update(MemberVO vo) {
+		return memberDAO.set_member_refund_update(vo);
+	}
 }

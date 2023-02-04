@@ -309,8 +309,45 @@ public class MemberController {
 	@RequestMapping(value="/my_info",method=RequestMethod.GET)
 	public String my_infoGet(Model model, String mid) {
 		MemberVO vo = memberService.get_mooneyes_member_check(mid);
+		
+		String member_address[] = vo.getMember_address().split("/");
+		String member_tel[] = vo.getMember_tel().split("-");
+		String member_phone[] = vo.getMember_phone().split("-");
+		
 		model.addAttribute("vo",vo);
+		model.addAttribute("member_address1",member_address[0]);
+		model.addAttribute("member_address2",member_address[1]);
+		model.addAttribute("member_address3",member_address[2]);
+		model.addAttribute("member_address4",member_address[3]);
+		model.addAttribute("member_tel1",member_tel[0]);
+		model.addAttribute("member_tel2",member_tel[1]);
+		model.addAttribute("member_tel3",member_tel[2]);
+		model.addAttribute("member_phone1",member_phone[0]);
+		model.addAttribute("member_phone2",member_phone[1]);
+		model.addAttribute("member_phone3",member_phone[2]);
+		
 		return "member/mooneyes_my_info";
+	}
+	
+	// 환불 계좌 수정
+	@ResponseBody
+	@RequestMapping(value="/refund_update",method=RequestMethod.POST)
+	public String refund_updatePost(MemberVO vo) {
+		int res = 0;
+		res = memberService.set_member_refund_update(vo);
+		return res+"";
+	}
+	
+	// 이전 비밀번호 확인
+	@ResponseBody
+	@RequestMapping(value="/before_pwd_check",method=RequestMethod.POST)
+	public String before_pwd_checkPost(String member_before_pwd, String member_mid) {
+		int res = 0;
+		MemberVO vo = memberService.get_mooneyes_member_check(member_mid);
+		if(passwordEncoder.matches(member_before_pwd, vo.getMember_pwd())) {
+			res = 1;
+		}
+		return res+"";
 	}
 	
 }

@@ -19,5 +19,7 @@ public interface MemberDAO {
 	public MemberVO get_member_nameEmail_Check(@Param("member_name") String member_name,@Param("member_email") String member_email);
 
 	public void set_member_userDelCheck(@Param("member_mid") String member_mid);
+
+	public int set_member_refund_update(@Param("vo") MemberVO vo);
 	
 }

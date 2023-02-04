@@ -18,5 +18,7 @@ public interface MemberService {
 
 	public void set_member_userDelCheck(String member_mid);
 
+	public int set_member_refund_update(MemberVO vo);
+
 	
 }
