@@ -27,4 +27,13 @@
 	<update id="set_member_refund_update">
 		UPDATE mooneyes_member SET member_refund_bank = #{vo.member_refund_bank}, member_refund_number = #{vo.member_refund_number}, member_refund_name = #{vo.member_refund_name} WHERE member_mid = #{vo.member_mid};
 	</update>	
+	<update id="set_member_update">
+		UPDATE mooneyes_member SET member_name = #{vo.member_name}, member_address = #{vo.member_address}, member_tel = #{vo.member_tel}, member_phone = #{vo.member_phone}, member_sms_check = #{vo.member_sms_check}, member_email_check = #{vo.member_email_check}, member_birthday = #{vo.member_birthday}, member_car = #{vo.member_car}, member_motorcycle = #{vo.member_motorcycle} WHERE member_mid = #{vo.member_mid};
+	</update>	
+	<update id="set_member_pwd_update">
+		UPDATE mooneyes_member SET member_pwd = #{vo.member_pwd}, member_name = #{vo.member_name}, member_address = #{vo.member_address}, member_tel = #{vo.member_tel}, member_phone = #{vo.member_phone}, member_sms_check = #{vo.member_sms_check}, member_email_check = #{vo.member_email_check}, member_birthday = #{vo.member_birthday}, member_car = #{vo.member_car}, member_motorcycle = #{vo.member_motorcycle} WHERE member_mid = #{vo.member_mid};
+	</update>	
+	<update id="set_member_email_certification">
+		UPDATE mooneyes_member SET member_point = member_point + 1000, member_certification = 'Y', member_level = 1 WHERE member_mid = #{vo.member_mid};
+	</update>	
 </mapper>

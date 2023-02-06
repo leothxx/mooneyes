@@ -42,16 +42,11 @@ $(function(){
     	const height = $(document).height() - $(window).height();
   		// procent : 현재 위치의 스크롤 백분율
     	const procent = Math.floor(windowScrollTop / height * 100);
-    	/*
+    	
 	    if($(window).scrollTop() + $(window).height() == $(document).height()) {
-	        $("#left").removeClass("animate__fadeIn");
-	        $("#left").addClass("animate__fadeOut");
+	        $("#left").css("display","none");
 	    }
-	    else {
-	        $("#left").removeClass("animate__fadeOut");
-	        $("#left").addClass("animate__fadeIn");
-	    }
-	    */
+	    
 	    if(procent > 60) {
 			$(".footer").removeClass("animate__fadeOutDown");
 	        $(".footer").addClass("animate__fadeInUp");
@@ -63,6 +58,7 @@ $(function(){
 	        $(".footer").addClass("animate__fadeOutDown");
 	        $("#left").removeClass("animate__fadeOut");
 	        $("#left").addClass("animate__fadeIn");
+	        $("#left").css("display","block");
 		}
 	});
 	

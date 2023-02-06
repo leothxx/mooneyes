@@ -1,5 +1,7 @@
 package com.spring.green2209S_09;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.UUID;
 
 import javax.mail.MessagingException;
@@ -186,8 +188,13 @@ public class MemberController {
 			
 			// 로그인한 사용자의 방문 IP와 방문날짜 업데이트
 			memberService.set_member_visit_update(vo);
-			
-			return "redirect:/msg/mooneyes_login_ok?mid="+member_mid;
+			String name = null;
+			try {
+				name = URLEncoder.encode(vo.getMember_name(),"utf-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			return "redirect:/msg/mooneyes_login_ok?mid="+name;
 		}
 		else {
 			return "redirect:/msg/mooneyes_login_no";
@@ -283,8 +290,15 @@ public class MemberController {
 		
 		// 로그인한 사용자의 방문 IP와 방문날짜 업데이트
 		memberService.set_member_visit_update(vo);
-					
-		return "redirect:/msg/mooneyes_login_ok?mid="+vo.getMember_mid();
+		
+		String name = null;
+		try {
+			name = URLEncoder.encode(vo.getMember_name(),"utf-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:/msg/mooneyes_login_ok?mid="+name;
 	}
 	
 	// 로그아웃
@@ -292,9 +306,16 @@ public class MemberController {
 	public String logoutGet(HttpSession session) {
 		String mid = (String) session.getAttribute("sMid");
 		
-		session.invalidate();
+		MemberVO vo = memberService.get_mooneyes_member_check(mid);
 		
-		return "redirect:/msg/mooneyes_logout?mid="+mid;
+		session.invalidate();
+		String name = null;
+		try {
+			name = URLEncoder.encode(vo.getMember_name(),"utf-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return "redirect:/msg/mooneyes_logout?mid="+name;
 	}
 	
 	// 마이페이지
@@ -309,24 +330,54 @@ public class MemberController {
 	@RequestMapping(value="/my_info",method=RequestMethod.GET)
 	public String my_infoGet(Model model, String mid) {
 		MemberVO vo = memberService.get_mooneyes_member_check(mid);
-		
-		String member_address[] = vo.getMember_address().split("/");
-		String member_tel[] = vo.getMember_tel().split("-");
-		String member_phone[] = vo.getMember_phone().split("-");
-		
+		if(vo != null) {
+			if(vo.getMember_address() != null) {
+				String member_address[] = vo.getMember_address().split("/");
+				model.addAttribute("member_address1",member_address[0]);
+				model.addAttribute("member_address2",member_address[1]);
+				model.addAttribute("member_address3",member_address[2]);
+				model.addAttribute("member_address4",member_address[3]);
+			}
+			if(vo.getMember_tel() != null) {
+				String member_tel[] = vo.getMember_tel().split("-");
+				model.addAttribute("member_tel1",member_tel[0]);
+				model.addAttribute("member_tel2",member_tel[1]);
+				model.addAttribute("member_tel3",member_tel[2]);
+			}
+			if(vo.getMember_phone() != null) {
+				String member_phone[] = vo.getMember_phone().split("-");
+				model.addAttribute("member_phone1",member_phone[0]);
+				model.addAttribute("member_phone2",member_phone[1]);
+				model.addAttribute("member_phone3",member_phone[2]);
+			}
+		}
 		model.addAttribute("vo",vo);
-		model.addAttribute("member_address1",member_address[0]);
-		model.addAttribute("member_address2",member_address[1]);
-		model.addAttribute("member_address3",member_address[2]);
-		model.addAttribute("member_address4",member_address[3]);
-		model.addAttribute("member_tel1",member_tel[0]);
-		model.addAttribute("member_tel2",member_tel[1]);
-		model.addAttribute("member_tel3",member_tel[2]);
-		model.addAttribute("member_phone1",member_phone[0]);
-		model.addAttribute("member_phone2",member_phone[1]);
-		model.addAttribute("member_phone3",member_phone[2]);
 		
 		return "member/mooneyes_my_info";
+	}
+	
+	// 회원 정보 수정 처리
+	@RequestMapping(value="/my_info", method=RequestMethod.POST)
+	public String my_infoPost(Model model, MemberVO vo, String pwd_change_sw, String member_new_pwd, String member_new_pwd2) {
+		String name = null;
+		try {
+			name = URLEncoder.encode(vo.getMember_name(),"utf-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		if(pwd_change_sw.equals("no")) {
+			memberService.set_member_update(vo);
+			return "redirect:/msg/member_update_ok?mid="+name;
+		}
+		else {
+			if(member_new_pwd.equals(member_new_pwd2)) {
+				vo.setMember_pwd(passwordEncoder.encode(member_new_pwd));
+				memberService.set_member_pwd_update(vo);
+				return "redirect:/msg/member_update_ok?mid="+name;
+			}
+		}
+		return "redirect:/msg/member_update_no?mid="+name;
 	}
 	
 	// 환불 계좌 수정
@@ -348,6 +399,46 @@ public class MemberController {
 			res = 1;
 		}
 		return res+"";
+	}
+	
+	// 이메일 인증 처리 폼
+	@RequestMapping(value="/email_certification", method=RequestMethod.GET)
+	public String email_certificationGet(HttpSession session, Model model) {
+		String member_mid = session.getAttribute("sMid") == null ? "" : (String) session.getAttribute("sMid");
+		MemberVO vo = memberService.get_mooneyes_member_check(member_mid);
+		if(vo.getMember_certification().equals("N")) {
+			model.addAttribute("vo",vo);
+			return "member/mooneyes_email_certification";
+		}
+		else {
+			String name = null;
+			try {
+				name = URLEncoder.encode(vo.getMember_name(),"utf-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			return "redirect:/msg/email_certification_no?mid="+name;
+		}
+	}
+	
+	// 이메일 인증 처리
+	@RequestMapping(value="/email_certification", method=RequestMethod.POST)
+	public String email_certificationPost(HttpSession session, Model model, String code) {
+		String member_mid = session.getAttribute("sMid") == null ? "" : (String) session.getAttribute("sMid");
+		MemberVO vo = memberService.get_mooneyes_member_check(member_mid);
+		if(!vo.getMember_email_key().equals(code)) {
+			return "redirect:/msg/email_certification_x";
+		}
+		else {
+			memberService.set_member_email_certification(vo);
+			String name = null;
+			try {
+				name = URLEncoder.encode(vo.getMember_name(),"utf-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			return "redirect:/msg/email_certification_ok?mid="+name;
+		}
 	}
 	
 }

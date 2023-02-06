@@ -21,5 +21,11 @@ public interface MemberDAO {
 	public void set_member_userDelCheck(@Param("member_mid") String member_mid);
 
 	public int set_member_refund_update(@Param("vo") MemberVO vo);
+
+	public void set_member_update(@Param("vo") MemberVO vo);
+	
+	public void set_member_pwd_update(@Param("vo") MemberVO vo);
+
+	public void set_member_email_certification(@Param("vo") MemberVO vo);
 	
 }

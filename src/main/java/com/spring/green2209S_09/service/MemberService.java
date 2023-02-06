@@ -20,5 +20,11 @@ public interface MemberService {
 
 	public int set_member_refund_update(MemberVO vo);
 
+	public void set_member_update(MemberVO vo);
+	
+	public void set_member_pwd_update(MemberVO vo);
+
+	public void set_member_email_certification(MemberVO vo);
+
 	
 }

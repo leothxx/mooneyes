@@ -11,6 +11,7 @@
 		'use strict';
 		let msg = '${msg}';
 		let url = '${ctp}/${url}';
+		msg = msg.replace(/(<br>|<br\/>|<br \/>)/g, '\n');
 		
 		alert(msg);
 		location.href=url;

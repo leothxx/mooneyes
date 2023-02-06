@@ -18,14 +18,16 @@
 	    let regPwd2Check = false;
 	    let regNameCheck = false;
 	    let regPhoneCheck= false;
+	    let regTelCheck= false;
 	    
-	    let user_tel= "";
-	    let user_phone= "";
-	    let user_email= "";
+	    let member_tel= "";
+	    let member_phone= "";
+	    let pwd_change_sw = "no";
 	    
 	    const regPwd = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 	    const regName = /^[가-힣a-zA-Z]+$/;
-	    const regPhone = /\d{2,3}-\d{3,4}-\d{4}$/g;
+	    const regTel = /\d{2,3}-\d{3,4}-\d{4}$/g;
+	    const regPhone = /^01([0|1|6|7|8|9])-([0-9]{3,4})-([0-9]{4})$/
 	    
   		$(function(){
   			modal.style.display = "none";
@@ -122,7 +124,7 @@
   	    			}
   	    		}
   	    	});
-  			
+  	   		
   		});
   		
   		function modal_close() {
@@ -131,7 +133,92 @@
   		
   		// 회원 수정하기 버튼
   		function member_update() {
-		    
+  			let postcode = member_update_form.postcode.value;
+  	    	let detailAddress = member_update_form.detailAddress.value;
+  	    	
+  	    	let member_before_pwd = member_update_form.member_pwd.value;
+  	    	let member_new_pwd = member_update_form.member_new_pwd.value;
+  	    	let member_new_pwd2 = member_update_form.member_new_pwd2.value;
+  	    	
+  	    	let member_name = member_update_form.member_name.value;
+  	    	
+  	    	let member_tel1 = member_update_form.member_tel1.value;
+  	    	let member_tel2 = member_update_form.member_tel2.value;
+  	    	let member_tel3 = member_update_form.member_tel3.value;
+  	    	
+  	    	let member_phone1 = member_update_form.member_phone1.value;
+  	    	let member_phone2 = member_update_form.member_phone2.value;
+  	    	let member_phone3 = member_update_form.member_phone3.value;
+  	    	
+  	    	if(postcode.trim() == "" || detailAddress.trim() == "") {
+  	    		alert("주소를 입력하세요.");
+  	    		return false;
+  	    	}
+  	    	
+  	    	if(member_new_pwd != "") {
+  	    		if(regbeforePwdCheck == true && regPwdCheck == true && regPwd2Check == true) {
+  	    			pwd_change_sw = "ok";
+  	    		}
+  	    		else if(regbeforePwdCheck == false) {
+  	    			alert("이전 비밀번호가 올바르지 않습니다.");
+  	    			return false;
+  	    		}
+  	    		else if(regPwdCheck == false) {
+  	    			alert("새 비밀번호가 비밀번호 형식에 올바르지 않습니다.");
+  	    			return false;
+  	    		}
+  	    		else if(regPwd2Check == false) {
+  	    			alert("비밀번호 확인란의 비밀번호가 올바르지 않습니다.");
+  	    			return false;
+  	    		}
+  	    	}
+  	    	
+  	    	if(member_name != "") {
+  	    		if(!regName.test(member_name)) {
+  	    			alert("수정하시려는 이름이 형식에 맞지 않습니다. \n 성명은 한글 및 영문자만 입력 가능합니다.");
+  	    			member_update_form.member_name.focus();
+	    			return false;
+    			}
+  	    	}
+  	    	else {
+  	    		alert("수정할 이름을 입력하세요!");
+  	    		return false;
+  	    	}
+  	    	
+  	    	if(member_tel2 != "" || member_tel3 != "") {
+  	    		member_tel = member_tel1 + "-" + member_tel2 + "-" + member_tel3;
+  	    		if(!regTel.test(member_tel)) {
+  	    			alert("수정하시려는 일반전화번호가 형식에 맞지 않습니다. \n 전화번호는 00(000)-000(0000)-0000 숫자만 가능합니다.");
+  	    			member_update_form.member_tel2.focus();
+	    			return false;
+    			}
+  	    	}
+  	    	else member_tel = member_tel1 + "-" + "000" + "-" + "0000";
+  	    	
+  	    	if(member_phone2 != "" || member_phone3 != "") {
+  	    		member_phone = member_phone1 + "-" + member_phone2 + "-" + member_phone3;
+  	    		if(!regPhone.test(member_phone)) {
+  	    			alert("수정하시려는 휴대전화번호가 형식에 맞지 않습니다. \n 전화번호는 000-000(0000)-0000 숫자만 가능합니다.");
+  	    			member_update_form.member_phone2.focus();
+	    			return false;
+    			}
+  	    	}
+  	    	else {
+  	    		alert("수정할 휴대전화번호를 입력하세요!");
+  	    		return false;
+  	    	}
+  	    	
+  	    	postcode = member_update_form.postcode.value + " ";
+    		let roadAddress = member_update_form.roadAddress.value + " ";
+    		detailAddress = member_update_form.detailAddress.value + " ";
+    		let extraAddress = member_update_form.extraAddress.value + " ";
+    		
+    		member_update_form.member_address.value = postcode + "/" + roadAddress + "/" + detailAddress + "/" + extraAddress + "/";
+    		member_update_form.member_tel.value = member_tel;
+    		member_update_form.member_phone.value = member_phone;
+    		member_update_form.pwd_change_sw.value = pwd_change_sw;
+    		
+    		member_update_form.submit();
   		}
   		
   		// 환불계좌 등록 버튼
@@ -396,24 +483,24 @@
 				<div class="col-2">일반전화</div>
 				<div class="col">
 					<select id="member_tel1" name="member_tel1" class="update_field" style="width: 30%;">
-						<option value="02" ${member_tel1 == '02' ? 'checked' : ''}>02</option>
-						<option value="031" ${member_tel1 == '031' ? 'checked' : ''}>031</option>
-						<option value="032" ${member_tel1 == '032' ? 'checked' : ''}>032</option>
-						<option value="033" ${member_tel1 == '033' ? 'checked' : ''}>033</option>
-						<option value="041" ${member_tel1 == '041' ? 'checked' : ''}>041</option>
-						<option value="042" ${member_tel1 == '042' ? 'checked' : ''}>042</option>
-						<option value="043" ${member_tel1 == '043' ? 'checked' : ''}>043</option>
-						<option value="044" ${member_tel1 == '044' ? 'checked' : ''}>044</option>
-						<option value="051" ${member_tel1 == '051' ? 'checked' : ''}>051</option>
-						<option value="052" ${member_tel1 == '052' ? 'checked' : ''}>052</option>
-						<option value="053" ${member_tel1 == '053' ? 'checked' : ''}>053</option>
-						<option value="054" ${member_tel1 == '054' ? 'checked' : ''}>054</option>
-						<option value="055" ${member_tel1 == '055' ? 'checked' : ''}>055</option>
-						<option value="061" ${member_tel1 == '061' ? 'checked' : ''}>061</option>
-						<option value="062" ${member_tel1 == '062' ? 'checked' : ''}>062</option>
-						<option value="063" ${member_tel1 == '063' ? 'checked' : ''}>063</option>
-						<option value="064" ${member_tel1 == '064' ? 'checked' : ''}>064</option>
-						<option value="070" ${member_tel1 == '070' ? 'checked' : ''}>070</option>
+						<option value="02" ${member_tel1 == '02' ? 'selected' : ''}>02</option>
+						<option value="031" ${member_tel1 == '031' ? 'selected' : ''}>031</option>
+						<option value="032" ${member_tel1 == '032' ? 'selected' : ''}>032</option>
+						<option value="033" ${member_tel1 == '033' ? 'selected' : ''}>033</option>
+						<option value="041" ${member_tel1 == '041' ? 'selected' : ''}>041</option>
+						<option value="042" ${member_tel1 == '042' ? 'selected' : ''}>042</option>
+						<option value="043" ${member_tel1 == '043' ? 'selected' : ''}>043</option>
+						<option value="044" ${member_tel1 == '044' ? 'selected' : ''}>044</option>
+						<option value="051" ${member_tel1 == '051' ? 'selected' : ''}>051</option>
+						<option value="052" ${member_tel1 == '052' ? 'selected' : ''}>052</option>
+						<option value="053" ${member_tel1 == '053' ? 'selected' : ''}>053</option>
+						<option value="054" ${member_tel1 == '054' ? 'selected' : ''}>054</option>
+						<option value="055" ${member_tel1 == '055' ? 'selected' : ''}>055</option>
+						<option value="061" ${member_tel1 == '061' ? 'selected' : ''}>061</option>
+						<option value="062" ${member_tel1 == '062' ? 'selected' : ''}>062</option>
+						<option value="063" ${member_tel1 == '063' ? 'selected' : ''}>063</option>
+						<option value="064" ${member_tel1 == '064' ? 'selected' : ''}>064</option>
+						<option value="070" ${member_tel1 == '070' ? 'selected' : ''}>070</option>
 					</select>
 					<span>-</span>
 					<input type="text" id="member_tel2" name="member_tel2" value="${member_tel2}" class="update_field" style="width: 32%;"/>
@@ -425,12 +512,12 @@
 				<div class="col-2">휴대전화 <font color="blue">*</font></div>
 				<div class="col">
 					<select id="member_phone1" name="member_phone1" class="update_field" style="width: 30%;">
-						<option value="010" ${member_phone1 == '010' ? 'checked' : ''}>010</option>
-						<option value="011" ${member_phone1 == '011' ? 'checked' : ''}>011</option>
-						<option value="016" ${member_phone1 == '016' ? 'checked' : ''}>016</option>
-						<option value="017" ${member_phone1 == '017' ? 'checked' : ''}>017</option>
-						<option value="018" ${member_phone1 == '018' ? 'checked' : ''}>018</option>
-						<option value="019" ${member_phone1 == '019' ? 'checked' : ''}>019</option>
+						<option value="010" ${member_phone1 == '010' ? 'selected' : ''}>010</option>
+						<option value="011" ${member_phone1 == '011' ? 'selected' : ''}>011</option>
+						<option value="016" ${member_phone1 == '016' ? 'selected' : ''}>016</option>
+						<option value="017" ${member_phone1 == '017' ? 'selected' : ''}>017</option>
+						<option value="018" ${member_phone1 == '018' ? 'selected' : ''}>018</option>
+						<option value="019" ${member_phone1 == '019' ? 'selected' : ''}>019</option>
 					</select>
 					<span>-</span>
 					<input type="text" id="member_phone2" name="member_phone2" value="${member_phone2}" class="update_field" style="width: 32%;"/>
@@ -440,7 +527,7 @@
 			</div>
 			<div class="row sub_bar">
 				<div class="col-2">SMS 수신여부 <font color="blue">*</font></div>
-				<div class="col"><input type="radio" id="member_sms_yes" name="member_sms_check" ${vo.member_sms_check == 'Y' ? 'checked' : '' }/>&nbsp;<span class="radio_children">수신함</span>&nbsp;<input type="radio" id="member_sms_no" name="member_sms_check" ${vo.member_sms_check == 'N' ? 'checked' : '' }/>&nbsp;<span class="radio_children">수신안함</span></div>
+				<div class="col"><input type="radio" id="member_sms_yes" name="member_sms_check" value="Y" ${vo.member_sms_check == 'Y' ? 'checked' : '' }/>&nbsp;<span class="radio_children">수신함</span>&nbsp;<input type="radio" id="member_sms_no" name="member_sms_check" value="N" ${vo.member_sms_check == 'N' ? 'checked' : '' }/>&nbsp;<span class="radio_children">수신안함</span></div>
 			</div>
 			<div class="row sub_bar">
 				<div class="col-2">이메일 <font color="blue">*</font></div>
@@ -460,7 +547,7 @@
 			</div>
 			<div class="row sub_bar">
 				<div class="col-2">이메일 수신여부 <font color="blue">*</font></div>
-				<div class="col"><input type="radio" id="member_email_yes" name="member_email_check" ${vo.member_email_check == 'Y' ? 'checked' : '' }/>&nbsp;<span class="radio_children">수신함</span>&nbsp;<input type="radio" id="member_email_no" name="member_email_check" ${vo.member_email_check == 'N' ? 'checked' : '' }/>&nbsp;<span class="radio_children">수신안함</span></div>
+				<div class="col"><input type="radio" id="member_email_yes" name="member_email_check" value="Y" ${vo.member_email_check == 'Y' ? 'checked' : '' }/>&nbsp;<span class="radio_children">수신함</span>&nbsp;<input type="radio" id="member_email_no" name="member_email_check" value="N" ${vo.member_email_check == 'N' ? 'checked' : '' }/>&nbsp;<span class="radio_children">수신안함</span></div>
 			</div>
 			<div class="row main_bar mt-2">추가정보</div>
 			<div class="row sub_bar">
@@ -471,14 +558,14 @@
 				<div class="col-2">자동차</div>
 				<div class="col">
 					<select id="member_car" name="member_car" class="update_field">
-						<option value="없음" ${vo.member_car == null ? 'cheked' : ''}>선택</option>
-						<option value="없음" ${vo.member_car == '없음' ? 'cheked' : ''}>없음</option>
-						<option value="1000cc 이하" ${vo.member_car == '1000cc 이하' ? 'cheked' : ''}>1000cc 이하</option>
-						<option value="1000cc ~ 1500cc" ${vo.member_car == '1000cc ~ 1500cc' ? 'cheked' : ''}>1000cc ~ 1500cc</option>
-						<option value="1500cc ~ 2000cc" ${vo.member_car == '1500cc ~ 2000cc' ? 'cheked' : ''}>1500cc ~ 2000cc</option>
-						<option value="2000cc ~ 3000cc" ${vo.member_car == '2000cc ~ 3000cc' ? 'cheked' : ''}>2000cc ~ 3000cc</option>
-						<option value="3000cc ~ 4000cc" ${vo.member_car == '3000cc ~ 4000cc' ? 'cheked' : ''}>3000cc ~ 4000cc</option>
-						<option value="4000cc 이상" ${vo.member_car == '4000cc 이상' ? 'cheked' : ''}>4000cc 이상</option>
+						<option value="없음" ${vo.member_car == null ? 'selected' : ''}>선택</option>
+						<option value="없음" ${vo.member_car == '없음' ? 'selected' : ''}>없음</option>
+						<option value="1000cc 이하" ${vo.member_car == '1000cc 이하' ? 'selected' : ''}>1000cc 이하</option>
+						<option value="1000cc ~ 1500cc" ${vo.member_car == '1000cc ~ 1500cc' ? 'selected' : ''}>1000cc ~ 1500cc</option>
+						<option value="1500cc ~ 2000cc" ${vo.member_car == '1500cc ~ 2000cc' ? 'selected' : ''}>1500cc ~ 2000cc</option>
+						<option value="2000cc ~ 3000cc" ${vo.member_car == '2000cc ~ 3000cc' ? 'selected' : ''}>2000cc ~ 3000cc</option>
+						<option value="3000cc ~ 4000cc" ${vo.member_car == '3000cc ~ 4000cc' ? 'selected' : ''}>3000cc ~ 4000cc</option>
+						<option value="4000cc 이상" ${vo.member_car == '4000cc 이상' ? 'selected' : ''}>4000cc 이상</option>
 					</select>
 				</div>
 			</div>
@@ -501,6 +588,10 @@
 					<input type="button" value="취소" onclick="location.href='${ctp}/';" class="white_btn" />
 				</div>
 			</div>
+			<input type="hidden" id="member_tel" name="member_tel" value="" />
+			<input type="hidden" id="member_phone" name="member_phone" value="" />
+			<input type="hidden" id="member_address" name="member_address" value="" />
+			<input type="hidden" id="pwd_change_sw" name="pwd_change_sw" value="" />
 		</form>
 		<form name="modal-form" method="post">
 			<div id="modal" class="modal-overlay">

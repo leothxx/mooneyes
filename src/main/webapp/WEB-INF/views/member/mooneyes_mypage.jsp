@@ -104,7 +104,7 @@
 		<div class="row mb-2"><span style="font-size: 1.5rem; margin:0 auto;">MOONEYES MY PAGE</span></div>
 		<div class="row" style="border-top: 1px solid #ececec; border-left: 1px solid #ececec; border-right: 1px solid #ececec;">
 			<div class="p-2"><img src="${ctp}/images/mg_img.png" width="40vw"/></div>
-			<div class="col p-2"><font color="blue" style="font-weight: 800;">${vo.member_name}님</font>의 구매등급은<br/><font style="font-weight: 800;">[${sStrLevel}]</font>입니다.</div>
+			<div class="col p-2"><font color="blue" style="font-weight: 800;">${vo.member_name}님</font>의 구매등급은<br/><font style="font-weight: 800;">[${vo.member_level == 0 ? '준회원' : ''}${vo.member_level == 1 ? '정회원' : ''}${vo.member_level == 2 ? '우수회원' : ''}${vo.member_level == 3 ? '운영자' : ''}${vo.member_level == 4 ? '관리자' : ''}]</font>입니다.</div>
 		</div>
 		<div class="row mb-2" style="border: 1px solid #ececec; padding: 10px 10px 10px 20px;">POINT :&nbsp;&nbsp;<font color="blue"><fmt:formatNumber value="${vo.member_point}" pattern="#,###"/>원</font></div>
 		<div class="order_page row p-3" style="border: 1px solid #ececec; font-size: 1.1rem; font-weight: 800;">나의 주문처리 현황</div>
@@ -121,7 +121,7 @@
 		</div>
 		<div class="row myshop_main">
 			<div class="col myshop_sub"><a href="${ctp}/member/order_list"><img src="${ctp}/images/order_list_search.png" /><br/><strong>ORDER</strong><br/>주문내역 조회</a></div>
-			<div class="col myshop_sub"><a href="${ctp}/"><img src="${ctp}/images/member_info.png" /><br/><strong>PROFILE</strong><br/>회원 정보</a></div>
+			<div class="col myshop_sub"><a href="${ctp}/member/my_info?mid=${vo.member_mid}"><img src="${ctp}/images/member_info.png" /><br/><strong>PROFILE</strong><br/>회원 정보</a></div>
 			<div class="col myshop_sub"><a href="${ctp}/"><img src="${ctp}/images/wishlist.png" /><br/><strong>WISHLIST</strong><br/>관심 상품</a></div>
 			<div class="col myshop_sub" style="border: 0px;"><a href="${ctp}/"><img src="${ctp}/images/like.png" /><br/><strong>LIKE IT</strong><br/>좋아요</a></div>
 		</div>
@@ -134,7 +134,7 @@
 		<div class="row myshop_main">
 			<div class="col myshop_sub"><a href="${ctp}/"><img src="${ctp}/images/delivery.png" /><br/><strong>ADDRESS</strong><br/>배송 주소록 관리</a></div>
 			<div class="col myshop_sub"><a href="${ctp}/"><img src="${ctp}/images/calendar.png" /><br/><strong>SUBSCRIPTION</strong><br/>정기 배송 관리</a></div>
-			<div class="col myshop_sub" style="border: 0px;"><a href="${ctp}/"><img src="${ctp}/images/email_certification.png" /><br/><strong>CERTIFICATION</strong><br/>이메일 인증</a></div>
+			<div class="col myshop_sub" style="border: 0px;"><a href="${ctp}/member/email_certification"><img src="${ctp}/images/email_certification.png" /><br/><strong>CERTIFICATION</strong><br/>이메일 인증</a></div>
 		</div>
 	</div>
 	<p><br/><p>
