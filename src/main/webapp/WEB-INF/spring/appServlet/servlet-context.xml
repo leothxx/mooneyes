@@ -19,10 +19,12 @@
 	<resources mapping="/images/**" location="/resources/images/" />
 	<resources mapping="/js/**" location="/resources/js/" />
 	<resources mapping="/css/**" location="/resources/css/" />
-	<resources mapping="/data/**" location="/resources/data/" />
 	<resources mapping="/font/**" location="/resources/font/" />
 	<resources mapping="/ckeditor/**" location="/resources/ckeditor/" />
 	<resources mapping="/pds/**" location="/resources/pds/" />
+	<resources mapping="/data/**" location="/resources/data/"/>
+	<resources mapping="/data/product/**" location="file:///D:/JavaWorkspace/springframework/project/works/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/green2209S_09/resources/data/product/" />
+	<resources mapping="/data/ckeditor/**" location="file:///D:/JavaWorkspace/springframework/project/works/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/green2209S_09/resources/data/ckeditor/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

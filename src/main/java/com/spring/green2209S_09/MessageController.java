@@ -54,6 +54,10 @@ public class MessageController {
 			model.addAttribute("msg", "올바르지 않은 인증코드 입니다.");
 			model.addAttribute("url", "member/email_certification");
 		}
+		else if(msgFlag.equals("product_input_ok")) {
+			model.addAttribute("msg", "관리자님 상품 등록이 완료되었습니다!");
+			model.addAttribute("url", "admin/product_input");
+		}
 		
 		return "include/message";
 	}

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.green2209S_09.dao.ProductDAO">
+	<select id="get_main_category" resultType="com.spring.green2209S_09.vo.MainCategoryVO">
+		SELECT * FROM mooneyes_product_main_category;
+	</select>
+	<select id="get_sub_category" resultType="com.spring.green2209S_09.vo.SubCategoryVO">
+		SELECT * FROM mooneyes_product_sub_category WHERE category_main = #{mainCategory};
+	</select>
+	<select id="get_mini_category" resultType="com.spring.green2209S_09.vo.MiniCategoryVO">
+		SELECT * FROM mooneyes_product_mini_category WHERE category_sub = #{subCategory};
+	</select>
+	<select id="get_product_idx_search" resultType="int">
+		SELECT product_idx FROM mooneyes_product WHERE product_name = #{product_name};
+	</select>
+	<select id="get_best_product" resultType="com.spring.green2209S_09.vo.ProductAllVO">
+		SELECT * FROM mooneyes_product AS product JOIN mooneyes_product_image AS image ON product.product_idx = image.product_idx ORDER BY product.product_hits DESC LIMIT 20;
+	</select>
+	<select id="get_new_product" resultType="com.spring.green2209S_09.vo.ProductAllVO">
+		SELECT * FROM mooneyes_product AS product JOIN mooneyes_product_image AS image ON product.product_idx = image.product_idx ORDER BY product.product_idx DESC LIMIT 20;
+	</select>
+	<select id="get_product_search" resultType="com.spring.green2209S_09.vo.ProductAllVO">
+		SELECT * FROM mooneyes_product AS product JOIN mooneyes_product_image AS image ON product.product_idx = image.product_idx WHERE product.product_idx = #{product_idx};
+	</select>
+	
+	<insert id="set_product_input">
+		INSERT INTO mooneyes_product VALUES (DEFAULT,#{vo.category_main},#{vo.category_sub},#{vo.category_mini},#{vo.product_name},#{vo.product_price},#{vo.product_sale_price},#{vo.product_stock},#{vo.product_size},#{vo.product_color},#{vo.product_desc},DEFAULT);
+	</insert>
+	<insert id="set_product_images_input">
+		INSERT INTO mooneyes_product_image VALUES (DEFAULT,#{vo.product_idx},#{vo.product_fSName},#{vo.product_fileSize},now(),DEFAULT,#{vo.product_fOName});
+	</insert>
+</mapper>

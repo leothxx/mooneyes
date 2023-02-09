@@ -142,22 +142,19 @@
 	  			alert("업로드할 제품의 상세정보를 입력해주세요.");
 	  			return false;
 	  		}
-	  		 
+	  		
 	  		// 파일 사이즈 처리
-	  		let files = document.getElementById("product_images").files;
-	  		for(let i=1; i<files.length; i++) {
-	  			let file = files[i];
-			  	let fName;
-			  	
-	  			if(file.name != "") {
-	  				fName = file.name;
+	  		for(let i=1; i<2; i++) {
+	  			let imsiName = 'product_images';
+	  			let fName = document.getElementById(imsiName).value;
+	  			if(fName != "") {
+	  				fileSize += document.getElementById(imsiName).files[0].size;
 	  				let ext = fName.substring(fName.lastIndexOf(".")+1); //확장명 가져오기
 	  				let uExt = ext.toUpperCase();
 	  				if(uExt != "JPG" && uExt != "PNG" && uExt != "GIF" && uExt != "JPEG" && uExt != "BMP" && uExt != "PSD" && uExt != "PDD" && uExt != "HEIC" && uExt != "WEBP") { //업로드 가능한 확장자
 	  					alert("업로드 가능한 파일은 'JPG/PNG/GIF/JPEG/BMP/PSD/PDD/HEIC/WEBP'입니다.");
 	  					return false;
 	  				}
-	  				fileSize += file.size;
 	  			}
 		  		else {
 		  			alert("상품 이미지 파일을 선택해 주세요.");
@@ -170,6 +167,7 @@
 	  		}
 	  		else {
 	  			product_input_form.fileSize.value = fileSize;
+	  			alert("서브밋으로 보냅ㄴ디아.ㅇ");
 	  			$("form").submit();
 	  		}
 	  	}
@@ -253,7 +251,6 @@
 		<form name="product_input_form" method="post" action="${ctp}/admin/product_input" enctype="multipart/form-data">
 			<div class="logo_img mb-4 title_move" style="text-align: center;"><img src="${ctp}/images/logo.png" style="width: 8vw;"/></div>
 			<div class="mb-4 form-title">상품 등록</div>
-			
 			<div class="row list">
 				<div class="col-2">메인 카테고리</div>
 				<div class="col">
@@ -302,9 +299,9 @@
 			<div id="colorDemo"></div>
 			<div class="row list">
 				<div class="col-2">상품 상세정보</div>
-				<div class="col"><textarea name="product_desc" id="CKEDITOR" required></textarea></div>
+				<div class="col"><textarea name="content" id="CKEDITOR" required></textarea></div>
 				<script>
-		            CKEDITOR.replace("product_desc",{
+		            CKEDITOR.replace("content",{
 		        	    height:300,
 		        	    filebrowserUploadUrl:"${ctp}/imageUpload",
 		        	    uploadUrl : "${ctp}/imageUpload"
@@ -313,7 +310,7 @@
 			</div>
 			<div class="row list">
 				<div class="col-2">상품 대표이미지</div>
-		    	<div class="col"><input type="file" name="product_images" id="product_images" multiple="multiple" onchange="readURL(this);" accept=".jpg,.png,.gif,.jpeg,.bmp,.psd,.pdd,.heic,.webp" class="form-control-file border" style="font-size:1em;"/></div>
+		    	<div class="col"><input type="file" name="product_images" id="product_images" onchange="readURL(this);" class="form-control-file border" style="font-size:1em;"/></div>
 	   		</div>
 	   		<div class="row mb-5"><div class="col text-center"><img width="200vw" height="250vh" id="image_preview"/></div></div>
 	   		<div class="row mb-5">

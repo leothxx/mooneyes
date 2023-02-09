@@ -7,7 +7,7 @@
 
 </script>
 <style>
-	body, code {
+	#left {
 	    font-size: 1.5rem;
 	    font-family: 'Noto Sans KR','Malgun Gothic','맑은 고딕','Dotum','돋움','AppleGothic','Apple SD Gothic Neo','sans-serif';
 	    color: #353535;

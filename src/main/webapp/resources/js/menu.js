@@ -47,7 +47,7 @@ $(function(){
 	        $("#left").css("display","none");
 	    }
 	    
-	    if(procent > 60) {
+	    if(procent > 80) {
 			$(".footer").removeClass("animate__fadeOutDown");
 	        $(".footer").addClass("animate__fadeInUp");
 	        $("#left").removeClass("animate__fadeIn");

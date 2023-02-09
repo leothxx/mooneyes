@@ -25,4 +25,30 @@ CREATE TABLE mooneyes_product_image (
     FOREIGN KEY (product_idx) REFERENCES mooneyes_product (product_idx) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE TABLE mooneyes_product_main_category (
+	category_main_idx INT NOT NULL AUTO_INCREMENT,
+    category_main INT NOT NULL,
+    category_main_name VARCHAR(30) NOT NULL,
+    PRIMARY KEY(category_main_idx, category_main)
+);
+
+CREATE TABLE mooneyes_product_sub_category (
+	category_sub_idx INT NOT NULL AUTO_INCREMENT,
+    category_sub INT NOT NULL,
+    category_sub_name VARCHAR(30) NOT NULL,
+    category_main_idx INT NOT NULL,
+    category_main INT NOT NULL,
+    PRIMARY KEY (category_sub_idx, category_sub),
+    FOREIGN KEY (category_main_idx, category_main) REFERENCES mooneyes_product_main_category (category_main_idx, category_main) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE mooneyes_product_mini_category (
+	category_mini_idx INT NOT NULL AUTO_INCREMENT,
+    category_mini INT NOT NULL,
+    category_mini_name VARCHAR(30) NOT NULL,
+    category_sub_idx INT NOT NULL,
+    category_sub INT NOT NULL,
+    PRIMARY KEY (category_mini_idx, category_mini),
+    FOREIGN KEY (category_sub_idx, category_sub) REFERENCES mooneyes_product_sub_category (category_sub_idx, category_sub) ON DELETE CASCADE ON UPDATE CASCADE
+);
 use green2209_09;
