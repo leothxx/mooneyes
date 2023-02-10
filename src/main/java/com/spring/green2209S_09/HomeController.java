@@ -11,6 +11,7 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.green2209S_09.service.ProductService;
+import com.spring.green2209S_09.vo.MainCategoryVO;
+import com.spring.green2209S_09.vo.Main_Sub_CategoryVO;
 import com.spring.green2209S_09.vo.ProductAllVO;
 
 @Controller
@@ -32,11 +35,17 @@ public class HomeController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	@RequestMapping(value = {"/","s"}, method = RequestMethod.GET)
-	public String home(Model model) {
+	public String home(Model model, HttpSession session) {
 		ArrayList<ProductAllVO> product_vos = productService.get_best_product();
 		model.addAttribute("product_vos",product_vos);
 		ArrayList<ProductAllVO> new_vos = productService.get_new_product();
 		model.addAttribute("new_vos",new_vos);
+		
+		ArrayList<MainCategoryVO> main_category_vos = productService.get_main_category();
+		session.setAttribute("main_category_vos",main_category_vos);
+		
+		ArrayList<Main_Sub_CategoryVO> main_sub_category_vos = productService.get_main_sub_category();
+		session.setAttribute("main_sub_category_vos",main_sub_category_vos);
 		return "main";
 	}
 	

@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.spring.green2209S_09.dao.ProductDAO;
 import com.spring.green2209S_09.vo.MainCategoryVO;
+import com.spring.green2209S_09.vo.Main_Sub_CategoryVO;
 import com.spring.green2209S_09.vo.MiniCategoryVO;
 import com.spring.green2209S_09.vo.ProductAllVO;
 import com.spring.green2209S_09.vo.ProductImageVO;
@@ -127,5 +128,25 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public ProductAllVO get_product_search(String product_idx) {
 		return productDAO.get_product_search(product_idx);
+	}
+
+	@Override
+	public ArrayList<Main_Sub_CategoryVO> get_main_sub_category() {
+		return	productDAO.get_main_sub_category();
+	}
+
+	@Override
+	public ArrayList<ProductAllVO> get_product_all(int startIndexNo, int pageSize) {
+		return productDAO.get_product_all(startIndexNo, pageSize);
+	}
+
+	@Override
+	public ArrayList<ProductAllVO> get_product_main_search(int startIndexNo, int pageSize, String category_main) {
+		return productDAO.get_product_main_search(startIndexNo, pageSize, category_main);
+	}
+
+	@Override
+	public MainCategoryVO get_what_main_category(String category_main) {
+		return productDAO.get_what_main_category(category_main);
 	}
 }

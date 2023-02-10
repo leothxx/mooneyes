@@ -12,18 +12,20 @@ $(function(){
 	$(".sub_RF").hide();
 	$("#searchForm").hide();
 	$("#sidebar").hide();
-	$(".menu_apparel, .sub_apparel").hover(function(){$(".sub_apparel").show();});
-	$(".menu_goods, .sub_goods").hover(function(){$(".sub_goods").show();});
-	$(".menu_collabo, .sub_collabo").hover(function(){$(".sub_collabo").show();});
-	$(".menu_car, .sub_car").hover(function(){$(".sub_car").show();});
-	$(".menu_motorcycle, .sub_motorcycle").hover(function(){$(".sub_motorcycle").show();});
-	$(".menu_RF, .sub_RF").hover(function(){$(".sub_RF").show();});
-	$(".menu_apparel, .sub_apparel").mouseleave(function(){$(".sub_apparel").hide();});
-	$(".menu_goods, .sub_goods").mouseleave(function(){$(".sub_goods").hide();});
-	$(".menu_collabo, .sub_collabo").mouseleave(function(){$(".sub_collabo").hide();});
-	$(".menu_car, .sub_car").mouseleave(function(){$(".sub_car").hide();});
-	$(".menu_motorcycle, .sub_motorcycle").mouseleave(function(){$(".sub_motorcycle").hide();});
-	$(".menu_RF, .sub_RF").mouseleave(function(){$(".sub_RF").hide();});
+	
+	$(".menu_APPAREL, .sub_apparel").hover(function(){$(".sub_apparel").show();});
+	$(".menu_GOODS, .sub_goods").hover(function(){$(".sub_goods").show();});
+	$(".menu_SPECIALCOLLABO, .sub_collabo").hover(function(){$(".sub_collabo").show();});
+	$(".menu_CUSTOMCARPARTS, .sub_car").hover(function(){$(".sub_car").show();});
+	$(".menu_MOTORCYCLEPARTS, .sub_motorcycle").hover(function(){$(".sub_motorcycle").show();});
+	$(".menu_RATFINKFEVER, .sub_RF").hover(function(){$(".sub_RF").show();});
+	
+	$(".menu_APPAREL, .sub_apparel").mouseleave(function(){$(".sub_apparel").hide();});
+	$(".menu_GOODS, .sub_goods").mouseleave(function(){$(".sub_goods").hide();});
+	$(".menu_SPECIALCOLLABO, .sub_collabo").mouseleave(function(){$(".sub_collabo").hide();});
+	$(".menu_CUSTOMCARPARTS, .sub_car").mouseleave(function(){$(".sub_car").hide();});
+	$(".menu_MOTORCYCLEPARTS, .sub_motorcycle").mouseleave(function(){$(".sub_motorcycle").hide();});
+	$(".menu_RATFINKFEVER, .sub_RF").mouseleave(function(){$(".sub_RF").hide();});
 	
 	$(".categoryOn").click(function(){
 		if($("#category1").css("display") == 'none') {

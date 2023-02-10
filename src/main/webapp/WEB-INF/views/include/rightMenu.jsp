@@ -95,33 +95,27 @@
 		<div class="row" id="menubar">
 			<ul>
 				<h2>CATEGORY</h2>
-				<li><a href="">ALL ITEM.</a></li>
-				<li><a href="">HELMET.</a></li>
-				<li><a href="">APPAREL.</a></li>
-				<li><a href="">GOODS.</a></li>
-				<li><a href="">SPECIAL COLLABO.</a></li>
-				<li><a href="">CUSTOM CAR PARTS.</a></li>
-				<li><a href="">MOTORCYCLE PARTS.</a></li>
-				<li><a href="">RATFINK FEVER.</a></li>
-				<li><a href="">EVENT TICKET.</a></li>
+				<c:forEach var="vo" items="${main_category_vos}" varStatus="st">
+        			<li><a href="${ctp}/product/main_category_view?category_main=${vo.category_main}">${vo.category_main_name}.</a></li>
+				</c:forEach>
 			</ul>
 			<ul>
 				<h2>MEMBERS</h2>
-				<li><a href="">LOGIN</a></li>
+				<li><a href="${ctp}/member/login">LOGIN</a></li>
 				<li><a href="${ctp}/member/join">JOIN US</a></li>
-				<li><a href="">BASKET<span>0</span></a></li>
+				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href=""></c:if>BASKET<span>0</span></a></li>
 			</ul>
 			<ul>
 				<h2>MY PAGE</h2>
-				<li><a href="">ORDER LIST</a></li>
-				<li><a href="">MILEAGE</a></li>
-				<li><a href="">MY COUPON</a></li>
-				<li><a href="">MY DEPOSITS</a></li>
-				<li><a href="">1:1 BOARD</a></li>
-				<li><a href="">MY BOARD</a></li>
-				<li><a href="">MY ADDRESS</a></li>
-				<li><a href="">WISH LIST<span>0</span></a></li>
-				<li><a href="">TODAY VIEW<span>0</span></a></li>
+				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href=""></c:if>ORDER LIST</a></li>
+				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href=""></c:if>MILEAGE</a></li>
+				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href=""></c:if>MY COUPON</a></li>
+				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href=""></c:if>MY DEPOSITS</a></li>
+				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href=""></c:if>1:1 BOARD</a></li>
+				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href=""></c:if>MY BOARD</a></li>
+				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href=""></c:if>MY ADDRESS</a></li>
+				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href=""></c:if>WISH LIST<span>0</span></a></li>
+				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href=""></c:if>TODAY VIEW<span>0</span></a></li>
 			</ul>
 		</div>
 	</nav>

@@ -22,6 +22,22 @@
 	<select id="get_product_search" resultType="com.spring.green2209S_09.vo.ProductAllVO">
 		SELECT * FROM mooneyes_product AS product JOIN mooneyes_product_image AS image ON product.product_idx = image.product_idx WHERE product.product_idx = #{product_idx};
 	</select>
+	<select id="get_main_sub_category" resultType="com.spring.green2209S_09.vo.Main_Sub_CategoryVO">
+		SELECT * FROM mooneyes_product_main_category AS main JOIN mooneyes_product_sub_category AS sub ON main.category_main = sub.category_main;
+	</select>
+	<select id="get_product_all" resultType="com.spring.green2209S_09.vo.ProductAllVO">
+		SELECT * FROM mooneyes_product AS product JOIN mooneyes_product_image AS image ON product.product_idx = image.product_idx ORDER BY product.product_idx DESC LIMIT #{startIndexNo},#{pageSize};
+	</select>
+	<select id="get_product_main_search" resultType="com.spring.green2209S_09.vo.ProductAllVO">
+		SELECT * FROM mooneyes_product AS product JOIN mooneyes_product_image AS image ON product.product_idx = image.product_idx WHERE product.category_main = #{category_main} ORDER BY product.product_idx DESC LIMIT #{startIndexNo},#{pageSize};
+	</select>
+	<select id="totRecCnt" resultType="int">
+		<if test="part == '' and searchString == ''">SELECT count(*) FROM mooneyes_product AS product JOIN mooneyes_product_image AS image ON product.product_idx = image.product_idx;</if>
+		<if test="part != '' and searchString == ''">SELECT count(*) FROM mooneyes_product AS product JOIN mooneyes_product_image AS image ON product.product_idx = image.product_idx WHERE product.category_main = #{part};</if>
+	</select>
+	<select id="get_what_main_category" resultType="com.spring.green2209S_09.vo.MainCategoryVO">
+		SELECT * FROM mooneyes_product_main_category WHERE category_main = #{category_main};
+	</select>
 	
 	<insert id="set_product_input">
 		INSERT INTO mooneyes_product VALUES (DEFAULT,#{vo.category_main},#{vo.category_sub},#{vo.category_mini},#{vo.product_name},#{vo.product_price},#{vo.product_sale_price},#{vo.product_stock},#{vo.product_size},#{vo.product_color},#{vo.product_desc},DEFAULT);

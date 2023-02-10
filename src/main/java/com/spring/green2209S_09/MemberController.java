@@ -2,6 +2,7 @@ package com.spring.green2209S_09;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import javax.mail.MessagingException;
@@ -23,6 +24,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.green2209S_09.service.MemberService;
+import com.spring.green2209S_09.service.ProductService;
+import com.spring.green2209S_09.vo.MainCategoryVO;
+import com.spring.green2209S_09.vo.Main_Sub_CategoryVO;
 import com.spring.green2209S_09.vo.MemberVO;
 
 @Controller
@@ -39,7 +43,7 @@ public class MemberController {
 	
 	// 약관 동의창
 	@RequestMapping(value="/join", method=RequestMethod.GET)
-	public String joinGet() {
+	public String joinGet(Model model) {
 		return "member/mooneyes_join";
 	}
 

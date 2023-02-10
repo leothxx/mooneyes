@@ -187,15 +187,10 @@
 			<li class="shop_category mb-4">
 				<a class="categoryOn" href="#category1" style="font-weight: 700; font-size: 0.7em;">SHOP CATEGORY</a>
         		<ul class="collapse show p-0" id="category1" data-parent="#accordion">
-        			<li class="category-body"><a href="">ALL ITEM.</a></li>
-					<li class="category-body"><a href="">HELMET.</a></li>
-					<li class="category-body"><a href="" class="menu_apparel menu_apparel2">APPAREL.</a></li>
-					<li class="category-body"><a href="" class="menu_goods">GOODS.</a></li>
-					<li class="category-body"><a href="" class="menu_collabo">SPECIAL COLLABO.</a></li>
-					<li class="category-body"><a href="" class="menu_car">CUSTOM CAR PARTS.</a></li>
-					<li class="category-body"><a href="" class="menu_motorcycle">MOTORCYCLE PARTS.</a></li>
-					<li class="category-body"><a href="" class="menu_RF">RATFINK FEVER.</a></li>
-					<li class="category-body"><a href="">EVENT TICKET.</a></li>
+        			<li class="category-body"><a href="${ctp}/product/main_category_view?category_main=0">ALL ITEM.</a></li>
+        			<c:forEach var="vo" items="${main_category_vos}" varStatus="st">
+        			<li class="category-body"><a href="${ctp}/product/main_category_view?category_main=${vo.category_main}" class="menu_${fn:replace(vo.category_main_name,' ','')}">${vo.category_main_name}.</a></li>
+					</c:forEach>
 				</ul>
 			</li>
 			<!-- 페이지 메뉴 -->
@@ -211,69 +206,44 @@
 	</div>
 	<div class="sub_apparel p-2" id="sub_apparel">
 		<ul class="p-0 m-0" style="display : block;">
-			<li><a href="">KIDS & LADIES WEAR.</a></li>
-			<li><a href="">HAT & CAP.</a></li>
-			<li><a href="">T-SHIRTS.</a></li>
-			<li><a href="">JACKET.</a></li>
-			<li><a href="">COVER ALL.</a></li>
-			<li><a href="">LONG T-SHIRTS.</a></li>
-			<li><a href="">SHIRTS.</a></li>
-			<li><a href="">PANTS.</a></li>
-			<li><a href="">SHOES.</a></li>
-			<li><a href="">ACCESOIRES.</a></li>
+			<c:forEach var="vo1" items="${main_sub_category_vos}" varStatus="st">
+				<c:if test="${vo1.category_main == 2}"><li><a href="${ctp}/product/sub_category_view?category_sub=${vo1.category_sub}">${vo1.category_sub_name}.</a></li></c:if>
+			</c:forEach>
 		</ul>
 	</div>
 	<div class="sub_goods p-2" id="sub_goods">
 		<ul class="p-0 m-0" style="display : block;">
-			<li><a href="">DIECAST.</a></li>
-			<li><a href="">KEYRING.</a></li>
-			<li><a href="">SIGN BOARD.</a></li>
-			<li><a href="">GARAGE.</a></li>
-			<li><a href="">LIVING.</a></li>
-			<li><a href="">OFFICE SUPPLY.</a></li>
-			<li><a href="">PRINT & DVD.</a></li>
-			<li><a href="">STICKER & DECAL.</a></li>
-			<li><a href="">IPHONE CASE.</a></li>
+			<c:forEach var="vo2" items="${main_sub_category_vos}" varStatus="st">
+				<c:if test="${vo2.category_main == 3}"><li><a href="${ctp}/product/sub_category_view?category_sub=${vo2.category_sub}">${vo2.category_sub_name}.</a></li></c:if>
+			</c:forEach>
 		</ul>
 	</div>
 	<div class="sub_collabo p-2" id="sub_collabo">
 		<ul class="p-0 m-0" style="display : block;">
-			<li><a href="">VANS.</a></li>
-			<li><a href="">G-SHOCK.</a></li>
-			<li><a href="">SHAKEPISTON.</a></li>
-			<li><a href="">NEW ERA.</a></li>
-			<li><a href="">GALLOP HELMET.</a></li>
+			<c:forEach var="vo3" items="${main_sub_category_vos}" varStatus="st">
+				<c:if test="${vo3.category_main == 4}"><li><a href="${ctp}/product/sub_category_view?category_sub=${vo3.category_sub}">${vo3.category_sub_name}.</a></li></c:if>
+			</c:forEach>
 		</ul>
 	</div>
 	<div class="sub_car p-2" id="sub_car">
 		<ul class="p-0 m-0" style="display : block;">
-			<li><a href="">AIR FRESHENERS.</a></li>
-			<li><a href="">ANTENA BALL.</a></li>
-			<li><a href="">BOLTS.</a></li>
-			<li><a href="">INTERIORS.</a></li>
-			<li><a href="">MAT.</a></li>
-			<li><a href="">STREEING WHEELS.</a></li>
-			<li><a href="">SUN SHADE.</a></li>
-			<li><a href="">TRUCK GOODS.</a></li>
-			<li><a href="">WHEELS & TIRES.</a></li>
+			<c:forEach var="vo4" items="${main_sub_category_vos}" varStatus="st">
+				<c:if test="${vo4.category_main == 5}"><li><a href="${ctp}/product/sub_category_view?category_sub=${vo4.category_sub}">${vo4.category_sub_name}.</a></li></c:if>
+			</c:forEach>
 		</ul>
 	</div>
 	<div class="sub_motorcycle p-2" id="sub_motorcycle">
 		<ul class="p-0 m-0" style="display : block;">
-			<li><a href="">ACCESSORIES.</a></li>
-			<li><a href="">AIR FILTERS & SCOOPS.</a></li>
-			<li><a href="">BOLTS.</a></li>
-			<li><a href="">EXHAUST PARTS.</a></li>
-			<li><a href="">HARLEY-DAVIDSON PARTS.</a></li>
-			<li><a href="">MQQN TANKS.</a></li>
-			<li><a href="">MOON DISC.</a></li>
-			<li><a href="">TIRES & ACC.</a></li>
+			<c:forEach var="vo5" items="${main_sub_category_vos}" varStatus="st">
+				<c:if test="${vo5.category_main == 6}"><li><a href="${ctp}/product/sub_category_view?category_sub=${vo5.category_sub}">${vo5.category_sub_name}.</a></li></c:if>
+			</c:forEach>
 		</ul>
 	</div>
 	<div class="sub_RF p-2" id="sub_RF">
 		<ul class="p-0 m-0" style="display : block;">
-			<li><a href="">APPAREL.</a></li>
-			<li><a href="">GOODS.</a></li>
+			<c:forEach var="vo6" items="${main_sub_category_vos}" varStatus="st">
+				<c:if test="${vo6.category_main == 7}"><li><a href="${ctp}/product/sub_category_view?category_sub=${vo6.category_sub}">${vo6.category_sub_name}.</a></li></c:if>
+			</c:forEach>
 		</ul>
 	</div>
 </body>

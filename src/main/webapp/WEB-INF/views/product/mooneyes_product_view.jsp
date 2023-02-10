@@ -16,6 +16,7 @@
 	  	let tot_size = "";
 	  	let tot_color = "";
 	  	let buy_su = "";
+	  	let select_product = [];
 	  	
 		$(function(){
 			$(".tab2").hide();
@@ -101,11 +102,26 @@
 	  		}
 	  		
 	  		if(color != '--선택--' && size != '--선택--') {
-	  			let product_totPrice = new Intl.NumberFormat('ko-kr').format("${vo.product_price}");
+	  			select_product[count] = color+"-"+size;
+	  			for(let i=0; i<select_product.length; i++) {
+	  				for(let j=i+1; j<select_product.length; j++) {
+		  				if(count != 0 && select_product[i] == select_product[j]) {
+		  					$("#color").val('--선택--');
+		  		  			$("#size").val('--선택--');
+		  					alert("이미 동일한 컬러와 동일한 사이즈를 선택하셨습니다.\n다량 구매를 원할 시 수량을 증가해 주세요.");
+		  					return false;
+		  				}
+	  				}
+	  			}
 	  			
-	  			let demo = '<div class="row product-order-box" style="text-align:center">';
+	  			tot_color += color + "/";
+	  			tot_size += size + "/";
+	  			let product_totPrice = new Intl.NumberFormat('ko-kr').format("${vo.product_price}");
+	  			let product_totPoint = new Intl.NumberFormat('ko-kr').format("${product_point}");
+	  			
+	  			let demo = '<div class="row product-order-box mb-1 animate__animated animate__fadeIn" style="text-align:center">';
 	  			demo += '<div class="col-4">';
-	  			demo += '<span style="font-weight: 700;">${vo.product_name}</span><br/> - ${color} - ${size}';
+	  			demo += '<span style="font-weight: 700;">${vo.product_name}</span><br/> - '+color+' - '+size+'';
 	  			demo += '</div>';
 	  			demo += '<div class="col-2" style="text-align:left">';
 	  			demo += '<input type="number" class="product-order-su" name="product_su" id="product_su'+count+'" min="1" value="1" required style="width:3vw;" onchange="product_suSelect(this.value,'+count+')"/>&nbsp;';
@@ -113,7 +129,8 @@
 	  			demo += '</div>';
 	  			demo += '<div class="col-2"></div>';
 	  			demo += '<div class="col-4" style="text-align:right">';
-	  			demo += '<div class="col suprice p-0" id="suprice'+count+'" style="text-align:right">&#8361; <span id="totp'+count+'" style="font-weight: 700;">'+product_totPrice+'</span>원</div></div>';
+	  			demo += '<div class="col suprice p-0" id="suprice'+count+'" style="text-align:right">&#8361; <span id="totp'+count+'" style="font-weight: 700;">'+product_totPrice+'원</span><br/><span style="font-weight: 700;">(<img src="${ctp}/images/ico_product_point.gif" />&nbsp;<span id="totpoint'+count+'">'+product_totPoint+'</span>원)<span></div>';
+	  			demo += '</div>';
 	  			demo += '</div>';
 	  			demo += "</div>";
 	  			
@@ -133,6 +150,18 @@
 	  		let color = $("#color").val();
 	  		
 	  		if(color != '--선택--' && size != '--선택--') {
+				select_product[count] = color+"-"+size;
+	  			for(let i=0; i<select_product.length; i++) {
+	  				for(let j=i+1; j<select_product.length; j++) {
+		  				if(count != 0 && select_product[i] == select_product[j]) {
+		  					$("#color").val('--선택--');
+		  		  			$("#size").val('--선택--');
+		  					alert("이미 동일한 컬러와 동일한 사이즈를 선택하셨습니다.\n다량 구매를 원할 시 수량을 증가해 주세요.");
+		  					return false;
+		  				}
+	  				}
+	  			}
+	  			
 	  			tot_color += color + "/";
 	  			tot_size += size + "/";
 	  			let product_totPrice = new Intl.NumberFormat('ko-kr').format("${vo.product_price}");
@@ -167,13 +196,19 @@
 	 	// 총 가격 더하기
 	  	function product_output() {
 	  		
+	  		let product_all_count = 0;
+	  		
 	  		for(let i=0; i<count; i++){
 		  		let innerText = document.getElementById('totp'+i).innerText;
 	  			innerText = innerText.replaceAll(",","");
-	  			product_allPrice += innerText * 1;
+	  			product_allPrice += parseInt(innerText) * 1;
+		  		
+		  		product_all_count += parseInt(document.getElementById('product_su'+i).value);
+	  			
 	  		}
+	  		
 	  		product_allPrice = new Intl.NumberFormat('ko-kr').format(product_allPrice);
-				$("#demo2").html("<div class='text-right'>총 구매가격 : &#8361; "+product_allPrice+"원</div>");
+			$(".total-price").html("<b>Total :</b> <span class='total-real-price'>"+product_allPrice+"원</span> ("+product_all_count+"개)");
 	  	}
 	 	
 	 	// 담은 제품의 삭제버튼 클릭시
@@ -263,6 +298,39 @@
 			padding: 10px;
 			display: table-cell;
 			vertical-align: middle;
+		}
+		.black-btn {
+			width: 100%;
+			background-color: #000;
+			border: 1px solid #000;
+			color: #fff;
+			font-weight: 800;
+			font-size: 1.2rem;
+			height: 7vh;
+		}
+		.white-btn {
+			width: 100%;
+			background-color: #fff;
+			border: 1px solid #ececec;
+			color: #000;
+			font-weight: 800;
+			font-size: 1.2rem;
+			height: 7vh;
+		}
+		.black-btn:hover, .white-btn:hover {
+			transition: color 0.5s ease-in-out;
+			color: #aaa;
+		}
+		.btn-set div {
+			padding: 0px 1px;
+		}
+		.total-price {
+			font-size: 1.2rem;
+			text-align: right;
+		}
+		.total-real-price {
+			font-size: 1.8rem;
+			font-weight: 800;
 		}
 	</style>
 </head>
@@ -368,24 +436,14 @@
 					    		</select> 
 				    		</div>
 		       			</div>
-		       			<div id="demo" class="row pl-3 pr-3 mt-5">
-		       				<!-- 
-		       				<div class="row product-order-box" style="text-align:center">
-		       					<div class="col-4">
-		       						<span style="font-weight: 700;">${vo.product_name}</span><br/> - ${color} - ${size}
-		       					</div>
-		       					<div class="col-2" style="text-align:left">
-		       						<input type='number' class="product-order-su" name='product_su'id='product_su"+count+"'min='1'value='1'required style='width:3vw;' onchange='product_suSelect(this.value,"+count+")'/>&nbsp;
-		       						<a href="javascript:product_del("+count+");"><img src="${ctp}/images/btn_price_delete.gif" /></a>
-		       					</div>
-		       					<div class="col-2"></div>
-		       					<div class="col-4" style="text-align:right">
-		       						<div class='col suprice p-0' id='suprice"+count+"' style="text-align:right">&#8361; <span id='totp"+count+"' style="font-weight: 700;">"+product_totPrice+"</span>원</div></div>
-		       					</div>
-		       				</div>
-		       				 -->
-		       			</div>
+		       			<div id="demo" class="row pl-3 pr-3 mt-5"></div><br/>
+		       			<div class="row p-3"><div class="col total-price"><b>Total :</b> <span class="total-real-price">0원</span> (0개)</div></div>
 	       			</div>
+	   			</div>
+	   			<div class="row p-3 btn-set">
+	   				<div class="col"><input type="button" value="BUY NOW" onclick="buy_click();" class="black-btn" /></div>
+	   				<div class="col"><input type="button" value="CART" onclick="buy_click();" class="white-btn" /></div>
+	   				<div class="col"><input type="button" value="WISH" onclick="buy_click();" class="white-btn" /></div>
 	   			</div>
 			</div>
 		</div>

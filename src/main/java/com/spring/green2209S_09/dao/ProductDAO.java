@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Param;
 
 import com.spring.green2209S_09.vo.MainCategoryVO;
+import com.spring.green2209S_09.vo.Main_Sub_CategoryVO;
 import com.spring.green2209S_09.vo.MiniCategoryVO;
 import com.spring.green2209S_09.vo.ProductAllVO;
 import com.spring.green2209S_09.vo.ProductImageVO;
@@ -30,5 +31,15 @@ public interface ProductDAO {
 	public ArrayList<ProductAllVO> get_new_product();
 
 	public ProductAllVO get_product_search(@Param("product_idx") String product_idx);
+
+	public ArrayList<Main_Sub_CategoryVO> get_main_sub_category();
+
+	public ArrayList<ProductAllVO> get_product_all(@Param("startIndexNo") int startIndexNo,@Param("pageSize") int pageSize);
+
+	public int totRecCnt(@Param("part") String part, @Param("searchString") String searchString);
+
+	public ArrayList<ProductAllVO> get_product_main_search(@Param("startIndexNo") int startIndexNo,@Param("pageSize") int pageSize, @Param("category_main") String category_main);
+
+	public MainCategoryVO get_what_main_category(@Param("category_main") String category_main);
 	
 }

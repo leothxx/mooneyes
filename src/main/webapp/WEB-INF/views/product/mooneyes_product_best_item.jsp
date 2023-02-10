@@ -107,7 +107,7 @@
 					    	<div class="col">
 					    		<a href="${ctp}/product/product_view?product_idx=${vo.product_idx}" class="product-click">
 						    		<img src="/green2209S_09/data/product/${product_images[0]}" class="best-product_image"/><br/>
-						    		<p class="product-name">${vo.product_name}</p><hr/>
+						    		<p style="height: 50px;" class="product-name">${vo.product_name}</p><hr/>
 						    		<c:if test="${vo.product_sale_price == 0}"><p class="product-price"><fmt:formatNumber value="${vo.product_price}" pattern="#,###"/>원</p></c:if>
 						    		<c:if test="${vo.product_sale_price != 0}"><p class="text-center"><span class="product-price"><img src="${ctp}/images/sale-icon.png" width="30vw"/>&nbsp;<del><fmt:formatNumber value="${vo.product_price}" pattern="#,###"/>원</del></span><span class="product-sale-price">&nbsp;<fmt:formatNumber value="${vo.product_sale_price}" pattern="#,###"/>원</span></p></c:if>
 					    		</a>

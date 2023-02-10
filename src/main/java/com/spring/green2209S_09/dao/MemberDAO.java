@@ -27,5 +27,5 @@ public interface MemberDAO {
 	public void set_member_pwd_update(@Param("vo") MemberVO vo);
 
 	public void set_member_email_certification(@Param("vo") MemberVO vo);
-	
+
 }
