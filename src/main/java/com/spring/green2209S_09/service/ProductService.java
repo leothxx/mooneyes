@@ -35,4 +35,13 @@ public interface ProductService {
 
 	public MainCategoryVO get_what_main_category(String category_main);
 
+	public SubCategoryVO get_what_sub_category(String category_sub);
+	
+	public MiniCategoryVO get_what_mini_category(String category_mini);
+	
+	public ArrayList<ProductAllVO> get_product_sub_search(int startIndexNo, int pageSize, String string);
+	
+	public ArrayList<ProductAllVO> get_product_mini_search(int startIndexNo, int pageSize, String string);
+
+
 }

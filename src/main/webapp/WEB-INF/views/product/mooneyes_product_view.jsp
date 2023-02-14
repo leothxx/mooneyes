@@ -222,6 +222,22 @@
 				$("#demo2").html("<div class='text-right'>총 구매가격 : &#8361; "+product_allPrice+"원</div>"); */
 			location.reload();
 	  	}
+	 	
+	 	// 장바구니 버튼 클릭
+	  	function productCart() {
+	  		if(product_allPrice <= 0) {
+	  			alert("장바구니에 담으실 상품을 선택해 주세요!");
+	  			return false;
+	  		}
+	  		for(let i=0; i<count; i++) {
+		  		buy_su += $("#product_su"+i).val() + "/";
+	  		}
+	  		let buy_size = tot_size.substring(0, tot_size.length-1);
+	  		let buy_color = tot_color.substring(0, tot_color.length-1);
+	  		let buy_count = buy_su.substring(0, buy_su.length-1);
+	  		alert("해당 상품을 장바구니에 담으셨습니다.");
+	  		location.href="${ctp}/member/cart_input?product_point=${product_point}&product_vat=${product_vat}&buy_totPrice="+encodeURI(product_allPrice)+"&buy_size="+encodeURI(buy_size)+"&buy_color="+encodeURI(buy_color)+"&buy_su="+encodeURI(buy_count)+"&product_idx=${vo.product_idx}";
+	  	}
 	</script>
 	<style>
 		.product-name div {
@@ -290,9 +306,10 @@
 			text-align: center;
 			border: 1px solid #ececec;
 			font-size: 1rem;
-			padding: 10px 0px;
+			padding: 10px;
 			display: table-cell;
 			vertical-align: middle;
+			margin-left: 20px;
 		}
 		.product-order-box div {
 			padding: 10px;
@@ -442,7 +459,7 @@
 	   			</div>
 	   			<div class="row p-3 btn-set">
 	   				<div class="col"><input type="button" value="BUY NOW" onclick="buy_click();" class="black-btn" /></div>
-	   				<div class="col"><input type="button" value="CART" onclick="buy_click();" class="white-btn" /></div>
+	   				<div class="col"><input type="button" value="CART" onclick="productCart();" class="white-btn" /></div>
 	   				<div class="col"><input type="button" value="WISH" onclick="buy_click();" class="white-btn" /></div>
 	   			</div>
 			</div>

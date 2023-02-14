@@ -1,5 +1,6 @@
 package com.spring.green2209S_09.service;
 
+import com.spring.green2209S_09.vo.CartVO;
 import com.spring.green2209S_09.vo.MemberVO;
 
 public interface MemberService {
@@ -25,6 +26,8 @@ public interface MemberService {
 	public void set_member_pwd_update(MemberVO vo);
 
 	public void set_member_email_certification(MemberVO vo);
+
+	public void set_member_cart(CartVO vo);
 
 	
 }

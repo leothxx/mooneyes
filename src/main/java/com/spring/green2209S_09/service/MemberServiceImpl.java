@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.green2209S_09.dao.MemberDAO;
+import com.spring.green2209S_09.vo.CartVO;
 import com.spring.green2209S_09.vo.MemberVO;
 
 @Service
@@ -64,5 +65,10 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void set_member_email_certification(MemberVO vo) {
 		memberDAO.set_member_email_certification(vo);
+	}
+
+	@Override
+	public void set_member_cart(CartVO vo) {
+		memberDAO.set_member_cart(vo);
 	}
 }

@@ -40,6 +40,29 @@
       <beans:property name="maxUploadSize" value="20971520" />
       <beans:property name="defaultEncoding" value="utf-8" />
     </beans:bean>
+    
+    <!-- Interceptor 설정 -->
+    <beans:bean class="com.spring.green2209S_09.interceptor.Level0Interceptor" id="level0Interceptor"/>
+    <beans:bean class="com.spring.green2209S_09.interceptor.Level1Interceptor" id="level1Interceptor"/>
+    <beans:bean class="com.spring.green2209S_09.interceptor.Level4Interceptor" id="level4Interceptor"/>
+    <beans:bean class="com.spring.green2209S_09.interceptor.SessionInterceptor" id="sessionInterceptor"/>
+    <interceptors>
+    	<interceptor>
+    		<mapping path="/admin/**"/>
+    		<beans:ref bean="level4Interceptor"/>
+    	</interceptor>
+    	<interceptor>
+    		<mapping path="/member/cart_input"/>
+    		<mapping path="/member/cart"/>
+    		<beans:ref bean="level0Interceptor"/>
+    	</interceptor>
+    	<interceptor>
+    		<mapping path="/**"/>
+    		<exclude-mapping path="/member/cart_input"/>
+    		<exclude-mapping path="/admin/**"/>
+    		<beans:ref bean="sessionInterceptor"/>
+    	</interceptor>
+    </interceptors>
 	
 	<!-- 트랜잭션을 어노테이션으로 처리하기 위해 참조하는 클래스를 등록한다. -->
 	<tx:annotation-driven transaction-manager="transactionManager"/>

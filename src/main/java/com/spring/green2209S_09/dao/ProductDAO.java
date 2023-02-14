@@ -41,5 +41,14 @@ public interface ProductDAO {
 	public ArrayList<ProductAllVO> get_product_main_search(@Param("startIndexNo") int startIndexNo,@Param("pageSize") int pageSize, @Param("category_main") String category_main);
 
 	public MainCategoryVO get_what_main_category(@Param("category_main") String category_main);
+
+	public ArrayList<ProductAllVO> get_product_sub_search(@Param("startIndexNo") int startIndexNo,@Param("pageSize") int pageSize, @Param("category_sub") String category_sub);
+	
+	public ArrayList<ProductAllVO> get_product_mini_search(@Param("startIndexNo") int startIndexNo,@Param("pageSize") int pageSize, @Param("category_mini") String category_mini);
+
+	public SubCategoryVO get_what_sub_category(@Param("category_sub") String category_sub);
+	
+	public MiniCategoryVO get_what_mini_category(@Param("category_mini") String category_mini);
+	
 	
 }

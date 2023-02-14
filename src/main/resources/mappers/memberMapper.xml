@@ -17,6 +17,9 @@
 	<insert id="set_kakao_member_InputOk">
 		INSERT INTO mooneyes_member VALUES (DEFAULT, #{vo.member_mid}, #{vo.member_pwd}, #{vo.member_name}, #{vo.member_email}, null, null, #{vo.member_phone}, 'Y', 'Y', null, null, null, null, null, null, DEFAULT, #{vo.member_signIp}, #{vo.member_signIp}, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, #{vo.member_email_key});
 	</insert>
+	<insert id="set_member_cart">
+		INSERT INTO mooneyes_member_cart VALUES (DEFAULT, #{vo.member_idx}, #{vo.product_idx}, #{vo.product_name}, #{vo.product_price}, #{vo.product_sale_price}, #{vo.product_point}, #{vo.product_vat}, #{vo.product_size}, #{vo.product_color}, #{vo.product_count});
+	</insert>
 	
 	<update id="set_member_visit_update">
 		UPDATE mooneyes_member SET member_visitIp = #{vo.member_visitIp}, member_visit_date = now() WHERE member_mid = #{vo.member_mid};

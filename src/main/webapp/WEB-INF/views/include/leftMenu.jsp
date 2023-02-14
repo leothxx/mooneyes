@@ -182,7 +182,7 @@
 			<!-- 로그인 메뉴 --> 
 			<li class="login_menu"><c:if test="${sMid == null}"><a href="${ctp}/member/login">login</a></c:if><c:if test="${sMid != null}"><a href="${ctp}/member/logout">logout</a></c:if>/<c:if test="${sMid == null }"><a href="${ctp}/member/join">join us</a></c:if><c:if test="${sMid != null }"><a href="${ctp}/member/my_info?mid=${sMid}">MY INFO</a></c:if></li>
 			<c:if test="${sLevel >= 3}"><li class="login_menu"><a href="${ctp}/admin/main">ADMIN</a></li></c:if>
-			<li class="login_menu mb-3"><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href="${ctp}/member/mypage?id=${sMid}"></c:if>my page</a> / <a href="/order/basket.html" class="">basket<span>(0)</span></a></li>
+			<li class="login_menu mb-3"><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href="${ctp}/member/mypage?id=${sMid}"></c:if>my page</a> / <a href="${ctp}/member/cart" class="">basket<span>(0)</span></a></li>
 			<!-- 스토어 메뉴 -->
 			<li class="shop_category mb-4">
 				<a class="categoryOn" href="#category1" style="font-weight: 700; font-size: 0.7em;">SHOP CATEGORY</a>
@@ -207,42 +207,42 @@
 	<div class="sub_apparel p-2" id="sub_apparel">
 		<ul class="p-0 m-0" style="display : block;">
 			<c:forEach var="vo1" items="${main_sub_category_vos}" varStatus="st">
-				<c:if test="${vo1.category_main == 2}"><li><a href="${ctp}/product/sub_category_view?category_sub=${vo1.category_sub}">${vo1.category_sub_name}.</a></li></c:if>
+				<c:if test="${vo1.category_main == '2'}"><li><a href="${ctp}/product/main_category_view?category_main=${vo1.category_main}&category_sub=${vo1.category_sub}">${vo1.category_sub_name}.</a></li></c:if>
 			</c:forEach>
 		</ul>
 	</div>
 	<div class="sub_goods p-2" id="sub_goods">
 		<ul class="p-0 m-0" style="display : block;">
 			<c:forEach var="vo2" items="${main_sub_category_vos}" varStatus="st">
-				<c:if test="${vo2.category_main == 3}"><li><a href="${ctp}/product/sub_category_view?category_sub=${vo2.category_sub}">${vo2.category_sub_name}.</a></li></c:if>
+				<c:if test="${vo2.category_main == 3}"><li><a href="${ctp}/product/main_category_view?category_main=${vo2.category_main}&category_sub=${vo2.category_sub}">${vo2.category_sub_name}.</a></li></c:if>
 			</c:forEach>
 		</ul>
 	</div>
 	<div class="sub_collabo p-2" id="sub_collabo">
 		<ul class="p-0 m-0" style="display : block;">
 			<c:forEach var="vo3" items="${main_sub_category_vos}" varStatus="st">
-				<c:if test="${vo3.category_main == 4}"><li><a href="${ctp}/product/sub_category_view?category_sub=${vo3.category_sub}">${vo3.category_sub_name}.</a></li></c:if>
+				<c:if test="${vo3.category_main == 4}"><li><a href="${ctp}/product/main_category_view?category_main=${vo3.category_main}&category_sub=${vo3.category_sub}">${vo3.category_sub_name}.</a></li></c:if>
 			</c:forEach>
 		</ul>
 	</div>
 	<div class="sub_car p-2" id="sub_car">
 		<ul class="p-0 m-0" style="display : block;">
 			<c:forEach var="vo4" items="${main_sub_category_vos}" varStatus="st">
-				<c:if test="${vo4.category_main == 5}"><li><a href="${ctp}/product/sub_category_view?category_sub=${vo4.category_sub}">${vo4.category_sub_name}.</a></li></c:if>
+				<c:if test="${vo4.category_main == 5}"><li><a href="${ctp}/product/main_category_view?category_main=${vo4.category_main+0}&category_sub=${vo4.category_sub}">${vo4.category_sub_name}.</a></li></c:if>
 			</c:forEach>
 		</ul>
 	</div>
 	<div class="sub_motorcycle p-2" id="sub_motorcycle">
 		<ul class="p-0 m-0" style="display : block;">
 			<c:forEach var="vo5" items="${main_sub_category_vos}" varStatus="st">
-				<c:if test="${vo5.category_main == 6}"><li><a href="${ctp}/product/sub_category_view?category_sub=${vo5.category_sub}">${vo5.category_sub_name}.</a></li></c:if>
+				<c:if test="${vo5.category_main == 6}"><li><a href="${ctp}/product/main_category_view?category_main=${vo5.category_main+0}&category_sub=${vo5.category_sub}">${vo5.category_sub_name}.</a></li></c:if>
 			</c:forEach>
 		</ul>
 	</div>
 	<div class="sub_RF p-2" id="sub_RF">
 		<ul class="p-0 m-0" style="display : block;">
 			<c:forEach var="vo6" items="${main_sub_category_vos}" varStatus="st">
-				<c:if test="${vo6.category_main == 7}"><li><a href="${ctp}/product/sub_category_view?category_sub=${vo6.category_sub}">${vo6.category_sub_name}.</a></li></c:if>
+				<c:if test="${vo6.category_main == 7}"><li><a href="${ctp}/product/main_category_view?category_main=${vo6.category_main+0}&category_sub=${vo6.category_sub}">${vo6.category_sub_name}.</a></li></c:if>
 			</c:forEach>
 		</ul>
 	</div>

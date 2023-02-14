@@ -2,6 +2,7 @@ package com.spring.green2209S_09.dao;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.spring.green2209S_09.vo.CartVO;
 import com.spring.green2209S_09.vo.MemberVO;
 
 public interface MemberDAO {
@@ -27,5 +28,7 @@ public interface MemberDAO {
 	public void set_member_pwd_update(@Param("vo") MemberVO vo);
 
 	public void set_member_email_certification(@Param("vo") MemberVO vo);
+
+	public void set_member_cart(@Param("vo") CartVO vo);
 
 }

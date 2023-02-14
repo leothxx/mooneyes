@@ -149,4 +149,24 @@ public class ProductServiceImpl implements ProductService {
 	public MainCategoryVO get_what_main_category(String category_main) {
 		return productDAO.get_what_main_category(category_main);
 	}
+
+	@Override
+	public ArrayList<ProductAllVO> get_product_sub_search(int startIndexNo, int pageSize, String category_sub) {
+		return productDAO.get_product_sub_search(startIndexNo, pageSize, category_sub);
+	}
+
+	@Override
+	public ArrayList<ProductAllVO> get_product_mini_search(int startIndexNo, int pageSize, String category_mini) {
+		return productDAO.get_product_mini_search(startIndexNo, pageSize, category_mini);
+	}
+
+	@Override
+	public SubCategoryVO get_what_sub_category(String category_sub) {
+		return productDAO.get_what_sub_category(category_sub);
+	}
+
+	@Override
+	public MiniCategoryVO get_what_mini_category(String category_mini) {
+		return productDAO.get_what_mini_category(category_mini);
+	}
 }

@@ -58,6 +58,22 @@ public class MessageController {
 			model.addAttribute("msg", "관리자님 상품 등록이 완료되었습니다!");
 			model.addAttribute("url", "admin/product_input");
 		}
+		else if(msgFlag.equals("adminNo")) {
+			model.addAttribute("msg", "관리자만 입장 가능합니다.<br/>다시 시도해주세요.");
+			model.addAttribute("url", "/");
+		}
+		else if(msgFlag.equals("sessionNo")) {
+			model.addAttribute("msg", "세션이 만료되었습니다.<br/>다시 시도해주세요.");
+			model.addAttribute("url", "/");
+		}
+		else if(msgFlag.equals("emailCheck")) {
+			model.addAttribute("msg", "회원 이메일 인증 처리 후 다시 이용해주세요.");
+			model.addAttribute("url", "member/email_certification");
+		}
+		else if(msgFlag.equals("memberNo")) {
+			model.addAttribute("msg", "로그인 후 이용해주세요.");
+			model.addAttribute("url", "member/login");
+		}
 		
 		return "include/message";
 	}

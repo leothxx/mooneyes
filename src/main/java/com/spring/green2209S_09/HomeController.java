@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -42,10 +43,11 @@ public class HomeController {
 		model.addAttribute("new_vos",new_vos);
 		
 		ArrayList<MainCategoryVO> main_category_vos = productService.get_main_category();
-		session.setAttribute("main_category_vos",main_category_vos);
+		session.setAttribute("main_category_vos", main_category_vos);
 		
 		ArrayList<Main_Sub_CategoryVO> main_sub_category_vos = productService.get_main_sub_category();
-		session.setAttribute("main_sub_category_vos",main_sub_category_vos);
+		session.setAttribute("main_sub_category_vos", main_sub_category_vos);
+		session.setAttribute("menu", "menu");
 		return "main";
 	}
 	

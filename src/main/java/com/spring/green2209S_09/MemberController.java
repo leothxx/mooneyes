@@ -2,7 +2,6 @@ package com.spring.green2209S_09;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.UUID;
 
 import javax.mail.MessagingException;
@@ -25,15 +24,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.green2209S_09.service.MemberService;
 import com.spring.green2209S_09.service.ProductService;
-import com.spring.green2209S_09.vo.MainCategoryVO;
-import com.spring.green2209S_09.vo.Main_Sub_CategoryVO;
+import com.spring.green2209S_09.vo.CartVO;
 import com.spring.green2209S_09.vo.MemberVO;
+import com.spring.green2209S_09.vo.ProductAllVO;
 
 @Controller
 @RequestMapping("/member")
 public class MemberController {
 	@Autowired
 	MemberService memberService;
+	
+	@Autowired
+	ProductService productService;
 	
 	@Autowired
 	JavaMailSender mailSender;
@@ -443,6 +445,46 @@ public class MemberController {
 			}
 			return "redirect:/msg/email_certification_ok?mid="+name;
 		}
+	}
+	
+	// 상품 장바구니에 담기
+	@RequestMapping(value="/cart_input",method=RequestMethod.GET)
+	public String cart_inputGet(HttpSession session, int product_point, int product_vat, String buy_totPrice, String buy_size, String buy_color, String buy_su, int product_idx) {
+		String mid = session.getAttribute("sMid") == null ? "" :  (String) session.getAttribute("sMid");
+		ProductAllVO product_vo = productService.get_product_search(product_idx+"");
+		MemberVO member_vo = memberService.get_mooneyes_member_check(mid);
+		CartVO vo = new CartVO();
+		
+		// 장바구니 DB에 저장 처리
+		String product_count[] = buy_su.split("/");
+		String product_size[] = buy_size.split("/");
+		String product_color[] = buy_color.split("/");
+		if(product_count.length == product_size.length && product_count.length == product_color.length) {
+			for(int i=0; i<product_count.length; i++) {
+				vo.setMember_idx(member_vo.getMember_idx());
+				vo.setProduct_idx(product_idx);
+				vo.setProduct_name(product_vo.getProduct_name());
+				vo.setProduct_price(product_vo.getProduct_price());
+				vo.setProduct_sale_price(product_vo.getProduct_sale_price());
+				vo.setProduct_point(product_point);
+				vo.setProduct_vat(product_vat);
+				vo.setProduct_size(product_size[i]);
+				vo.setProduct_color(product_color[i]);
+				vo.setProduct_count(Integer.parseInt(product_count[i]));
+				
+				memberService.set_member_cart(vo);
+			}
+		}
+		
+		return "";
+	}
+	
+	// 장바구니 이동
+	@RequestMapping(value="/cart",method=RequestMethod.GET)
+	public String cartGet(Model model, HttpSession session) {
+		String mid = session.getAttribute("sMid") == null ? "" : (String) session.getAttribute("sMid");
+		MemberVO vo = memberService.get_mooneyes_member_check(mid);
+		return "member/mooneyes_member_cart";
 	}
 	
 }

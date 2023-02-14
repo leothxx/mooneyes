@@ -95,6 +95,21 @@
 			border: 1px solid #000;
 			color: #fff;
 		}
+		.category-menu {
+			text-align: center;
+			font-size: 0.9rem;
+		}
+		.menu-category {
+			list-style:none;
+		    margin:0 auto;
+		    padding:0px;
+		}
+		.menu-category li {
+			padding: 20px;
+			margin: 0px;
+			border: 0px;
+			float: left;
+		}
 	</style>
 </head>
 <body>
@@ -106,7 +121,23 @@
 	<div style="width: 100%; margin: 0 auto;">
 		<div style="width: 75%; margin: 0 0 0 300px;">
 			<p><br/><br/></p>
-			<div class="row text-center"><div class="col"><c:if test="${category_main_vo == null }">ALL ITEM.</c:if><c:if test="${category_main_vo != null}">${category_main_vo.category_main_name}.</c:if></div></div><br/>
+			<div class="row text-center"><div class="col"><c:if test="${category_vo == null }">ALL ITEM.</c:if><c:if test="${category_vo != null}">${category_name}.</c:if></div></div><br/>
+			<c:if test="${category_vo != null}">
+				<div class="row category-menu">
+					<ul class="menu-category">
+						<c:if test="${mini_vos == null}">
+							<c:forEach var="vo" items="${sub_vos}" varStatus="st">
+								<li><a href="${ctp}/product/main_category_view?category_main=${param.category_main}&category_sub=${vo.category_sub}">${vo.category_sub_name}.</a></li>
+							</c:forEach>
+						</c:if>
+						<c:if test="${mini_vos != null}">
+							<c:forEach var="vo" items="${mini_vos}" varStatus="st">
+							<li><a href="${ctp}/product/main_category_view?category_main=${param.category_main}&category_sub=${vo.category_sub}&category_mini=${vo.category_mini}">${vo.category_mini_name}.</a></li>
+							</c:forEach>
+						</c:if>
+					</ul>
+				</div>
+			</c:if>
 			<div class="row pl-3 mb-4">
 				<select id="product_view_option" name="product_view_option">
 					<option value="new-item">신상품</option>
@@ -136,33 +167,33 @@
 		</div>
 	</div>
 	<!-- 블록 페이지 시작 -->
-	<div class="text-center">
+	<div class="text-center" style="width: 75%; margin: 0 0 0 300px;">
 		<ul class="pagination justify-content-center">
      		<li class="page-item ml-1 mr-1">
-	     		<a class="this-circle" href="${ctp}/product/main_category_view?pageSize=${pageVo.pageSize}&pag=1&category_main=0" class="first"><i class="fas fa-angle-double-left"></i></a>
+	     		<a class="this-circle" href="${ctp}/product/main_category_view?pageSize=${pageVo.pageSize}&pag=1&category_main=${param.category_main}&category_sub=${param.category_sub}&category_mini=${param.category_mini}" class="first"><i class="fas fa-angle-double-left"></i></a>
      		</li>
      		<li class="page-item ml-1 mr-1">
-     			<c:if test="${(pageVo.curBlock-1)*pageVo.blockSize + 1 > 1}"><a class="this-circle" href="${ctp}/product/main_category_view?pageSize=${pageVo.pageSize}&pag=${(pageVo.curBlock-1)*pageVo.blockSize + 1}&category_main=0"><i class="fas fa-angle-left"></i></a></c:if>
-     			<c:if test="${(pageVo.curBlock-1)*pageVo.blockSize + 1 < 1}"><a class="this-circle" href="${ctp}/product/main_category_view?pageSize=${pageVo.pageSize}&pag=${pageVo.pag}&category_main=0"><i class="fas fa-angle-left"></i></a></c:if>
+     			<c:if test="${(pageVo.curBlock-1)*pageVo.blockSize + 1 > 1}"><a class="this-circle" href="${ctp}/product/main_category_view?pageSize=${pageVo.pageSize}&pag=${(pageVo.curBlock-1)*pageVo.blockSize + 1}&category_main=${param.category_main}&category_sub=${param.category_sub}&category_mini=${param.category_mini}"><i class="fas fa-angle-left"></i></a></c:if>
+     			<c:if test="${(pageVo.curBlock-1)*pageVo.blockSize + 1 < 1}"><a class="this-circle" href="${ctp}/product/main_category_view?pageSize=${pageVo.pageSize}&pag=${pageVo.pag}&category_main=${param.category_main}&category_sub=${param.category_sub}&category_mini=${param.category_mini}"><i class="fas fa-angle-left"></i></a></c:if>
      		</li>
 	   		<c:forEach var="i" begin="${(pageVo.curBlock)*pageVo.blockSize + 1}" end="${(pageVo.curBlock)*pageVo.blockSize + pageVo.blockSize}" varStatus="st">
 	     		<c:if test="${i <= pageVo.totPage && i == pageVo.pag}">
 	   				<li class="page-item active ml-1 mr-1">
-	   					<a class="this" href="${ctp}/product/main_category_view?pageSize=${pageVo.pageSize}&pag=${i}&category_main=0">${i}</a>
+	   					<a class="this" href="${ctp}/product/main_category_view?pageSize=${pageVo.pageSize}&pag=${i}&category_main=${param.category_main}&category_sub=${param.category_sub}&category_mini=${param.category_mini}">${i}</a>
    					</li>
 	   			</c:if>
 	     		<c:if test="${i <= pageVo.totPage && i != pageVo.pag}">
 	   				<li class="page-item ml-1 mr-1">
-	   					<a class="this" href="${ctp}/product/main_category_view?pageSize=${pageVo.pageSize}&pag=${i}&category_main=0">${i}</a>
+	   					<a class="this" href="${ctp}/product/main_category_view?pageSize=${pageVo.pageSize}&pag=${i}&category_main=${param.category_main}&category_sub=${param.category_sub}&category_mini=${param.category_mini}">${i}</a>
    					</li>
 	   			</c:if>
 	   		</c:forEach>
      		<li class="page-item ml-1 mr-1">
-	     		<c:if test="${pageVo.curBlock < pageVo.lastBlock}"><a class="this-circle" href="${ctp}/product/main_category_view?pageSize=${pageVo.pageSize}&pag=${(pageVo.curBlock+1)*pageVo.blockSize + 1}&category_main=0" class="first"><i class="fas fa-angle-right"></i></a></c:if>
-	     		<c:if test="${pageVo.curBlock == pageVo.lastBlock}"><a class="this-circle" href="${ctp}/product/main_category_view?pageSize=${pageVo.pageSize}&pag=${pageVo.pag}&category_main=0" class="first"><i class="fas fa-angle-right"></i></a></c:if>
+	     		<c:if test="${pageVo.curBlock < pageVo.lastBlock}"><a class="this-circle" href="${ctp}/product/main_category_view?pageSize=${pageVo.pageSize}&pag=${(pageVo.curBlock+1)*pageVo.blockSize + 1}&category_main=${param.category_main}&category_sub=${param.category_sub}&category_mini=${param.category_mini}" class="first"><i class="fas fa-angle-right"></i></a></c:if>
+	     		<c:if test="${pageVo.curBlock == pageVo.lastBlock}"><a class="this-circle" href="${ctp}/product/main_category_view?pageSize=${pageVo.pageSize}&pag=${pageVo.pag}&category_main=${param.category_main}&category_sub=${param.category_sub}&category_mini=${param.category_mini}" class="first"><i class="fas fa-angle-right"></i></a></c:if>
     			</li>
 			<li class="page-item ml-1 mr-1">
-	     		<a class="this-circle" href="${ctp}/product/main_category_view?pageSize=${pageVo.pageSize}&pag=${pageVo.totPage}&category_main=0" class="first"><i class="fas fa-angle-double-right"></i></a>
+	     		<a class="this-circle" href="${ctp}/product/main_category_view?pageSize=${pageVo.pageSize}&pag=${pageVo.totPage}&category_main=${param.category_main}&category_sub=${param.category_sub}&category_mini=${param.category_mini}" class="first"><i class="fas fa-angle-double-right"></i></a>
 			</li>
 		</ul>
 	</div>
