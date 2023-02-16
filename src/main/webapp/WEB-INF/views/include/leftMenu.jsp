@@ -182,7 +182,7 @@
 			<!-- 로그인 메뉴 --> 
 			<li class="login_menu"><c:if test="${sMid == null}"><a href="${ctp}/member/login">login</a></c:if><c:if test="${sMid != null}"><a href="${ctp}/member/logout">logout</a></c:if>/<c:if test="${sMid == null }"><a href="${ctp}/member/join">join us</a></c:if><c:if test="${sMid != null }"><a href="${ctp}/member/my_info?mid=${sMid}">MY INFO</a></c:if></li>
 			<c:if test="${sLevel >= 3}"><li class="login_menu"><a href="${ctp}/admin/main">ADMIN</a></li></c:if>
-			<li class="login_menu mb-3"><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href="${ctp}/member/mypage?id=${sMid}"></c:if>my page</a> / <a href="${ctp}/member/cart" class="">basket<span>(0)</span></a></li>
+			<li class="login_menu mb-3"><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href="${ctp}/member/mypage?id=${sMid}"></c:if>my page</a> / <a href="${ctp}/member/cart" class="">basket<span>(${basket})</span></a></li>
 			<!-- 스토어 메뉴 -->
 			<li class="shop_category mb-4">
 				<a class="categoryOn" href="#category1" style="font-weight: 700; font-size: 0.7em;">SHOP CATEGORY</a>

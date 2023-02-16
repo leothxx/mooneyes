@@ -2,6 +2,7 @@ package com.spring.green2209S_09;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import javax.mail.MessagingException;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.green2209S_09.service.CartService;
 import com.spring.green2209S_09.service.MemberService;
 import com.spring.green2209S_09.service.ProductService;
 import com.spring.green2209S_09.vo.CartVO;
@@ -36,6 +38,9 @@ public class MemberController {
 	
 	@Autowired
 	ProductService productService;
+	
+	@Autowired
+	CartService cartService;
 	
 	@Autowired
 	JavaMailSender mailSender;
@@ -163,6 +168,7 @@ public class MemberController {
 			@RequestParam(name="mid_save", defaultValue = "", required = false) String mid_save) {
 		
 		MemberVO vo = memberService.get_mooneyes_member_check(member_mid);
+		int basket = cartService.get_member_cart_count(vo.getMember_idx());
 		if(vo != null && passwordEncoder.matches(member_pwd, vo.getMember_pwd()) && vo.getMember_delete_check().equals("N")) {
 			String strLevel = "";
 			if(vo.getMember_level() == 0) strLevel = "준회원";
@@ -175,6 +181,7 @@ public class MemberController {
 			session.setAttribute("sStrLevel", strLevel);
 			session.setAttribute("sMid", member_mid);
 			session.setAttribute("sName", vo.getMember_name());
+			session.setAttribute("basket", basket);
 			
 			if(mid_save.equals("on")) {
 				Cookie cookie = new Cookie("cMid", member_mid);
@@ -276,10 +283,13 @@ public class MemberController {
 			// 가입 처리된 회원의 정보를 다시 읽어와서 vo에 담아준다.
 			vo = memberService.get_mooneyes_member_check(mid);
 		}
+		
 		// 만약에 탈퇴신청한 회원이 카카오로그인처리하였다라면 'userDel'필드를 'NO'로 업데이트한다.
 		if(!vo.getMember_delete_check().equals("N")) {
 			memberService.set_member_userDelCheck(vo.getMember_mid());
 		}
+		
+		int basket = cartService.get_member_cart_count(vo.getMember_idx());
 		
 		// 회원 인증처리된 경우 수행할 내용? strLevel처리, session에 필요한 자료를 저장, 쿠키값처리, 그날 방문자수 1 증가(방문포인트도 증가), ..
 		String strLevel = "";
@@ -293,6 +303,7 @@ public class MemberController {
 		session.setAttribute("sStrLevel", strLevel);
 		session.setAttribute("sMid", vo.getMember_mid());
 		session.setAttribute("sName", vo.getMember_name());
+		session.setAttribute("basket", basket);
 		
 		// 로그인한 사용자의 방문 IP와 방문날짜 업데이트
 		memberService.set_member_visit_update(vo);
@@ -476,7 +487,11 @@ public class MemberController {
 			}
 		}
 		
-		return "";
+		// 장바구니 개수 세션에 최신화
+		int basket = cartService.get_member_cart_count(vo.getMember_idx());
+		session.setAttribute("basket", basket);
+		
+		return "redirect:/msg/cart_ok?mid="+product_idx;
 	}
 	
 	// 장바구니 이동
@@ -484,6 +499,8 @@ public class MemberController {
 	public String cartGet(Model model, HttpSession session) {
 		String mid = session.getAttribute("sMid") == null ? "" : (String) session.getAttribute("sMid");
 		MemberVO vo = memberService.get_mooneyes_member_check(mid);
+		ArrayList<CartVO> vos = cartService.get_member_cart_list(vo.getMember_idx());
+		model.addAttribute("vos",vos);
 		return "member/mooneyes_member_cart";
 	}
 	

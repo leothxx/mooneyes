@@ -74,6 +74,10 @@ public class MessageController {
 			model.addAttribute("msg", "로그인 후 이용해주세요.");
 			model.addAttribute("url", "member/login");
 		}
+		else if(msgFlag.equals("cart_ok")) {
+			model.addAttribute("msg", "장바구니에 상품을 담으셨습니다.");
+			model.addAttribute("url", "product/product_view?product_idx="+mid);
+		}
 		
 		return "include/message";
 	}

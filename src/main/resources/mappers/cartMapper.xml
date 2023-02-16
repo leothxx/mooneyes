@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.green2209S_09.dao.CartDAO">
+	<select id="get_member_cart_list" resultType="com.spring.green2209S_09.vo.CartVO">
+		SELECT * FROM mooneyes_member_cart AS cart JOIN mooneyes_product_image AS image ON cart.product_idx = image.product_idx WHERE cart.member_idx = #{member_idx};
+	</select>
+	<select id="get_member_cart_count" resultType="int">
+		SELECT count(*) FROM mooneyes_member_cart WHERE member_idx = #{member_idx};
+	</select>
+	<select id="get_cart_search" resultType="com.spring.green2209S_09.vo.CartVO">
+		SELECT * FROM mooneyes_member_cart WHERE member_cart_idx = #{member_cart_idx};
+	</select>
+</mapper>

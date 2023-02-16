@@ -57,7 +57,9 @@
     		<beans:ref bean="level0Interceptor"/>
     	</interceptor>
     	<interceptor>
-    		<mapping path="/**"/>
+    		<mapping path="/member/**"/>
+    		<mapping path="/product/**"/>
+    		<exclude-mapping path="/member/cart"/>
     		<exclude-mapping path="/member/cart_input"/>
     		<exclude-mapping path="/admin/**"/>
     		<beans:ref bean="sessionInterceptor"/>

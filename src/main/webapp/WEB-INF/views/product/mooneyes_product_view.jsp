@@ -235,7 +235,6 @@
 	  		let buy_size = tot_size.substring(0, tot_size.length-1);
 	  		let buy_color = tot_color.substring(0, tot_color.length-1);
 	  		let buy_count = buy_su.substring(0, buy_su.length-1);
-	  		alert("해당 상품을 장바구니에 담으셨습니다.");
 	  		location.href="${ctp}/member/cart_input?product_point=${product_point}&product_vat=${product_vat}&buy_totPrice="+encodeURI(product_allPrice)+"&buy_size="+encodeURI(buy_size)+"&buy_color="+encodeURI(buy_color)+"&buy_su="+encodeURI(buy_count)+"&product_idx=${vo.product_idx}";
 	  	}
 	</script>

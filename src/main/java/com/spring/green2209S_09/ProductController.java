@@ -8,11 +8,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.green2209S_09.pagination.PageProcess;
 import com.spring.green2209S_09.pagination.PageVO;
+import com.spring.green2209S_09.service.CartService;
 import com.spring.green2209S_09.service.MemberService;
 import com.spring.green2209S_09.service.ProductService;
+import com.spring.green2209S_09.vo.CartVO;
 import com.spring.green2209S_09.vo.MainCategoryVO;
 import com.spring.green2209S_09.vo.MiniCategoryVO;
 import com.spring.green2209S_09.vo.ProductAllVO;
@@ -26,6 +29,9 @@ public class ProductController {
 	
 	@Autowired
 	ProductService productService;
+	
+	@Autowired
+	CartService cartService;
 	
 	@Autowired
 	PageProcess pageProcess;
@@ -106,5 +112,23 @@ public class ProductController {
 		model.addAttribute("vos",vos);
 		model.addAttribute("pageVo",pageVo);
 		return "product/mooneyes_product_list";
+	}
+	
+	// AJAX 장바구니에서 상품의 컬러 및 사이즈 변경
+	@ResponseBody
+	@RequestMapping(value="/cart_opt_change",method=RequestMethod.POST)
+	public String cart_opt_changePost(int member_cart_idx) {
+		// 해당 장바구니에 있는 모든 자료 가져오기 (상품의 고유번호를 가져오기 위함)
+		CartVO vo = cartService.get_cart_search(member_cart_idx);
+		
+		// 상품의 고유번호로 상품에 존재하는 사이즈 및 컬러 가져오기
+		ProductAllVO product_vo = productService.get_product_search(vo.getProduct_idx()+"");
+		String product_size[] = product_vo.getProduct_size().split(",");
+		String product_color[] = product_vo.getProduct_color().split(",");
+		
+		ArrayList<String[]> vos = new ArrayList<>();
+		vos.add(product_size);
+		vos.add(product_color);
+		return vos+"";
 	}
 }
