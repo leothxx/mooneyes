@@ -27,4 +27,14 @@ public class CartServiceImpl implements CartService {
 	public CartVO get_cart_search(int member_cart_idx) {
 		return cartDAO.get_cart_search(member_cart_idx);
 	}
+
+	@Override
+	public int set_cart_update(String member_cart_idx, String size, String color) {
+		return cartDAO.set_cart_update(member_cart_idx, size, color);
+	}
+
+	@Override
+	public int set_cart_product_delete(String member_cart_idx) {
+		return cartDAO.set_cart_product_delete(member_cart_idx);
+	}
 }

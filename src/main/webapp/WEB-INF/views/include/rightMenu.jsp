@@ -101,9 +101,9 @@
 			</ul>
 			<ul>
 				<h2>MEMBERS</h2>
-				<li><a href="${ctp}/member/login">LOGIN</a></li>
-				<li><a href="${ctp}/member/join">JOIN US</a></li>
-				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href=""></c:if>BASKET<span>0</span></a></li>
+				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login">LOGIN</a></c:if><c:if test="${sMid != null}"><a href="${ctp}/member/logout">LOGOUT</a></c:if> </li>
+				<li><c:if test="${sMid == null}"><a href="${ctp}/member/join">JOIN US</a></c:if><c:if test="${sMid != null }"><a href="${ctp}/member/my_info?mid=${sMid}">MY INFO</a></c:if></li>
+				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href="${ctp}/member/cart"></c:if>BASKET<span>(${basket})</span></a></li>
 			</ul>
 			<ul>
 				<h2>MY PAGE</h2>

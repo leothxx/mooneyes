@@ -10,6 +10,7 @@ import com.spring.green2209S_09.vo.MiniCategoryVO;
 import com.spring.green2209S_09.vo.ProductAllVO;
 import com.spring.green2209S_09.vo.ProductUploadVO;
 import com.spring.green2209S_09.vo.SubCategoryVO;
+import com.spring.green2209S_09.vo.WishListVO;
 
 public interface ProductService {
 
@@ -42,6 +43,8 @@ public interface ProductService {
 	public ArrayList<ProductAllVO> get_product_sub_search(int startIndexNo, int pageSize, String string);
 	
 	public ArrayList<ProductAllVO> get_product_mini_search(int startIndexNo, int pageSize, String string);
+
+	public ArrayList<WishListVO> get_wish_list(int member_idx);
 
 
 }

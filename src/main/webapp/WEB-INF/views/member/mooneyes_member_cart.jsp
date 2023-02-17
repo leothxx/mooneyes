@@ -151,7 +151,7 @@
 				let product_point = document.getElementById("product_point_"+i+"").innerText;
 				product_sale_price = product_sale_price.replaceAll(',','').replace('원','');
 				product_price = product_price.replaceAll(',','').replace('원','');
-				product_point = product_price.replaceAll(',','').replace('원','');
+				product_point = product_point.replaceAll(',','').replace('원','');
 				
 				product_price_total += Number(product_price - product_sale_price);
 				product_point_total += Number(product_point);
@@ -188,34 +188,97 @@
 		}
 		
 		// 상품 옵션변경 선택시
-		function opt_change(index, idx) {
-			alert(index);
-			alert(idx);
+		function opt_open(index, idx) {
+			$("#product_opt_view_"+index+"").show();
+		}
+		
+		// 상품 옵션 변경 취소
+		function opt_close(index) {
+			$("#product_opt_view_"+index+"").hide();
+		}
+		
+		// 상품 옵션 변경
+		function opt_change(index, member_cart_idx) {
+			let size = $("#product_opt_size_"+index+"").val();
+			let color = $("#product_opt_color_"+index+"").val();
+			
+			let query = {
+					size : size,
+					color: color,
+					member_cart_idx : member_cart_idx
+			};
+			
 			$.ajax({
-				type : "post",
+				type: "post",
 				url : "${ctp}/product/cart_opt_change",
-				data : {member_cart_idx : idx},
-				async : false,
-				success : function(vos) {
-					let product_size;
-					let product_color;
-					alert("포문 들어가기 전");
-	  				for(let i=0; i<vos.size; i++){
-	  					alert("첫번째 포문");
-	  					for(let j=0; j<vos[i].size; j++) {
-	  						console.log("두번째 포문");
-		  					product_size += "<option value='"+vos[i][j]+"'>"+vos[i][j]+"</option>";
-	  					}
-	  				}
-	  				$("#product_opt_size_"+index).html(product_size);
-	  				$("#product_opt_color_"+index).html(product_color);
-	  				$("#product_opt_view"+index+"").show();
+				data : query,
+				success : function(res) {
+					if(res == 1) {
+						alert("상품의 옵션이 변경되었습니다.");
+						$("#colorANDsize_"+index+"").load(location.href+' #colorANDsize_'+index+'');
+					}
+					else alert("상품 옵션 변경 중 에러가 발생하였습니다.\n다시 시도해 주세요!");
 				},
 				error : function() {
-					alert("전송 오류!!");
+					alert("전송 오류!");
 				}
 			});
+		}
+		
+		// 상품 삭제 버튼 클릭시
+		function basket_product_del(index, member_cart_idx, product_name) {
+			let res = confirm(product_name+"\n상품을 삭제하시겠습니까??");
+			if(res == false) {
+				return false;
+			}
 			
+			$.ajax({
+				type: "post",
+				url : "${ctp}/product/cart_product_delete",
+				data : {member_cart_idx : member_cart_idx},
+				success : function(res) {
+					if(res == 1) {
+						alert("상품이 삭제되었습니다.");
+						location.reload();
+					}
+					else alert("상품 삭제 중 에러가 발생하였습니다.\n다시 시도해 주세요!");
+				},
+				error : function() {
+					alert("전송 오류!");
+				}
+			});
+		}
+		
+		// 선택 삭제 클릭시
+		function del_chk(size) {
+			let ans = confirm("선택된 상품을 삭제하시겠습니까?");
+			if(ans == false) {
+				return false;
+			}
+			
+			let member_cart_idx = '';
+			for(let i=0; i<size; i++) {
+				if($("#basket_chk_id_"+i+"").is(":checked") == true) {
+					member_cart_idx += $("#member_cart_idx_"+i+"").val() + "/";
+				}
+			}
+			
+			alert(member_cart_idx);
+			$.ajax({
+				type : "post",
+				url : "${ctp}/product/select_basket_del",
+				data : {member_cart_idx : member_cart_idx},
+				success : function(res) {
+					if(res == 0) alert("상품 삭제 중 에러가 발생하였습니다.");
+					else {
+						alert("상품이 정상적으로 삭제되었습니다.");
+						location.reload();
+					}
+				},
+				error : function() {
+					
+				}
+			});
 		}
 		
 	</script>
@@ -366,17 +429,15 @@
 		}
 		.product_opt_size, .product_opt_color {
 			width: 100%;
-		}
-		.product_opt_size, .product_opt_color {
 		    max-width: 100%;
 		    height: 29px;
 		    margin: 0;
 		    padding: 0 20px 0 8px;
 		    line-height: 29px;
-		    font-size: 1.3rem;
+		    font-size: 0.9rem;
 		    color: #000;
 		    word-break: break-all;
-		    font-weight: inherit;
+		    font-weight: 700;
 		    border: 1px solid #ececec;
 		    border-radius: 0;
 		    background: #fff url(//img.echosting.cafe24.com/skin/mobile/common/ico_select.gif) no-repeat 100% 49%;
@@ -410,11 +471,13 @@
 					<div class="row" id="basket_product">
 						<div class="col-1"><img src="${ctp}/data/product/${product_fSName}" id="basket_product_img"></div>
 						<div class="col text-left basket_product_info">
-							<span id="basket_product_name">${vo.product_name}</span><br/>
+							<span id="basket_product_name">${vo.product_name}</span>
+							<input type="hidden" name="member_cart_idx" id="member_cart_idx_${st.index}" value="${vo.member_cart_idx}" />
+							<br/>
 							<span>배송비 : <c:if test="${vo.product_price > 50000 || vo.product_sale_price > 50000}">[무료] / 기본배송</c:if><c:if test="${vo.product_price < 50000 && vo.product_sale_price < 50000}">3,000원</c:if></span><br/>
 							<span><img src="${ctp}/images/ico_product_point.gif" /> <span id="product_point_${st.index}"><c:if test="${vo.product_sale_price == 0}"><fmt:formatNumber value="${(vo.product_price * vo.product_count) * 0.01}" pattern="#,###"/></c:if><c:if test="${vo.product_sale_price != 0}"><fmt:formatNumber value="${(vo.product_sale_price * vo.product_count) * 0.01}" pattern="#,###"/></c:if>원</span></span><br/>
 							<span>상품 구매금액 : <span id="product_price_${st.index}"><fmt:formatNumber value="${vo.product_price * vo.product_count}" pattern="#,###"/></span>원</span><br/>
-							<span>상품 할인금액 : <font color='red'>-<span id="product_sale_price_${st.index}"><c:if test="${vo.product_sale_price == 0}">0</c:if><c:if test="${vo.product_sale_price != 0}"><fmt:formatNumber value="${vo.product_price - vo.producr_sale_price}" pattern="#,###"/></c:if></span></font>원</span><br/>
+							<span>상품 할인금액 : <font color='red'>-<span id="product_sale_price_${st.index}"><c:if test="${vo.product_sale_price == 0}">0</c:if><c:if test="${vo.product_sale_price != 0}"><fmt:formatNumber value="${vo.product_price - vo.product_sale_price}" pattern="#,###"/></c:if></span></font>원</span><br/>
 							<span class="basket_product_count_btn">
 								<a href="javascript:count_down(${st.index},${vo.product_price},${vo.product_sale_price})"><img src="${ctp}/images/ico_quantity_down.jpg" /></a>
 								<input type="tel" class="basket_product_count" style="text-align: right; padding-right: 5px;" name="basket_product_count" id="basket_product_count_${st.index}" value="${vo.product_count}" readonly />
@@ -423,27 +486,47 @@
 						</div>
 					</div>
 					<div class="row mb-3 pt-3" style="margin: 10px 0px; font-weight: 700; font-size: 0.9rem;">
-						<div class="col text-left">컬러 : ${vo.product_color} , 사이즈 : ${vo.product_size}</div>
-						<div class="col text-right"><a href="javascript:opt_change(${st.index},${vo.member_cart_idx})" id="product_option_change">옵션변경</a></div>
+						<div class="col text-left" id="colorANDsize_${st.index}">컬러 : ${vo.product_color} , 사이즈 : ${vo.product_size}</div>
+						<div class="col text-right"><a href="javascript:opt_open(${st.index},${vo.member_cart_idx})" id="product_option_change">옵션변경</a></div>
 					</div>
 					<div class="row product_opt_view" id="product_opt_view_${st.index}">
 						<div class="row" style="width: 100%;">
 							<span><b>사이즈</b></span>&nbsp;&nbsp;&nbsp;
-							<div class="col"><select class="product_opt_size" name="product_opt_size" id="product_opt_size_${st.index}"></select></div>
+							<div class="col">
+								<select class="product_opt_size" name="product_opt_size" id="product_opt_size_${st.index}">
+									<c:forEach var="sizeVO" items="${product_vos}" varStatus="sst">
+										<c:if test="${st.index == sst.index}">
+											<c:forEach var="size" items="${fn:split(sizeVO.product_size,',')}">
+												<option value="${size}">${size}</option>
+											</c:forEach>
+										</c:if>
+									</c:forEach>
+								</select>
+							</div>
 						</div>
 						<div class="row" style="width: 100%;">
 							<span><b>컬러</b></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<div class="col"><select class="product_opt_color" name="product_opt_color" id="product_opt_color_${st.index}"></select></div>
+							<div class="col">
+								<select class="product_opt_color" name="product_opt_color" id="product_opt_color_${st.index}">
+									<c:forEach var="colorVO" items="${product_vos}" varStatus="cst">
+										<c:if test="${st.index == cst.index}">
+											<c:forEach var="color" items="${fn:split(colorVO.product_color,',')}">
+												<option value="${color}">${color}</option>
+											</c:forEach>
+										</c:if>
+									</c:forEach>
+								</select>
+							</div>
 						</div>
 						<div class="row mt-3" style="width: 100%; margin: 0 auto; padding: 0px;">
 							<div class="col text-center" style="padding: 0px;">
-								<a href="" id="black-button-css">변경</a>
-								<a href="" id="white-button-css">취소</a>
+								<a href="javascript:opt_change(${st.index},${vo.member_cart_idx})" id="black-button-css">변경</a>
+								<a href="javascript:opt_close(${st.index})" id="white-button-css">취소</a>
 							</div>
 						</div>
 					</div>
 					<div class="row" style="margin: 10px 0px;">
-						<div class="col text-left"><a href="" id="white-button-css">삭제</a> <a href="" id="white-button-css">관심상품</a></div>
+						<div class="col text-left"><a href="javascript:basket_product_del('${st.index}','${vo.member_cart_idx}','${vo.product_name}')" id="white-button-css">삭제</a> <a href="" id="white-button-css">관심상품</a></div>
 						<div class="col text-right"><a href="" id="black-button-css">주문하기</a></div>
 					</div>
 					<c:if test="${st.count == fn:length(vos)}"><p><br/></p></c:if>

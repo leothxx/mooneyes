@@ -11,6 +11,7 @@ import com.spring.green2209S_09.vo.ProductAllVO;
 import com.spring.green2209S_09.vo.ProductImageVO;
 import com.spring.green2209S_09.vo.ProductUploadVO;
 import com.spring.green2209S_09.vo.SubCategoryVO;
+import com.spring.green2209S_09.vo.WishListVO;
 
 public interface ProductDAO {
 
@@ -49,6 +50,8 @@ public interface ProductDAO {
 	public SubCategoryVO get_what_sub_category(@Param("category_sub") String category_sub);
 	
 	public MiniCategoryVO get_what_mini_category(@Param("category_mini") String category_mini);
+
+	public ArrayList<WishListVO> get_wish_list(@Param("member_idx") int member_idx);
 	
 	
 }

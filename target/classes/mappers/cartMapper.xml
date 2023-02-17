@@ -10,4 +10,12 @@
 	<select id="get_cart_search" resultType="com.spring.green2209S_09.vo.CartVO">
 		SELECT * FROM mooneyes_member_cart WHERE member_cart_idx = #{member_cart_idx};
 	</select>
+	
+	<update id="set_cart_update">
+		UPDATE mooneyes_member_cart SET product_size = #{size}, product_color = #{color} WHERE member_cart_idx = #{member_cart_idx};
+	</update>
+	
+	<delete id="set_cart_product_delete">
+		DELETE FROM mooneyes_member_cart WHERE member_cart_idx = #{member_cart_idx};
+	</delete>
 </mapper>

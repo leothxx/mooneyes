@@ -237,6 +237,11 @@
 	  		let buy_count = buy_su.substring(0, buy_su.length-1);
 	  		location.href="${ctp}/member/cart_input?product_point=${product_point}&product_vat=${product_vat}&buy_totPrice="+encodeURI(product_allPrice)+"&buy_size="+encodeURI(buy_size)+"&buy_color="+encodeURI(buy_color)+"&buy_su="+encodeURI(buy_count)+"&product_idx=${vo.product_idx}";
 	  	}
+	 	
+	 	// 위시리스트 버튼 클릭
+	 	function wish_click() {
+	 		
+	 	}
 	</script>
 	<style>
 		.product-name div {
@@ -459,7 +464,7 @@
 	   			<div class="row p-3 btn-set">
 	   				<div class="col"><input type="button" value="BUY NOW" onclick="buy_click();" class="black-btn" /></div>
 	   				<div class="col"><input type="button" value="CART" onclick="productCart();" class="white-btn" /></div>
-	   				<div class="col"><input type="button" value="WISH" onclick="buy_click();" class="white-btn" /></div>
+	   				<div class="col"><input type="button" value="WISH" onclick="wish_click();" class="white-btn" /></div>
 	   			</div>
 			</div>
 		</div>

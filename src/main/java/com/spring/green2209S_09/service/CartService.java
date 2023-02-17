@@ -12,4 +12,8 @@ public interface CartService {
 
 	public CartVO get_cart_search(int member_cart_idx);
 
+	public int set_cart_update(String member_cart_idx, String size, String color);
+
+	public int set_cart_product_delete(String member_cart_idx);
+
 }

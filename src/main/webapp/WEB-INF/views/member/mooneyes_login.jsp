@@ -14,6 +14,15 @@
 		'use strict';
 	  	window.Kakao.init("5084d80927739da624192690c9feb42c");
 	  	
+	  	// 엔터시 일반 로그인
+	  	$(function(){
+	  	  $("#sub_container").keypress(function (e) {
+	          if (e.keyCode === 13) {
+	        	  loginCheck();
+	          }
+	      });
+	  	});
+	  	
 	  	// 일반 로그인
 		function loginCheck() {
 			loginForm.submit();			
@@ -131,6 +140,9 @@
 		@keyframes myfirst {
 			0% {opacity: 1.0; top: 15px;}
 			100% {opacity: 1.0; top: 0px;}
+		}
+		#member_mid:focus, #member_pwd:focus {
+			outline: none;
 		}
 	</style>
 </head>

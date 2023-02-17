@@ -23,6 +23,7 @@ import com.spring.green2209S_09.vo.ProductAllVO;
 import com.spring.green2209S_09.vo.ProductImageVO;
 import com.spring.green2209S_09.vo.ProductUploadVO;
 import com.spring.green2209S_09.vo.SubCategoryVO;
+import com.spring.green2209S_09.vo.WishListVO;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -168,5 +169,10 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public MiniCategoryVO get_what_mini_category(String category_mini) {
 		return productDAO.get_what_mini_category(category_mini);
+	}
+
+	@Override
+	public ArrayList<WishListVO> get_wish_list(int member_idx) {
+		return productDAO.get_wish_list(member_idx);
 	}
 }

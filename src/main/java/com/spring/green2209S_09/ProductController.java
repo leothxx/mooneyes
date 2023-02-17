@@ -2,8 +2,11 @@ package com.spring.green2209S_09;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,11 +18,12 @@ import com.spring.green2209S_09.pagination.PageVO;
 import com.spring.green2209S_09.service.CartService;
 import com.spring.green2209S_09.service.MemberService;
 import com.spring.green2209S_09.service.ProductService;
-import com.spring.green2209S_09.vo.CartVO;
 import com.spring.green2209S_09.vo.MainCategoryVO;
+import com.spring.green2209S_09.vo.MemberVO;
 import com.spring.green2209S_09.vo.MiniCategoryVO;
 import com.spring.green2209S_09.vo.ProductAllVO;
 import com.spring.green2209S_09.vo.SubCategoryVO;
+import com.spring.green2209S_09.vo.WishListVO;
 
 @Controller
 @RequestMapping("/product")
@@ -117,18 +121,62 @@ public class ProductController {
 	// AJAX 장바구니에서 상품의 컬러 및 사이즈 변경
 	@ResponseBody
 	@RequestMapping(value="/cart_opt_change",method=RequestMethod.POST)
-	public String cart_opt_changePost(int member_cart_idx) {
-		// 해당 장바구니에 있는 모든 자료 가져오기 (상품의 고유번호를 가져오기 위함)
-		CartVO vo = cartService.get_cart_search(member_cart_idx);
+	public String cart_opt_changePost(String size, String color , String member_cart_idx) {
+		int res = 0;
+		// 해당 장바구니에 있는 사이즈 및 컬러 업데이트
+		res = cartService.set_cart_update(member_cart_idx, size, color);
 		
-		// 상품의 고유번호로 상품에 존재하는 사이즈 및 컬러 가져오기
-		ProductAllVO product_vo = productService.get_product_search(vo.getProduct_idx()+"");
-		String product_size[] = product_vo.getProduct_size().split(",");
-		String product_color[] = product_vo.getProduct_color().split(",");
-		
-		ArrayList<String[]> vos = new ArrayList<>();
-		vos.add(product_size);
-		vos.add(product_color);
-		return vos+"";
+		return res+"";
 	}
+	
+	// AJAX 장바구니에서 상품 삭제
+	@ResponseBody
+	@RequestMapping(value="/cart_product_delete",method=RequestMethod.POST)
+	public String cart_product_deletePost(HttpSession session, String member_cart_idx) {
+		int res = 0;
+		// 해당 장바구니 상품 삭제
+		res = cartService.set_cart_product_delete(member_cart_idx);
+		
+		// 장바구니 수량 세션에 다시 담기
+		String mid = session.getAttribute("sMid") == null ? "" : (String) session.getAttribute("sMid");
+		MemberVO vo = memberService.get_mooneyes_member_check(mid);
+		int basket = cartService.get_member_cart_count(vo.getMember_idx());
+		session.setAttribute("basket", basket);
+		
+		return res+"";
+	}
+	
+	// AJAX 장바구니에서 상품 선택 삭제
+	@Transactional
+	@ResponseBody
+	@RequestMapping(value="/select_basket_del",method=RequestMethod.POST)
+	public String select_basket_delPost(HttpSession session, String member_cart_idx) {
+		int res = 0;
+		
+		// 해당 장바구니 상품 삭제
+		String idx[] = member_cart_idx.split("/");
+		for(int i=0; i<idx.length; i++) {
+			res = cartService.set_cart_product_delete(idx[i]);
+			if(res == 0) break;
+		}
+		
+		// 장바구니 수량 세션에 다시 담기
+		String mid = session.getAttribute("sMid") == null ? "" : (String) session.getAttribute("sMid");
+		MemberVO vo = memberService.get_mooneyes_member_check(mid);
+		int basket = cartService.get_member_cart_count(vo.getMember_idx());
+		session.setAttribute("basket", basket);
+		
+		return res+"";
+	}
+	
+	// 위시 리스트 이동 폼
+	@RequestMapping(value="/wish_list",method=RequestMethod.GET)
+	public String wish_listGet(Model model, HttpSession session) {
+		String mid = session.getAttribute("sMid") == null ? "" : (String) session.getAttribute("sMid");
+		MemberVO vo = memberService.get_mooneyes_member_check(mid);
+		ArrayList<WishListVO> vos = productService.get_wish_list(vo.getMember_idx());
+		model.addAttribute("vos",vos);
+		return "product/mooneyes_product_wishlist";
+	}
+	
 }

@@ -52,6 +52,9 @@
 	<select id="get_what_mini_category" resultType="com.spring.green2209S_09.vo.MiniCategoryVO">
 		SELECT * FROM mooneyes_product_mini_category WHERE category_mini = #{category_mini};
 	</select>
+	<select id="get_wish_list" resultType="com.spring.green2209S_09.vo.WishListVO">
+		SELECT * FROM mooneyes_product_wishlist AS wish JOIN mooneyes_product_image AS image ON wish.product_idx = image.product_idx WHERE wish.member_idx = #{member_idx};
+	</select>
 	
 	<insert id="set_product_input">
 		INSERT INTO mooneyes_product VALUES (DEFAULT,#{vo.category_main},#{vo.category_sub},#{vo.category_mini},#{vo.product_name},#{vo.product_price},#{vo.product_sale_price},#{vo.product_stock},#{vo.product_size},#{vo.product_color},#{vo.product_desc},DEFAULT);

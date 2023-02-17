@@ -122,7 +122,7 @@
 		<div class="row myshop_main">
 			<div class="col myshop_sub"><a href="${ctp}/member/order_list"><img src="${ctp}/images/order_list_search.png" /><br/><strong>ORDER</strong><br/>주문내역 조회</a></div>
 			<div class="col myshop_sub"><a href="${ctp}/member/my_info?mid=${vo.member_mid}"><img src="${ctp}/images/member_info.png" /><br/><strong>PROFILE</strong><br/>회원 정보</a></div>
-			<div class="col myshop_sub"><a href="${ctp}/"><img src="${ctp}/images/wishlist.png" /><br/><strong>WISHLIST</strong><br/>관심 상품</a></div>
+			<div class="col myshop_sub"><a href="${ctp}/product/wish_list"><img src="${ctp}/images/wishlist.png" /><br/><strong>WISHLIST</strong><br/>관심 상품</a></div>
 			<div class="col myshop_sub" style="border: 0px;"><a href="${ctp}/"><img src="${ctp}/images/like.png" /><br/><strong>LIKE IT</strong><br/>좋아요</a></div>
 		</div>
 		<div class="row myshop_main">

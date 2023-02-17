@@ -500,6 +500,14 @@ public class MemberController {
 		String mid = session.getAttribute("sMid") == null ? "" : (String) session.getAttribute("sMid");
 		MemberVO vo = memberService.get_mooneyes_member_check(mid);
 		ArrayList<CartVO> vos = cartService.get_member_cart_list(vo.getMember_idx());
+		ArrayList<ProductAllVO> product_vos = new ArrayList<>();
+		if(vos != null) {
+			for(int i=0; i<vos.size(); i++) {
+				ProductAllVO product_vo = productService.get_product_search(vos.get(i).getProduct_idx()+"");
+				product_vos.add(product_vo);
+			}
+		}
+		model.addAttribute("product_vos",product_vos);
 		model.addAttribute("vos",vos);
 		return "member/mooneyes_member_cart";
 	}
