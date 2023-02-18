@@ -169,7 +169,7 @@
 	  			
 	  			let demo = '<div class="row product-order-box mb-1 animate__animated animate__fadeIn" style="text-align:center">';
 	  			demo += '<div class="col-4">';
-	  			demo += '<span style="font-weight: 700;">${vo.product_name}</span><br/> - '+color+' - '+size+'';
+	  			demo += '<span style="font-weight: 700;">${vo.product_name}</span><br/> - <span id="product_color_'+count+'">'+color+'</span> - <span id="product_size_'+count+'">'+size+'</span>';
 	  			demo += '</div>';
 	  			demo += '<div class="col-2" style="text-align:left">';
 	  			demo += '<input type="number" class="product-order-su" name="product_su" id="product_su'+count+'" min="1" value="1" required style="width:3vw;" onchange="product_suSelect(this.value,'+count+')"/>&nbsp;';
@@ -238,10 +238,6 @@
 	  		location.href="${ctp}/member/cart_input?product_point=${product_point}&product_vat=${product_vat}&buy_totPrice="+encodeURI(product_allPrice)+"&buy_size="+encodeURI(buy_size)+"&buy_color="+encodeURI(buy_color)+"&buy_su="+encodeURI(buy_count)+"&product_idx=${vo.product_idx}";
 	  	}
 	 	
-	 	// 위시리스트 버튼 클릭
-	 	function wish_click() {
-	 		
-	 	}
 	</script>
 	<style>
 		.product-name div {
@@ -534,5 +530,41 @@
   		product_allPrice = 0*1;
   		product_output();
   	}
+	
+ 	// 위시리스트 버튼 클릭
+ 	function wish_click() {
+ 		let product_idx = ${vo.product_idx};
+ 		let product_size = '';
+ 		let product_color = '';
+ 		
+ 		for(let i=0; i<count; i++) {
+ 			product_size += $("#product_size_"+count+"").html();
+ 			product_size += "/";
+ 			product_color += $("#product_color_"+count+"").html();
+ 			product_color += "/";
+  		}
+ 		alert(product_size);
+ 		alert(product_color);
+ 		let query = {
+ 				product_idx : product_idx,
+ 				product_size : product_size,
+ 				product_color : product_color
+ 		};
+ 		
+ 		$.ajax({
+ 			type: "post",
+ 			url: "${ctp}/product/wishlist-input",
+ 			data : query,
+ 			success : function(res) {
+ 				if(res == 0) alert("위시리스트 저장중 에러가 발생하였습니다.\n다시 시도해 주세요!");
+ 				else {
+ 					alert("위시리스트에 성공적으로 저장되었습니다!");
+ 				}
+ 			},
+ 			error : function() {
+ 				alert("전송 오류!");
+ 			}
+ 		});
+ 	}
 </script>
 </html>

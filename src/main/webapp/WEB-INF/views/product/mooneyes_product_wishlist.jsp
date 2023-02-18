@@ -15,7 +15,7 @@
 			text-decoration: none;
 		}
 		.wish_img {
-			width: 20px;
+			width: 70px;
 		}
 		.title_move img {
 			position: relative;
@@ -61,6 +61,9 @@
 			background-color: #000;
 			border: 1px solid #000;
 		}
+		#wish-product-name, #wish-product-price {
+			font-weight: 800;
+		}
 	</style>
 </head>
 <body>
@@ -80,15 +83,19 @@
 						<div class="row">
 							<div class="col-1" id="wish-img" style="border-bottom: 1px solid #ececec; padding: 10px 10px 10px 20px;">
 								<input type="checkbox" id="wish_chk_id_${st.index}" name="wish_chk" onclick="wish_chk(${st.index})"/><br/>
-								<img src="${ctp}/data/product/${vo.product_fSName}" class="wish_img"/>
+								<c:set var="product_image_arr" value="${fn:split(vo.product_fSName,'/')}"/>
+								<c:forEach var="product_image" items="${product_image_arr}" varStatus="imgCnt">
+									<c:if test="${imgCnt.index == 0}"><img src="${ctp}/data/product/${product_image}" class="wish_img"/></c:if>
+								</c:forEach>
 							</div>
 							<div class="col-11" style="border-bottom: 1px solid #ececec; padding: 10px 10px 10px 20px;">
+								<br/>
 								<span id="wish-product-name">${vo.product_name}</span><br/>
 								<span id="wish-product-price"><c:if test="${vo.product_sale_price == 0}"><fmt:formatNumber value="${vo.product_price}" pattern="#,###"/></c:if><c:if test="${vo.product_sale_price != 0}"><font color='red'><fmt:formatNumber value="${vo.product_sale_price}" pattern="#,###"/></font></c:if></span>원
 							</div>
 						</div>
 						<div class="row" style="padding-top: 5px;">
-							<div class="col-6 text-left" style="padding: 10px 10px 10px 20px;">[옵션:BK/L]</div>
+							<div class="col-6 text-left" style="padding: 10px 10px 10px 20px; font-weight: 800;"><c:if test="${vo.product_size != '' && vo.product_size != ''}">[옵션:${vo.product_color}/${vo.product_size}]</c:if></div>
 							<div class="col-6 text-right" style="padding: 10px 10px 10px 20px;"><a href="" id="white-button-css"  style="background-color: #ececec;">옵션변경</a></div>
 						</div>
 						<div class="row" style="padding-bottom: 5px;">

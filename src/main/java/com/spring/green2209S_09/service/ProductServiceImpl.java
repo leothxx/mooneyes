@@ -175,4 +175,9 @@ public class ProductServiceImpl implements ProductService {
 	public ArrayList<WishListVO> get_wish_list(int member_idx) {
 		return productDAO.get_wish_list(member_idx);
 	}
+
+	@Override
+	public int set_wishList(int member_idx, ProductAllVO productVO, String product_size, String product_color) {
+		return productDAO.set_wishList(member_idx, productVO, product_size, product_color);
+	}
 }

@@ -62,4 +62,7 @@
 	<insert id="set_product_images_input">
 		INSERT INTO mooneyes_product_image VALUES (DEFAULT,#{vo.product_idx},#{vo.product_fSName},#{vo.product_fileSize},now(),DEFAULT,#{vo.product_fOName});
 	</insert>
+	<insert id="set_wishList">
+		INSERT INTO mooneyes_product_wishlist VALUES (DEFAULT,#{member_idx},#{productVO.product_idx},#{productVO.product_name},#{productVO.product_price},#{productVO.product_sale_price},#{product_size},#{product_color});
+	</insert>
 </mapper>

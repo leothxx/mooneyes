@@ -94,10 +94,10 @@
 			product_price = product_price.replaceAll(',','');
 			product_point = product_point.replaceAll(',','').replace('원','');
 			
-			let tot_buy_price = document.getElementById("tot_buy_price").innerText.replace('원','').replace(',','');
-			let tot_price = document.getElementById("tot_price").innerText.replace('원','').replace(',','');
-			let tot_delivery = document.getElementById("tot_delivery").innerText.replace('원','').replace(',','');
-			let tot_point = document.getElementById("tot_point").innerText.replace('원','').replace(',','');
+			let tot_buy_price = document.getElementById("tot_buy_price").innerText.replace('원','').replaceAll(',','');
+			let tot_price = document.getElementById("tot_price").innerText.replace('원','').replaceAll(',','');
+			let tot_delivery = document.getElementById("tot_delivery").innerText.replace('원','').replaceAll(',','');
+			let tot_point = document.getElementById("tot_point").innerText.replace('원','').replaceAll(',','');
 			
 			
 			if($("#basket_chk_id_"+index+"").is(":checked") == true) {
@@ -117,9 +117,9 @@
 			}
 			
 			else if($("#basket_chk_id_"+index+"").is(":checked") == false) {
-				let price = Number(product_price - product_sale_price);
-				let final_buy_price = Number(tot_buy_price) - price;
-				let final_price = Number(tot_price) - price;
+				let price = Number(product_price) - Number(product_sale_price);
+				let final_buy_price = Number(tot_buy_price) - Number(price);
+				let final_price = Number(tot_price) - Number(price);
 				let final_point = Number(tot_point) - Number(product_point);
 				document.getElementById("tot_buy_price").innerText = final_buy_price.toLocaleString('ko-KR')+'원';
 				document.getElementById("tot_price").innerText = final_price.toLocaleString('ko-KR')+'원';
@@ -145,6 +145,7 @@
 		function money_count(index) {
 			let product_price_total = 0;
 			let product_point_total = 0;
+			
 			for(let i=0; i<index; i++) {
 				let product_price = document.getElementById("product_price_"+i+"").innerText;
 				let product_sale_price = document.getElementById("product_sale_price_"+i+"").innerText;
@@ -153,7 +154,7 @@
 				product_price = product_price.replaceAll(',','').replace('원','');
 				product_point = product_point.replaceAll(',','').replace('원','');
 				
-				product_price_total += Number(product_price - product_sale_price);
+				product_price_total += Number(product_price) - Number(product_sale_price);
 				product_point_total += Number(product_point);
 				
 				

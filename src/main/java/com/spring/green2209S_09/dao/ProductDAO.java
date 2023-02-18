@@ -52,6 +52,8 @@ public interface ProductDAO {
 	public MiniCategoryVO get_what_mini_category(@Param("category_mini") String category_mini);
 
 	public ArrayList<WishListVO> get_wish_list(@Param("member_idx") int member_idx);
+
+	public int set_wishList(@Param("member_idx") int member_idx,@Param("productVO") ProductAllVO productVO,@Param("product_size") String product_size,@Param("product_color") String product_color);
 	
 	
 }

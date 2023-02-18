@@ -179,4 +179,29 @@ public class ProductController {
 		return "product/mooneyes_product_wishlist";
 	}
 	
+	// 위시 리스트 저장 처리
+	@Transactional
+	@ResponseBody
+	@RequestMapping(value="/wishlist-input",method=RequestMethod.POST)
+	public String wishlist_inputPost(HttpSession session, int product_idx, String product_size, String product_color) {
+		int res = 0;
+		String mid = session.getAttribute("sMid") == null ? "" : (String) session.getAttribute("sMid");
+		MemberVO vo = memberService.get_mooneyes_member_check(mid);
+		ProductAllVO productVO = productService.get_product_search(product_idx+"");
+		
+		if(product_size.equals("") && product_color.equals("")) {
+			res = productService.set_wishList(vo.getMember_idx(), productVO,product_size,product_color);
+		}
+		else {
+			System.out.println(product_size);
+			System.out.println(product_color);
+			String product_size_arr[] = product_size.split("/");
+			String product_color_arr[] = product_color.split("/");
+			for(int i=0; i<product_size_arr.length; i++) {
+				res = productService.set_wishList(vo.getMember_idx(), productVO,product_size_arr[i],product_color_arr[i]);
+			}
+		}
+		return res+"";
+	}
+	
 }

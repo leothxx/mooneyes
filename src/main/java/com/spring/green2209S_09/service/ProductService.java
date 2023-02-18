@@ -46,5 +46,7 @@ public interface ProductService {
 
 	public ArrayList<WishListVO> get_wish_list(int member_idx);
 
+	public int set_wishList(int member_idx, ProductAllVO productVO, String product_size, String product_color);
+
 
 }
