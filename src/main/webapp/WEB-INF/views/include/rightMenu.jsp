@@ -65,6 +65,10 @@
 	}
 	#menubar h2 {font-size: 1.2rem;}
 	#menubar ul li a {font-size: 0.9rem;}
+	#menubar ul li a:hover {
+		color: #888;
+	    transition: 0.3s;
+	}
 	#menubar h2 {
 	    color: #fff;
 	    font-size: 1.9rem;
@@ -114,8 +118,7 @@
 				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href=""></c:if>1:1 BOARD</a></li>
 				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href=""></c:if>MY BOARD</a></li>
 				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href=""></c:if>MY ADDRESS</a></li>
-				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href=""></c:if>WISH LIST<span>0</span></a></li>
-				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href=""></c:if>TODAY VIEW<span>0</span></a></li>
+				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href="${ctp}/product/wish_list"></c:if>WISH LIST</a></li>
 			</ul>
 		</div>
 	</nav>

@@ -264,7 +264,6 @@
 				}
 			}
 			
-			alert(member_cart_idx);
 			$.ajax({
 				type : "post",
 				url : "${ctp}/product/select_basket_del",
@@ -277,11 +276,14 @@
 					}
 				},
 				error : function() {
-					
+					alert("전송 오류 발생!");
 				}
 			});
 		}
-		
+		// 주문하기 버튼 클릭
+		function basket_product_order(idx, index) {
+			location.href="${ctp}/payment/payment?member_cart_idx="+idx;
+		}
 	</script>
 	<style>
 		.title_move img {
@@ -401,6 +403,11 @@
 			color: #fff;
 			background-color: #000;
 			border: 1px solid #000;
+		}
+		#white-button-css:hover, #black-button-css:hover {
+			text-decoration: none;
+			color: #888;
+			transition: 0.3s;
 		}
 		.basket_product_info {
 			font-size: 1rem;
@@ -528,7 +535,7 @@
 					</div>
 					<div class="row" style="margin: 10px 0px;">
 						<div class="col text-left"><a href="javascript:basket_product_del('${st.index}','${vo.member_cart_idx}','${vo.product_name}')" id="white-button-css">삭제</a> <a href="" id="white-button-css">관심상품</a></div>
-						<div class="col text-right"><a href="" id="black-button-css">주문하기</a></div>
+						<div class="col text-right"><a href="javascript:basket_product_order(${vo.member_cart_idx},${st.index})" id="black-button-css">주문하기</a></div>
 					</div>
 					<c:if test="${st.count == fn:length(vos)}"><p><br/></p></c:if>
 				</c:forEach>
@@ -537,6 +544,10 @@
 			<div class="row cart-product-sub" style="background-color: #ececec; color: #000;"><div class="col text-left">총 상품금액</div><div class="col text-right tot_price" id="tot_price">0원</div></div>
 			<div class="row cart-product-sub" style="background-color: #ececec; color: #000;"><div class="col text-left">총 배송비</div><div class="col text-right tot_delivery" id="tot_delivery">3,000원</div></div>
 			<div class="row cart-product-sub" style="background-color: #ececec; color: #000;"><div class="col text-left">총 적립금</div><div class="col text-right tot_point" id="tot_point">0원</div></div>
+		</div>
+		<div class="row mt-3" style="width: 75%; margin: 0 auto; padding: 0px;">
+			<div class="col" style="padding: 0px 5px 0px 0px;"><a href="javascript:select_product_order()" id="white-button-css" style="width: 100%; display: inline-block; text-align: center;">선택상품주문</a></div>
+			<div class="col" style="padding: 0px 0px 0px 5px;"><a href="javascript:all_product_order()" id="black-button-css" style="width: 100%; display: inline-block; text-align: center;">전체상품주문</a></div>
 		</div>
 	</div>
 	<p><br/><p>

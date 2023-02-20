@@ -44,9 +44,15 @@ public interface ProductService {
 	
 	public ArrayList<ProductAllVO> get_product_mini_search(int startIndexNo, int pageSize, String string);
 
-	public ArrayList<WishListVO> get_wish_list(int member_idx);
+	public ArrayList<WishListVO> get_wish_list(int member_idx, int startIndexNo, int pageSize);
 
 	public int set_wishList(int member_idx, ProductAllVO productVO, String product_size, String product_color);
+
+	public int set_wishlist_update(int product_wishlist_idx, String size, String color);
+
+	public int set_wishlist_delete(int product_wishlist_idx);
+
+	public WishListVO get_wishlist_search(int product_wishlist_idx);
 
 
 }

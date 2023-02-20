@@ -172,12 +172,27 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public ArrayList<WishListVO> get_wish_list(int member_idx) {
-		return productDAO.get_wish_list(member_idx);
+	public ArrayList<WishListVO> get_wish_list(int member_idx, int startIndexNo, int pageSize) {
+		return productDAO.get_wish_list(member_idx, startIndexNo, pageSize);
 	}
 
 	@Override
 	public int set_wishList(int member_idx, ProductAllVO productVO, String product_size, String product_color) {
 		return productDAO.set_wishList(member_idx, productVO, product_size, product_color);
+	}
+
+	@Override
+	public int set_wishlist_update(int product_wishlist_idx, String size, String color) {
+		return productDAO.get_wishlist_update(product_wishlist_idx, size, color);
+	}
+
+	@Override
+	public int set_wishlist_delete(int product_wishlist_idx) {
+		return productDAO.get_wishlist_delete(product_wishlist_idx);
+	}
+
+	@Override
+	public WishListVO get_wishlist_search(int product_wishlist_idx) {
+		return productDAO.get_wishlist_search(product_wishlist_idx);
 	}
 }

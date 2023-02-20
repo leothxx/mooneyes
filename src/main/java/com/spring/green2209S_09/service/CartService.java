@@ -3,6 +3,7 @@ package com.spring.green2209S_09.service;
 import java.util.ArrayList;
 
 import com.spring.green2209S_09.vo.CartVO;
+import com.spring.green2209S_09.vo.WishListVO;
 
 public interface CartService {
 
@@ -15,5 +16,7 @@ public interface CartService {
 	public int set_cart_update(String member_cart_idx, String size, String color);
 
 	public int set_cart_product_delete(String member_cart_idx);
+
+	public int set_cart_input(WishListVO vo, int product_vat, int product_point);
 
 }

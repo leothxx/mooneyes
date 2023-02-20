@@ -25,6 +25,9 @@ public class PageProcess {
 		else if(section.equals("product") && !part.equals("") && searchString.equals("")) {
 			totRecCnt = productDAO.totRecCnt(part,"");
 		}
+		else if(section.equals("wishList")) {
+			totRecCnt = productDAO.totRecCnt2("wishList",part);
+		}
 		
 		
 		int totPage = (totRecCnt % pageSize)==0 ? totRecCnt / pageSize : (totRecCnt / pageSize) + 1;

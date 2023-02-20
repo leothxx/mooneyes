@@ -51,9 +51,17 @@ public interface ProductDAO {
 	
 	public MiniCategoryVO get_what_mini_category(@Param("category_mini") String category_mini);
 
-	public ArrayList<WishListVO> get_wish_list(@Param("member_idx") int member_idx);
+	public ArrayList<WishListVO> get_wish_list(@Param("member_idx") int member_idx,@Param("startIndexNo") int startIndexNo,@Param("pageSize") int pageSize);
 
 	public int set_wishList(@Param("member_idx") int member_idx,@Param("productVO") ProductAllVO productVO,@Param("product_size") String product_size,@Param("product_color") String product_color);
+
+	public int get_wishlist_update(@Param("product_wishlist_idx") int product_wishlist_idx,@Param("size") String size,@Param("color") String color);
+
+	public int get_wishlist_delete(@Param("product_wishlist_idx") int product_wishlist_idx);
+
+	public WishListVO get_wishlist_search(@Param("product_wishlist_idx") int product_wishlist_idx);
+
+	public int totRecCnt2(@Param("part")String part,@Param("searchString") String searchString);
 	
 	
 }

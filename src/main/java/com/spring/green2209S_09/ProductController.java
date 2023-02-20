@@ -171,11 +171,24 @@ public class ProductController {
 	
 	// 위시 리스트 이동 폼
 	@RequestMapping(value="/wish_list",method=RequestMethod.GET)
-	public String wish_listGet(Model model, HttpSession session) {
+	public String wish_listGet(Model model, HttpSession session,
+			@RequestParam(name="pag", defaultValue="1", required = false )int pag,
+			@RequestParam(name="pageSize", defaultValue="5", required = false )int pageSize) {
+		PageVO pageVo = new PageVO();
 		String mid = session.getAttribute("sMid") == null ? "" : (String) session.getAttribute("sMid");
 		MemberVO vo = memberService.get_mooneyes_member_check(mid);
-		ArrayList<WishListVO> vos = productService.get_wish_list(vo.getMember_idx());
+		pageVo = pageProcess.totRecCnt(pag, pageSize, "wishList", vo.getMember_idx()+"", "");
+		ArrayList<WishListVO> vos = productService.get_wish_list(vo.getMember_idx(),pageVo.getStartIndexNo(),pageSize);
+		ArrayList<ProductAllVO> product_vos = new ArrayList<>();
+		if(vos != null) {
+			for(int i=0; i<vos.size(); i++) {
+				ProductAllVO product_vo = productService.get_product_search(vos.get(i).getProduct_idx()+"");
+				product_vos.add(product_vo);
+			}
+		}
 		model.addAttribute("vos",vos);
+		model.addAttribute("product_vos",product_vos);
+		model.addAttribute("pageVo",pageVo);
 		return "product/mooneyes_product_wishlist";
 	}
 	
@@ -204,4 +217,71 @@ public class ProductController {
 		return res+"";
 	}
 	
+	// 위시 리스트에서 옵션 변경 처리
+	@ResponseBody
+	@RequestMapping(value="/wishlist_opt_change", method=RequestMethod.POST)
+	public String wishlist_opt_changePost(String size, String color, int product_wishlist_idx) {
+		int res = 0;
+		res = productService.set_wishlist_update(product_wishlist_idx, size, color);
+		return res+"";
+	}
+	
+	// 위시 리스트 삭제 처리
+	@ResponseBody
+	@RequestMapping(value="/wishlist_del",method=RequestMethod.POST)
+	public String wishlist_delPost(int product_wishlist_idx) {
+		int res = 0;
+		res = productService.set_wishlist_delete(product_wishlist_idx);
+		return res+"";
+	}
+	
+	// AJAX 위시리스트에서 상품 선택 삭제
+	@Transactional
+	@ResponseBody
+	@RequestMapping(value="/select_wishlist_del",method=RequestMethod.POST)
+	public String select_wishlist_delPost(HttpSession session, String product_wishlist_idx) {
+		int res = 0;
+		
+		// 해당 위시리스트 상품 삭제
+		String idx[] = product_wishlist_idx.split("/");
+		for(int i=0; i<idx.length; i++) {
+			res = productService.set_wishlist_delete(Integer.parseInt(idx[i]));
+			if(res == 0) break;
+		}
+		
+		return res+"";
+	}
+	
+	// 위시리스트 상품을 장바구니에 담기
+	@Transactional
+	@ResponseBody
+	@RequestMapping(value="/cart_in",method=RequestMethod.POST)
+	public String cart_inPost(HttpSession session, int product_wishlist_idx) {
+		int res = 0;
+		WishListVO vo = productService.get_wishlist_search(product_wishlist_idx);
+		
+		int product_vat = 0;
+		int product_point = 0;
+		if(vo.getProduct_sale_price() == 0) {
+			product_vat = (int)(vo.getProduct_price() * 0.1);
+			product_point = (int)(vo.getProduct_price() * 0.01);
+		}
+		else {
+			product_vat = (int)(vo.getProduct_sale_price() * 0.1);
+			product_point = (int)(vo.getProduct_sale_price() * 0.01);
+		}
+		
+		res = cartService.set_cart_input(vo, product_vat, product_point);
+		if(res == 1) {
+			productService.set_wishlist_delete(product_wishlist_idx);
+		}
+		
+		// 장바구니 수량 세션에 다시 담기
+		String mid = session.getAttribute("sMid") == null ? "" : (String) session.getAttribute("sMid");
+		MemberVO member_vo = memberService.get_mooneyes_member_check(mid);
+		int basket = cartService.get_member_cart_count(vo.getMember_idx());
+		session.setAttribute("basket", basket);
+		
+		return res+"";
+	}
 }

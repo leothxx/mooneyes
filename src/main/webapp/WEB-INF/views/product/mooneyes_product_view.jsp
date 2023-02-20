@@ -536,15 +536,12 @@
  		let product_idx = ${vo.product_idx};
  		let product_size = '';
  		let product_color = '';
- 		
  		for(let i=0; i<count; i++) {
- 			product_size += $("#product_size_"+count+"").html();
+ 			product_size += document.getElementById("product_size_"+i+"").innerText;
  			product_size += "/";
- 			product_color += $("#product_color_"+count+"").html();
+ 			product_color += document.getElementById("product_color_"+i+"").innerText;
  			product_color += "/";
   		}
- 		alert(product_size);
- 		alert(product_color);
  		let query = {
  				product_idx : product_idx,
  				product_size : product_size,

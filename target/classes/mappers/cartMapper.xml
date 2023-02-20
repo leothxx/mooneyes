@@ -18,4 +18,8 @@
 	<delete id="set_cart_product_delete">
 		DELETE FROM mooneyes_member_cart WHERE member_cart_idx = #{member_cart_idx};
 	</delete>
+	
+	<insert id="set_cart_input">
+		INSERT INTO mooneyes_member_cart VALUES (DEFAULT, #{vo.member_idx},#{vo.product_idx},#{vo.product_name},#{vo.product_price},#{vo.product_sale_price},#{product_point},#{product_vat},#{vo.product_size},#{vo.product_color},1);
+	</insert>
 </mapper>

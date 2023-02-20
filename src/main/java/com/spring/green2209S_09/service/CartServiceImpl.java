@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.green2209S_09.dao.CartDAO;
 import com.spring.green2209S_09.vo.CartVO;
+import com.spring.green2209S_09.vo.WishListVO;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -36,5 +37,10 @@ public class CartServiceImpl implements CartService {
 	@Override
 	public int set_cart_product_delete(String member_cart_idx) {
 		return cartDAO.set_cart_product_delete(member_cart_idx);
+	}
+
+	@Override
+	public int set_cart_input(WishListVO vo, int product_vat, int product_point) {
+		return cartDAO.set_cart_input(vo, product_vat, product_point);
 	}
 }

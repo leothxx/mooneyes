@@ -38,10 +38,13 @@
 		SELECT * FROM mooneyes_product AS product JOIN mooneyes_product_image AS image ON product.product_idx = image.product_idx WHERE product.category_mini = #{category_mini} ORDER BY product.product_idx DESC LIMIT #{startIndexNo},#{pageSize};
 	</select>
 	<select id="totRecCnt" resultType="int">
-		<if test="part == '' and searchString == ''">SELECT count(*) FROM mooneyes_product AS product JOIN mooneyes_product_image AS image ON product.product_idx = image.product_idx;</if>
-		<if test="part != '' and part lt 10 and searchString == ''">SELECT count(*) FROM mooneyes_product AS product JOIN mooneyes_product_image AS image ON product.product_idx = image.product_idx WHERE product.category_main = #{part};</if>
-		<if test="part != '' and part gt 10 and part lt 100 and searchString == ''">SELECT count(*) FROM mooneyes_product AS product JOIN mooneyes_product_image AS image ON product.product_idx = image.product_idx WHERE product.category_sub = #{part};</if>
-		<if test="part != '' and part gt 100 and searchString == ''">SELECT count(*) FROM mooneyes_product AS product JOIN mooneyes_product_image AS image ON product.product_idx = image.product_idx WHERE product.category_mini = #{part};</if>
+		<if test='part == "" and searchString == ""'>SELECT count(*) FROM mooneyes_product AS product JOIN mooneyes_product_image AS image ON product.product_idx = image.product_idx;</if>
+		<if test='part != "" and part lt 10 and searchString == ""'>SELECT count(*) FROM mooneyes_product AS product JOIN mooneyes_product_image AS image ON product.product_idx = image.product_idx WHERE product.category_main = #{part};</if>
+		<if test='part != "" and part gt 10 and part lt 100 and searchString == ""'>SELECT count(*) FROM mooneyes_product AS product JOIN mooneyes_product_image AS image ON product.product_idx = image.product_idx WHERE product.category_sub = #{part};</if>
+		<if test='part != "" and part gt 100 and searchString == ""'>SELECT count(*) FROM mooneyes_product AS product JOIN mooneyes_product_image AS image ON product.product_idx = image.product_idx WHERE product.category_mini = #{part};</if>
+	</select>
+	<select id="totRecCnt2" resultType="int">
+		SELECT count(*) FROM mooneyes_product_wishlist WHERE member_idx = #{searchString};
 	</select>
 	<select id="get_what_main_category" resultType="com.spring.green2209S_09.vo.MainCategoryVO">
 		SELECT * FROM mooneyes_product_main_category WHERE category_main = #{category_main};
@@ -53,7 +56,10 @@
 		SELECT * FROM mooneyes_product_mini_category WHERE category_mini = #{category_mini};
 	</select>
 	<select id="get_wish_list" resultType="com.spring.green2209S_09.vo.WishListVO">
-		SELECT * FROM mooneyes_product_wishlist AS wish JOIN mooneyes_product_image AS image ON wish.product_idx = image.product_idx WHERE wish.member_idx = #{member_idx};
+		SELECT * FROM mooneyes_product_wishlist AS wish JOIN mooneyes_product_image AS image ON wish.product_idx = image.product_idx WHERE wish.member_idx = #{member_idx} ORDER BY wish.product_wishlist_idx DESC LIMIT #{startIndexNo},#{pageSize};
+	</select>
+	<select id="get_wishlist_search" resultType="com.spring.green2209S_09.vo.WishListVO">
+		SELECT * FROM mooneyes_product_wishlist WHERE product_wishlist_idx = #{product_wishlist_idx};
 	</select>
 	
 	<insert id="set_product_input">
@@ -65,4 +71,12 @@
 	<insert id="set_wishList">
 		INSERT INTO mooneyes_product_wishlist VALUES (DEFAULT,#{member_idx},#{productVO.product_idx},#{productVO.product_name},#{productVO.product_price},#{productVO.product_sale_price},#{product_size},#{product_color});
 	</insert>
+	
+	<update id="get_wishlist_update">
+		UPDATE mooneyes_product_wishlist SET product_size = #{size}, product_color = #{color} WHERE product_wishlist_idx = #{product_wishlist_idx};
+	</update>
+	
+	<delete id="get_wishlist_delete">
+		DELETE FROM mooneyes_product_wishlist WHERE product_wishlist_idx = #{product_wishlist_idx};
+	</delete>
 </mapper>
