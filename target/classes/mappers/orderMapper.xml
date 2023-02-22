@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.green2209S_09.dao.OrderDAO">
+	<insert id="set_cash_order">
+		INSERT INTO mooneyes_order VALUES (DEFAULT,#{vo.member_idx},#{inputVO.product_idx},#{inputVO.order_price},#{inputVO.order_tot_price},#{inputVO.buyer_name},#{vo.order_address},#{vo.order_phone},#{vo.order_email},#{inputVO.delivery_msg},#{inputVO.order_count},#{inputVO.order_option},#{inputVO.order_point},#{inputVO.order_tot_point},DEFAULT,#{inputVO.addr_paymethod},#{inputVO.paymethod_bank_name},#{inputVO.paymethod_bank_buyer_name},#{inputVO.cashreceipt},#{inputVO.cashreceipt1},#{vo.cashreceipt_personal_number},#{inputVO.cashreceipt_employed_number},DEFAULT,#{inputVO.delivery_price});
+	</insert>
+	<insert id="set_question">
+		INSERT INTO mooneyes_question VALUES (DEFAULT,#{member_vo.member_idx},#{member_vo.member_name},#{inputVO.question_pwd},#{title},#{inputVO.question});
+	</insert>
+	
+</mapper>

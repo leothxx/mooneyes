@@ -238,6 +238,21 @@
 	  		location.href="${ctp}/member/cart_input?product_point=${product_point}&product_vat=${product_vat}&buy_totPrice="+encodeURI(product_allPrice)+"&buy_size="+encodeURI(buy_size)+"&buy_color="+encodeURI(buy_color)+"&buy_su="+encodeURI(buy_count)+"&product_idx=${vo.product_idx}";
 	  	}
 	 	
+	 	// 구매 버튼 클릭
+	 	function buy_click() {
+	 		if(product_allPrice <= 0) {
+	  			alert("구매하실 상품을 선택해 주세요!");
+	  			return false;
+	  		}
+	  		for(let i=0; i<count; i++) {
+		  		buy_su += $("#product_su"+i).val() + "/";
+	  		}
+	  		let buy_size = tot_size.substring(0, tot_size.length-1);
+	  		let buy_color = tot_color.substring(0, tot_color.length-1);
+	  		let buy_count = buy_su.substring(0, buy_su.length-1);
+	  		alert("장바구니에 상품을 저장했습니다.\n장바구니에서 구매를 진행해주세요!");
+	  		location.href="${ctp}/member/cart_input?product_point=${product_point}&product_vat=${product_vat}&buy_totPrice="+encodeURI(product_allPrice)+"&buy_size="+encodeURI(buy_size)+"&buy_color="+encodeURI(buy_color)+"&buy_su="+encodeURI(buy_count)+"&product_idx=${vo.product_idx}";
+	 	}
 	</script>
 	<style>
 		.product-name div {

@@ -11,7 +11,7 @@ public interface CartService {
 
 	public int get_member_cart_count(int member_idx);
 
-	public CartVO get_cart_search(int member_cart_idx);
+	public CartVO get_cart_search(String member_cart_idx);
 
 	public int set_cart_update(String member_cart_idx, String size, String color);
 

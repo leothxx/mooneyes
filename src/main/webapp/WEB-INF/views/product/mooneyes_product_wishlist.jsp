@@ -144,7 +144,7 @@
 			let ans = confirm("해당 상품을 주문하시겠습니까?")
 			if(ans == false) return false;
 			let option = $("#wishlist_option_"+index+"").text();
-			if(option == null) {
+			if(option.trim() == "") {
 				alert("상품의 옵션을 선택해주세요!");
 				$("#wishlist_opt_view_"+index+"").show();
 				return false;

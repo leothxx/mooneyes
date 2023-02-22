@@ -20,5 +20,7 @@ public interface CartDAO {
 	public int set_cart_product_delete(@Param("member_cart_idx") String member_cart_idx);
 
 	public int set_cart_input(@Param("vo") WishListVO vo,@Param("product_vat") int product_vat,@Param("product_point") int product_point);
+
+	public CartVO get_cart_search(String member_cart_idx);
 	
 }

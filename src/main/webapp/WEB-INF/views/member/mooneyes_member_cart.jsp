@@ -10,281 +10,6 @@
 	<title>mooneyes_member_cart.jsp</title>
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp"></jsp:include>
 	<script type="text/javascript" src="${ctp}/js/menu.js"></script>
-	<script>
-		'use strict';
-		let select_cnt = 0;
-		$(function(){
-			$("#cart").addClass("show");
-			$(".product_opt_view").hide();
-		});
-		
-		// 상품 수량을 - 했을 시
-		function count_down(index, price, sale_price) {
-			if($("#basket_chk_id_"+index+"").is(":checked") == true) {
-				$("#basket_chk_id_"+index+"").prop("checked",false);
-				basket_chk(index);
-			}
-			
-			let count = document.getElementById("basket_product_count_"+index+"").value;
-			let product_price = document.getElementById("product_price_"+index+"").innerText;
-			let product_sale_price = document.getElementById("product_sale_price_"+index+"").innerText;
-			let product_point = document.getElementById("product_point_"+index+"").innerText;
-			product_sale_price = product_price.replaceAll(',','');
-			product_price = product_price.replaceAll(',','');
-			product_point = product_point.replaceAll(',','').replace('원','');
-			
-			if(count <= 1) {
-				alert("최소 구매 수량은 1개입니다.");
-				return false;
-			}
-			
-			count --;
-			document.getElementById("basket_product_count_"+index+"").value = count;
-			
-			if(product_sale_price != '0') {
-				sale_price = (sale_price * count).toLocaleString('ko-KR');
-				document.getElementById("product_sale_price_"+index+"").innerText = sale_price;
-			}
-			
-			product_price = (price * count).toLocaleString('ko-KR');
-			product_point = ((price * count) * 0.01).toLocaleString('ko-KR');
-			document.getElementById("product_price_"+index+"").innerHTML = product_price;
-			document.getElementById("product_point_"+index+"").innerHTML = product_point+"원";
-			
-			if($("#basket_chk_id_"+index+"").is(":checked") == true) {
-				basket_chk(index);	
-			}
-		}
-		
-		// 상품 수량을 + 했을 시
-		function count_up(index, price, sale_price) {
-			if($("#basket_chk_id_"+index+"").is(":checked") == true) {
-				$("#basket_chk_id_"+index+"").prop("checked",false);
-				basket_chk(index);
-			}
-			
-			let count = document.getElementById("basket_product_count_"+index+"").value;
-			let product_price = document.getElementById("product_price_"+index+"").innerText;
-			let product_sale_price = document.getElementById("product_sale_price_"+index+"").innerText;
-			let product_point = document.getElementById("product_point_"+index+"").innerText;
-			product_sale_price = product_price.replaceAll(',','');
-			product_price = product_price.replaceAll(',','');
-			product_point = product_point.replaceAll(',','').replace('원','');
-			
-			count ++;
-			document.getElementById("basket_product_count_"+index+"").value = count;
-			
-			if(product_sale_price != '0') {
-				sale_price = (sale_price * count).toLocaleString('ko-KR');
-				document.getElementById("product_sale_price_"+index+"").innerText = sale_price;
-			}
-			
-			product_price = (price * count).toLocaleString('ko-KR');
-			product_point = ((price * count) * 0.01).toLocaleString('ko-KR');
-			document.getElementById("product_price_"+index+"").innerHTML = product_price;
-			document.getElementById("product_point_"+index+"").innerHTML = product_point+"원";
-		}
-		
-		// 체크박스 선택시
-		function basket_chk(index) {
-			let product_price = document.getElementById("product_price_"+index+"").innerText;
-			let product_sale_price = document.getElementById("product_sale_price_"+index+"").innerText;
-			let product_point = document.getElementById("product_point_"+index+"").innerText;
-			product_sale_price = product_sale_price.replaceAll(',','');
-			product_price = product_price.replaceAll(',','');
-			product_point = product_point.replaceAll(',','').replace('원','');
-			
-			let tot_buy_price = document.getElementById("tot_buy_price").innerText.replace('원','').replaceAll(',','');
-			let tot_price = document.getElementById("tot_price").innerText.replace('원','').replaceAll(',','');
-			let tot_delivery = document.getElementById("tot_delivery").innerText.replace('원','').replaceAll(',','');
-			let tot_point = document.getElementById("tot_point").innerText.replace('원','').replaceAll(',','');
-			
-			
-			if($("#basket_chk_id_"+index+"").is(":checked") == true) {
-				let price = Number(product_price - product_sale_price);
-				let final_buy_price = Number(tot_buy_price) + price;
-				let final_price = Number(tot_price) + price;
-				let final_point = Number(tot_point) + Number(product_point);
-				document.getElementById("tot_buy_price").innerText = final_buy_price.toLocaleString('ko-KR')+'원';
-				document.getElementById("tot_price").innerText = final_price.toLocaleString('ko-KR')+'원';
-				document.getElementById("tot_point").innerText = final_point.toLocaleString('ko-KR')+'원';
-				if(Number(tot_price + price) < 50000) {
-					document.getElementById("tot_delivery").innerText = '3,000원';
-				}
-				else {
-					document.getElementById("tot_delivery").innerText = '0원';
-				}
-			}
-			
-			else if($("#basket_chk_id_"+index+"").is(":checked") == false) {
-				let price = Number(product_price) - Number(product_sale_price);
-				let final_buy_price = Number(tot_buy_price) - Number(price);
-				let final_price = Number(tot_price) - Number(price);
-				let final_point = Number(tot_point) - Number(product_point);
-				document.getElementById("tot_buy_price").innerText = final_buy_price.toLocaleString('ko-KR')+'원';
-				document.getElementById("tot_price").innerText = final_price.toLocaleString('ko-KR')+'원';
-				document.getElementById("tot_point").innerText = final_point.toLocaleString('ko-KR')+'원';
-				if((tot_price - price) < 50000) {
-					document.getElementById("tot_delivery").innerText = '3,000원';
-				}
-				else {
-					document.getElementById("tot_delivery").innerText = '0원';
-				}
-				
-			}
-		}
-		
-		// 결제 금액 초기화 메소드
-		function money_reset() {
-			document.getElementById("tot_buy_price").innerText = '0원';
-			document.getElementById("tot_price").innerText = '0원';
-			document.getElementById("tot_delivery").innerText = '3,000원';
-			document.getElementById("tot_point").innerText = '0원';
-		}
-		// 결제 금액 재계산 메소드
-		function money_count(index) {
-			let product_price_total = 0;
-			let product_point_total = 0;
-			
-			for(let i=0; i<index; i++) {
-				let product_price = document.getElementById("product_price_"+i+"").innerText;
-				let product_sale_price = document.getElementById("product_sale_price_"+i+"").innerText;
-				let product_point = document.getElementById("product_point_"+i+"").innerText;
-				product_sale_price = product_sale_price.replaceAll(',','').replace('원','');
-				product_price = product_price.replaceAll(',','').replace('원','');
-				product_point = product_point.replaceAll(',','').replace('원','');
-				
-				product_price_total += Number(product_price) - Number(product_sale_price);
-				product_point_total += Number(product_point);
-				
-				
-				if(product_price_total < 50000) {
-					document.getElementById("tot_delivery").innerText = '3,000원';
-				}
-				else {
-					document.getElementById("tot_delivery").innerText = '0원';
-				}
-				document.getElementById("tot_buy_price").innerText = product_price_total.toLocaleString('ko-KR')+'원';
-				document.getElementById("tot_price").innerText = product_price_total.toLocaleString('ko-KR')+'원';
-				document.getElementById("tot_point").innerText = product_point_total.toLocaleString('ko-KR')+'원';
-			}
-		}
-		
-		// 상품 전체 선택 클릭시
-		function all_chk(size) {
-			if(select_cnt == 0) {
-				for(let i=0; i<size; i++) {
-					$("#basket_chk_id_"+i+"").prop('checked',true);
-					money_count(size);
-				}
-				select_cnt = 1;
-			}
-			else if(select_cnt == 1) {
-				for(let i=0; i<size; i++) {
-					$("#basket_chk_id_"+i+"").prop('checked',false);
-					money_reset();
-				}
-				select_cnt = 0;
-			}
-		}
-		
-		// 상품 옵션변경 선택시
-		function opt_open(index, idx) {
-			$("#product_opt_view_"+index+"").show();
-		}
-		
-		// 상품 옵션 변경 취소
-		function opt_close(index) {
-			$("#product_opt_view_"+index+"").hide();
-		}
-		
-		// 상품 옵션 변경
-		function opt_change(index, member_cart_idx) {
-			let size = $("#product_opt_size_"+index+"").val();
-			let color = $("#product_opt_color_"+index+"").val();
-			
-			let query = {
-					size : size,
-					color: color,
-					member_cart_idx : member_cart_idx
-			};
-			
-			$.ajax({
-				type: "post",
-				url : "${ctp}/product/cart_opt_change",
-				data : query,
-				success : function(res) {
-					if(res == 1) {
-						alert("상품의 옵션이 변경되었습니다.");
-						$("#colorANDsize_"+index+"").load(location.href+' #colorANDsize_'+index+'');
-					}
-					else alert("상품 옵션 변경 중 에러가 발생하였습니다.\n다시 시도해 주세요!");
-				},
-				error : function() {
-					alert("전송 오류!");
-				}
-			});
-		}
-		
-		// 상품 삭제 버튼 클릭시
-		function basket_product_del(index, member_cart_idx, product_name) {
-			let res = confirm(product_name+"\n상품을 삭제하시겠습니까??");
-			if(res == false) {
-				return false;
-			}
-			
-			$.ajax({
-				type: "post",
-				url : "${ctp}/product/cart_product_delete",
-				data : {member_cart_idx : member_cart_idx},
-				success : function(res) {
-					if(res == 1) {
-						alert("상품이 삭제되었습니다.");
-						location.reload();
-					}
-					else alert("상품 삭제 중 에러가 발생하였습니다.\n다시 시도해 주세요!");
-				},
-				error : function() {
-					alert("전송 오류!");
-				}
-			});
-		}
-		
-		// 선택 삭제 클릭시
-		function del_chk(size) {
-			let ans = confirm("선택된 상품을 삭제하시겠습니까?");
-			if(ans == false) {
-				return false;
-			}
-			
-			let member_cart_idx = '';
-			for(let i=0; i<size; i++) {
-				if($("#basket_chk_id_"+i+"").is(":checked") == true) {
-					member_cart_idx += $("#member_cart_idx_"+i+"").val() + "/";
-				}
-			}
-			
-			$.ajax({
-				type : "post",
-				url : "${ctp}/product/select_basket_del",
-				data : {member_cart_idx : member_cart_idx},
-				success : function(res) {
-					if(res == 0) alert("상품 삭제 중 에러가 발생하였습니다.");
-					else {
-						alert("상품이 정상적으로 삭제되었습니다.");
-						location.reload();
-					}
-				},
-				error : function() {
-					alert("전송 오류 발생!");
-				}
-			});
-		}
-		// 주문하기 버튼 클릭
-		function basket_product_order(idx, index) {
-			location.href="${ctp}/payment/payment?member_cart_idx="+idx;
-		}
-	</script>
 	<style>
 		.title_move img {
 			position: relative;
@@ -494,7 +219,8 @@
 						</div>
 					</div>
 					<div class="row mb-3 pt-3" style="margin: 10px 0px; font-weight: 700; font-size: 0.9rem;">
-						<div class="col text-left" id="colorANDsize_${st.index}">컬러 : ${vo.product_color} , 사이즈 : ${vo.product_size}</div>
+						<c:if test="${vo.product_color == '' || vo.product_size == ''}"><div class="col text-left" id="colorANDsize_${st.index}">해당 상품의 컬러 및 사이즈를 선택하세요!</div></c:if>
+						<c:if test="${vo.product_color != '' && vo.product_size != ''}"><div class="col text-left" id="colorANDsize_${st.index}">컬러 : ${vo.product_color} , 사이즈 : ${vo.product_size}</div></c:if>
 						<div class="col text-right"><a href="javascript:opt_open(${st.index},${vo.member_cart_idx})" id="product_option_change">옵션변경</a></div>
 					</div>
 					<div class="row product_opt_view" id="product_opt_view_${st.index}">
@@ -546,12 +272,333 @@
 			<div class="row cart-product-sub" style="background-color: #ececec; color: #000;"><div class="col text-left">총 적립금</div><div class="col text-right tot_point" id="tot_point">0원</div></div>
 		</div>
 		<div class="row mt-3" style="width: 75%; margin: 0 auto; padding: 0px;">
-			<div class="col" style="padding: 0px 5px 0px 0px;"><a href="javascript:select_product_order()" id="white-button-css" style="width: 100%; display: inline-block; text-align: center;">선택상품주문</a></div>
-			<div class="col" style="padding: 0px 0px 0px 5px;"><a href="javascript:all_product_order()" id="black-button-css" style="width: 100%; display: inline-block; text-align: center;">전체상품주문</a></div>
+			<div class="col" style="padding: 0px 5px 0px 0px;"><a href="javascript:select_product_order(${fn:length(vos)})" id="white-button-css" style="width: 100%; display: inline-block; text-align: center;">선택상품주문</a></div>
+			<div class="col" style="padding: 0px 0px 0px 5px;"><a href="javascript:all_product_order(${fn:length(vos)})" id="black-button-css" style="width: 100%; display: inline-block; text-align: center;">전체상품주문</a></div>
 		</div>
 	</div>
 	<p><br/><p>
 	<!-- 푸터 -->
 	<jsp:include page="/WEB-INF/views/include/footer.jsp"/>
 </body>
+<script>
+	'use strict';
+	let select_cnt = 0;
+	$(function(){
+		$("#cart").addClass("show");
+		$(".product_opt_view").hide();
+	});
+	
+	// 상품 수량을 - 했을 시
+	function count_down(index, price, sale_price) {
+		if($("#basket_chk_id_"+index+"").is(":checked") == true) {
+			$("#basket_chk_id_"+index+"").prop("checked",false);
+			basket_chk(index);
+		}
+		
+		let count = document.getElementById("basket_product_count_"+index+"").value;
+		let product_price = document.getElementById("product_price_"+index+"").innerText;
+		let product_sale_price = document.getElementById("product_sale_price_"+index+"").innerText;
+		let product_point = document.getElementById("product_point_"+index+"").innerText;
+		product_sale_price = product_price.replaceAll(',','');
+		product_price = product_price.replaceAll(',','');
+		product_point = product_point.replaceAll(',','').replace('원','');
+		
+		if(count <= 1) {
+			alert("최소 구매 수량은 1개입니다.");
+			return false;
+		}
+		
+		count --;
+		document.getElementById("basket_product_count_"+index+"").value = count;
+		
+		if(product_sale_price != '0') {
+			sale_price = (sale_price * count).toLocaleString('ko-KR');
+			document.getElementById("product_sale_price_"+index+"").innerText = sale_price;
+		}
+		
+		product_price = (price * count).toLocaleString('ko-KR');
+		product_point = ((price * count) * 0.01).toLocaleString('ko-KR');
+		document.getElementById("product_price_"+index+"").innerHTML = product_price;
+		document.getElementById("product_point_"+index+"").innerHTML = product_point+"원";
+		
+		if($("#basket_chk_id_"+index+"").is(":checked") == true) {
+			basket_chk(index);	
+		}
+	}
+	
+	// 상품 수량을 + 했을 시
+	function count_up(index, price, sale_price) {
+		if($("#basket_chk_id_"+index+"").is(":checked") == true) {
+			$("#basket_chk_id_"+index+"").prop("checked",false);
+			basket_chk(index);
+		}
+		
+		let count = document.getElementById("basket_product_count_"+index+"").value;
+		let product_price = document.getElementById("product_price_"+index+"").innerText;
+		let product_sale_price = document.getElementById("product_sale_price_"+index+"").innerText;
+		let product_point = document.getElementById("product_point_"+index+"").innerText;
+		product_sale_price = product_price.replaceAll(',','');
+		product_price = product_price.replaceAll(',','');
+		product_point = product_point.replaceAll(',','').replace('원','');
+		
+		count ++;
+		document.getElementById("basket_product_count_"+index+"").value = count;
+		
+		if(product_sale_price != '0') {
+			sale_price = (sale_price * count).toLocaleString('ko-KR');
+			document.getElementById("product_sale_price_"+index+"").innerText = sale_price;
+		}
+		
+		product_price = (price * count).toLocaleString('ko-KR');
+		product_point = ((price * count) * 0.01).toLocaleString('ko-KR');
+		document.getElementById("product_price_"+index+"").innerHTML = product_price;
+		document.getElementById("product_point_"+index+"").innerHTML = product_point+"원";
+	}
+	
+	// 체크박스 선택시
+	function basket_chk(index) {
+		let product_price = document.getElementById("product_price_"+index+"").innerText;
+		let product_sale_price = document.getElementById("product_sale_price_"+index+"").innerText;
+		let product_point = document.getElementById("product_point_"+index+"").innerText;
+		product_sale_price = product_sale_price.replaceAll(',','');
+		product_price = product_price.replaceAll(',','');
+		product_point = product_point.replaceAll(',','').replace('원','');
+		
+		let tot_buy_price = document.getElementById("tot_buy_price").innerText.replace('원','').replaceAll(',','');
+		let tot_price = document.getElementById("tot_price").innerText.replace('원','').replaceAll(',','');
+		let tot_delivery = document.getElementById("tot_delivery").innerText.replace('원','').replaceAll(',','');
+		let tot_point = document.getElementById("tot_point").innerText.replace('원','').replaceAll(',','');
+		
+		
+		if($("#basket_chk_id_"+index+"").is(":checked") == true) {
+			let price = Number(product_price - product_sale_price);
+			let final_buy_price = Number(tot_buy_price) + price;
+			let final_price = Number(tot_price) + price;
+			let final_point = Number(tot_point) + Number(product_point);
+			document.getElementById("tot_buy_price").innerText = final_buy_price.toLocaleString('ko-KR')+'원';
+			document.getElementById("tot_price").innerText = final_price.toLocaleString('ko-KR')+'원';
+			document.getElementById("tot_point").innerText = final_point.toLocaleString('ko-KR')+'원';
+			if(Number(tot_price + price) < 50000) {
+				document.getElementById("tot_delivery").innerText = '3,000원';
+			}
+			else {
+				document.getElementById("tot_delivery").innerText = '0원';
+			}
+		}
+		
+		else if($("#basket_chk_id_"+index+"").is(":checked") == false) {
+			let price = Number(product_price) - Number(product_sale_price);
+			let final_buy_price = Number(tot_buy_price) - Number(price);
+			let final_price = Number(tot_price) - Number(price);
+			let final_point = Number(tot_point) - Number(product_point);
+			document.getElementById("tot_buy_price").innerText = final_buy_price.toLocaleString('ko-KR')+'원';
+			document.getElementById("tot_price").innerText = final_price.toLocaleString('ko-KR')+'원';
+			document.getElementById("tot_point").innerText = final_point.toLocaleString('ko-KR')+'원';
+			if((tot_price - price) < 50000) {
+				document.getElementById("tot_delivery").innerText = '3,000원';
+			}
+			else {
+				document.getElementById("tot_delivery").innerText = '0원';
+			}
+			
+		}
+	}
+	
+	// 결제 금액 초기화 메소드
+	function money_reset() {
+		document.getElementById("tot_buy_price").innerText = '0원';
+		document.getElementById("tot_price").innerText = '0원';
+		document.getElementById("tot_delivery").innerText = '3,000원';
+		document.getElementById("tot_point").innerText = '0원';
+	}
+	// 결제 금액 재계산 메소드
+	function money_count(index) {
+		let product_price_total = 0;
+		let product_point_total = 0;
+		
+		for(let i=0; i<index; i++) {
+			let product_price = document.getElementById("product_price_"+i+"").innerText;
+			let product_sale_price = document.getElementById("product_sale_price_"+i+"").innerText;
+			let product_point = document.getElementById("product_point_"+i+"").innerText;
+			product_sale_price = product_sale_price.replaceAll(',','').replace('원','');
+			product_price = product_price.replaceAll(',','').replace('원','');
+			product_point = product_point.replaceAll(',','').replace('원','');
+			
+			product_price_total += Number(product_price) - Number(product_sale_price);
+			product_point_total += Number(product_point);
+			
+			
+			if(product_price_total < 50000) {
+				document.getElementById("tot_delivery").innerText = '3,000원';
+			}
+			else {
+				document.getElementById("tot_delivery").innerText = '0원';
+			}
+			document.getElementById("tot_buy_price").innerText = product_price_total.toLocaleString('ko-KR')+'원';
+			document.getElementById("tot_price").innerText = product_price_total.toLocaleString('ko-KR')+'원';
+			document.getElementById("tot_point").innerText = product_point_total.toLocaleString('ko-KR')+'원';
+		}
+	}
+	
+	// 상품 전체 선택 클릭시
+	function all_chk(size) {
+		if(select_cnt == 0) {
+			for(let i=0; i<size; i++) {
+				$("#basket_chk_id_"+i+"").prop('checked',true);
+				money_count(size);
+			}
+			select_cnt = 1;
+		}
+		else if(select_cnt == 1) {
+			for(let i=0; i<size; i++) {
+				$("#basket_chk_id_"+i+"").prop('checked',false);
+				money_reset();
+			}
+			select_cnt = 0;
+		}
+	}
+	
+	// 상품 옵션변경 선택시
+	function opt_open(index, idx) {
+		$("#product_opt_view_"+index+"").show();
+	}
+	
+	// 상품 옵션 변경 취소
+	function opt_close(index) {
+		$("#product_opt_view_"+index+"").hide();
+	}
+	
+	// 상품 옵션 변경
+	function opt_change(index, member_cart_idx) {
+		let size = $("#product_opt_size_"+index+"").val();
+		let color = $("#product_opt_color_"+index+"").val();
+		
+		let query = {
+				size : size,
+				color: color,
+				member_cart_idx : member_cart_idx
+		};
+		
+		$.ajax({
+			type: "post",
+			url : "${ctp}/product/cart_opt_change",
+			data : query,
+			success : function(res) {
+				if(res == 1) {
+					alert("상품의 옵션이 변경되었습니다.");
+					$("#colorANDsize_"+index+"").load(location.href+' #colorANDsize_'+index+'');
+				}
+				else alert("상품 옵션 변경 중 에러가 발생하였습니다.\n다시 시도해 주세요!");
+			},
+			error : function() {
+				alert("전송 오류!");
+			}
+		});
+	}
+	
+	// 상품 삭제 버튼 클릭시
+	function basket_product_del(index, member_cart_idx, product_name) {
+		let res = confirm(product_name+"\n상품을 삭제하시겠습니까??");
+		if(res == false) {
+			return false;
+		}
+		
+		$.ajax({
+			type: "post",
+			url : "${ctp}/product/cart_product_delete",
+			data : {member_cart_idx : member_cart_idx},
+			success : function(res) {
+				if(res == 1) {
+					alert("상품이 삭제되었습니다.");
+					location.reload();
+				}
+				else alert("상품 삭제 중 에러가 발생하였습니다.\n다시 시도해 주세요!");
+			},
+			error : function() {
+				alert("전송 오류!");
+			}
+		});
+	}
+	
+	// 선택 삭제 클릭시
+	function del_chk(size) {
+		let ans = confirm("선택된 상품을 삭제하시겠습니까?");
+		if(ans == false) {
+			return false;
+		}
+		
+		let member_cart_idx = '';
+		for(let i=0; i<size; i++) {
+			if($("#basket_chk_id_"+i+"").is(":checked") == true) {
+				member_cart_idx += $("#member_cart_idx_"+i+"").val() + "/";
+			}
+		}
+		
+		$.ajax({
+			type : "post",
+			url : "${ctp}/product/select_basket_del",
+			data : {member_cart_idx : member_cart_idx},
+			success : function(res) {
+				if(res == 0) alert("상품 삭제 중 에러가 발생하였습니다.");
+				else {
+					alert("상품이 정상적으로 삭제되었습니다.");
+					location.reload();
+				}
+			},
+			error : function() {
+				alert("전송 오류 발생!");
+			}
+		});
+	}
+	// 주문하기 버튼 클릭
+	function basket_product_order(idx, index) {
+		let option = $("#colorANDsize_"+index).text();
+		if(option == "해당 상품의 컬러 및 사이즈를 선택하세요!") {
+			alert("주문하시려는 상품의 컬러 및 사이즈가 선택되지 않았습니다.\n선택 후 다시 주문해주세요.");
+			$("#product_opt_view_"+index).show();
+			return false;
+		}
+		location.href="${ctp}/payment/payment?member_cart_idx="+idx+"/";
+	}
+	
+	// 선택상품주문하기 버튼 클릭
+	function select_product_order(size) {
+		let member_cart_idx = '';
+		for(let i=0; i<size; i++) {
+			if($("#basket_chk_id_"+i+"").is(":checked") == true) {
+				member_cart_idx += $("#member_cart_idx_"+i+"").val() + "/";
+				let option = $("#colorANDsize_"+i).text();
+				if(option == "해당 상품의 컬러 및 사이즈를 선택하세요!") {
+					alert("주문하시려는 상품중 컬러 및 사이즈가 선택되지 않은 제품이 존재합니다.\n선택 후 다시 주문해주세요.");
+					$("#product_opt_view_"+i).show();
+					return false;
+				}
+			}
+		}
+		if(member_cart_idx == '') {
+			alert("구매하실 상품을 선택해주세요!");
+			return false;
+		}
+		location.href="${ctp}/payment/payment?member_cart_idx="+member_cart_idx;
+	}
+	
+	// 전체상품주문하기 버튼 클릭
+	function all_product_order(size) {
+		let member_cart_idx = '';
+		for(let i=0; i<size; i++) {
+			$("#basket_chk_id_"+i+"").prop('checked',true);
+			if($("#basket_chk_id_"+i+"").is(":checked") == true) {
+				member_cart_idx += $("#member_cart_idx_"+i+"").val() + "/";
+				let option = $("#colorANDsize_"+i).text();
+				if(option == "해당 상품의 컬러 및 사이즈를 선택하세요!") {
+					alert("주문하시려는 상품중 컬러 및 사이즈가 선택되지 않은 제품이 존재합니다.\n선택 후 다시 주문해주세요.");
+					$("#product_opt_view_"+i).show();
+					return false;
+				}
+			}
+			money_count(size);
+		}
+		location.href="${ctp}/payment/payment?member_cart_idx="+member_cart_idx;
+	}
+</script>
 </html>

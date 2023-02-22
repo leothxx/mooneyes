@@ -25,7 +25,7 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public CartVO get_cart_search(int member_cart_idx) {
+	public CartVO get_cart_search(String member_cart_idx) {
 		return cartDAO.get_cart_search(member_cart_idx);
 	}
 
