@@ -94,6 +94,14 @@ public class MessageController {
 			model.addAttribute("msg", "배송지 수정중 에러가 발생하였습니다.<br/>다시 시도해주세요.");
 			model.addAttribute("url", "member/address");
 		}
+		else if(msgFlag.equals("service_input_ok")) {
+			model.addAttribute("msg", "문의내용이 등록되었습니다!");
+			model.addAttribute("url", "service/service");
+		}
+		else if(msgFlag.equals("service_input_no")) {
+			model.addAttribute("msg", "문의내용이 등록에 실패하였습니다!<br>다시 시도해주세요.");
+			model.addAttribute("url", "service/service_input");
+		}
 		
 		return "include/message";
 	}

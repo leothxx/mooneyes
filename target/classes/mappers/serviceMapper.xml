@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.green2209S_09.dao.ServiceDAO">
+	<select id="get_mooneyes_service_search" resultType="com.spring.green2209S_09.vo.ServiceVO">
+		SELECT * FROM mooneyes_service ORDER BY service_idx DESC;
+	</select>
+	<select id="get_mooneyes_service_view" resultType="com.spring.green2209S_09.vo.ServiceVO">
+		SELECT * FROM mooneyes_service WHERE service_idx = #{service_idx};
+	</select>
+	<insert id="set_mooneyes_service_input">
+		INSERT INTO mooneyes_service VALUES (DEFAULT,#{vo.member_idx},#{vo.member_name},#{vo.service_title},#{vo.service_content},#{vo.service_category},#{vo.service_pwd},DEFAULT,#{vo.service_ip},DEFAULT);
+	</insert>
+</mapper>

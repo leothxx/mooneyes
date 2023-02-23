@@ -127,7 +127,7 @@
 		</div>
 		<div class="row myshop_main">
 			<div class="col myshop_sub"><a href="${ctp}/"><img src="${ctp}/images/point.png" /><br/><strong>MILEAGE</strong><br/>POINT</a></div>
-			<div class="col myshop_sub"><a href="${ctp}/"><img src="${ctp}/images/headphone.png" /><br/><strong>CONSULT</strong><br/>1:1 맞춤상담</a></div>
+			<div class="col myshop_sub"><a href="${ctp}/service/service"><img src="${ctp}/images/headphone.png" /><br/><strong>CONSULT</strong><br/>고객센터</a></div>
 			<div class="col myshop_sub"><a href="${ctp}/"><img src="${ctp}/images/coupons.png" /><br/><strong>COUPON</strong><br/>쿠폰</a></div>
 			<div class="col myshop_sub" style="border: 0px;"><a href="${ctp}/"><img src="${ctp}/images/board.png" /><br/><strong>BOARD</strong><br/>게시물 관리</a></div>
 		</div>
