@@ -78,6 +78,22 @@ public class MessageController {
 			model.addAttribute("msg", "장바구니에 상품을 담으셨습니다.");
 			model.addAttribute("url", "product/product_view?product_idx="+mid);
 		}
+		else if(msgFlag.equals("member_address_inputOk")) {
+			model.addAttribute("msg", "배송지 주소록이 저장되었습니다.");
+			model.addAttribute("url", "member/address_input");
+		}
+		else if(msgFlag.equals("member_address_inputNo")) {
+			model.addAttribute("msg", "배송지 주소록 저장중 에러가 발생하였습니다.<br/>다시 시도해주세요.");
+			model.addAttribute("url", "member/address_input");
+		}
+		else if(msgFlag.equals("address_update_ok")) {
+			model.addAttribute("msg", "배송지가 수정되었습니다!");
+			model.addAttribute("url", "member/address");
+		}
+		else if(msgFlag.equals("address_update_no")) {
+			model.addAttribute("msg", "배송지 수정중 에러가 발생하였습니다.<br/>다시 시도해주세요.");
+			model.addAttribute("url", "member/address");
+		}
 		
 		return "include/message";
 	}

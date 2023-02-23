@@ -487,6 +487,7 @@
 				if(res == 1) {
 					alert("상품의 옵션이 변경되었습니다.");
 					$("#colorANDsize_"+index+"").load(location.href+' #colorANDsize_'+index+'');
+					$("#product_opt_view_"+index+"").hide();
 				}
 				else alert("상품 옵션 변경 중 에러가 발생하였습니다.\n다시 시도해 주세요!");
 			},
@@ -522,6 +523,17 @@
 	
 	// 선택 삭제 클릭시
 	function del_chk(size) {
+		let checked = 0;
+		for(let i=0; i<size; i++) {
+			if($("#basket_chk_id_"+i+"").is(":checked") == true) {
+				checked = 1;
+			}
+		}
+		if(checked == 0) {
+			alert("선택된 상품이 존재하지 않습니다.");
+			return false;
+		}
+		
 		let ans = confirm("선택된 상품을 삭제하시겠습니까?");
 		if(ans == false) {
 			return false;

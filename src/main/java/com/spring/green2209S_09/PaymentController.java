@@ -113,6 +113,9 @@ public class PaymentController {
 			model.addAttribute("product_name",product_vo.getProduct_name());
 			model.addAttribute("inputVO",inputVO);
 			model.addAttribute("order_count",order_count);
+			
+			// 포인트 사용액만큼 포인트 차감
+			memberService.set_member_point_update(member_vo.getMember_idx(), inputVO.getOrder_point());
 			return "payment/cashView";
 		}
 		// 신용카드 결제시
@@ -158,7 +161,7 @@ public class PaymentController {
 		
 		// 주문 DB에 주문내역 저장.
 		int res = 0;
-		res = orderService.set_cash_order(order_vo, inputVO);
+		res = orderService.set_card_order(order_vo, inputVO);
 		// 문의사항 내용이 있을시 문의 내용을 저장.
 		if(!inputVO.getQuestion().equals("") && !inputVO.getQuestion_pwd().equals("")) {
 			orderService.set_question(member_vo, inputVO, inputVO.getQuestion().substring(0,10));
@@ -176,12 +179,10 @@ public class PaymentController {
 		model.addAttribute("vo", vo);
 		session.removeAttribute("sPayMentVO");
 		session.removeAttribute("inputVO");
+		
+		// 포인트 사용액만큼 포인트 차감
+		memberService.set_member_point_update(member_vo.getMember_idx(), inputVO.getOrder_point());
 		return "payment/cardView";
 	}
 	
-	// 주문완료폼
-	@RequestMapping(value = "/cashView", method= RequestMethod.GET)
-	public String cashViewGet() {
-		return "payment/cashView";
-	}
 }

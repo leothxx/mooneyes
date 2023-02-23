@@ -64,7 +64,7 @@ public class ProductController {
 			@RequestParam(name="category_sub", defaultValue="0", required = false)int category_sub,
 			@RequestParam(name="category_mini", defaultValue="0", required = false)int category_mini,
 			@RequestParam(name="pag", defaultValue="1", required = false )int pag,
-			@RequestParam(name="pageSize", defaultValue="10", required = false )int pageSize) {
+			@RequestParam(name="pageSize", defaultValue="20", required = false )int pageSize) {
 		ArrayList<ProductAllVO> vos = new ArrayList<ProductAllVO>();
 		PageVO pageVo = new PageVO();
 		

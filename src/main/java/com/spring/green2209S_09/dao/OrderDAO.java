@@ -11,5 +11,7 @@ public interface OrderDAO {
 	public int set_cash_order(@Param("vo") OrderVO vo,@Param("inputVO") Payment_inputVO inputVO);
 
 	public void set_question(@Param("member_vo") MemberVO member_vo,@Param("inputVO") Payment_inputVO inputVO,@Param("title") String title);
+
+	public int set_card_order(@Param("vo") OrderVO order_vo, @Param("inputVO") Payment_inputVO inputVO);
 	
 }

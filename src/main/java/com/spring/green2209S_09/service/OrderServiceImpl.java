@@ -22,4 +22,9 @@ public class OrderServiceImpl implements OrderService {
 	public void set_question(MemberVO member_vo, Payment_inputVO inputVO, String title) {
 		orderDAO.set_question(member_vo,inputVO,title);
 	}
+
+	@Override
+	public int set_card_order(OrderVO order_vo, Payment_inputVO inputVO) {
+		return orderDAO.set_card_order(order_vo, inputVO);
+	}
 }

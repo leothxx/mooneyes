@@ -45,12 +45,26 @@
             });
         //}
     </script>
+    <style>
+    	div .title_move img {
+			position: relative;
+			-webkit-animation: myfirst 0.7s linear 1s infinite alternate;
+			animation: myfirst 0.7s linear 1s infinite alternate;
+		}
+		@-webkit-keyframes myfirst {
+			0% {opacity: 1.0; top: 15px;}
+			100% {opacity: 1.0; top: 0px;}
+		}
+		@keyframes myfirst {
+			0% {opacity: 1.0; top: 15px;}
+			100% {opacity: 1.0; top: 0px;}
+		}
+    </style>
     <meta charset="UTF-8">
     <title>Sample Payment</title>
 </head>
 <body>
-    <p>
-    	결제중입니다.
-    </p>
+	<div class="logo_img mb-4 title_move" style="text-align: center;"><img src="${ctp}/images/logo.png" style="width: 8vw;"/></div>
+	<div class="row" style="margin: 0 auto;"><div class="col text-center">결제중입니다...</div></div>
 </body>
 </html>

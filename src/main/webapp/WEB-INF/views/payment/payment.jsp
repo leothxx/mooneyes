@@ -394,7 +394,7 @@
 									</c:if>
 								</span>
 							</div>
-							<div class="col-1"><a href="javascript:order_view_product_delete(${st.index})" class="product_delete_btn_css">X</a></div>
+							<%-- <div class="col-1"><a href="javascript:order_view_product_delete(${st.index})" class="product_delete_btn_css">X</a></div> --%>
 						</div>
 					</c:forEach>
 				</div>

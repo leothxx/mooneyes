@@ -17,6 +17,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.spring.green2209S_09.service.CartService;
 import com.spring.green2209S_09.service.MemberService;
 import com.spring.green2209S_09.service.ProductService;
+import com.spring.green2209S_09.vo.AddressVO;
 import com.spring.green2209S_09.vo.CartVO;
 import com.spring.green2209S_09.vo.MemberVO;
 import com.spring.green2209S_09.vo.ProductAllVO;
@@ -385,12 +387,26 @@ public class MemberController {
 		
 		if(pwd_change_sw.equals("no")) {
 			memberService.set_member_update(vo);
+			String addr[] = vo.getMember_address().split("/");
+			String postcode = addr[0].trim();
+			String roadAddress = addr[1];
+			String detailAddress = addr[2];
+			String extraAddress = addr[3];
+			memberService.set_member_address_normal_reset(vo);
+			memberService.set_member_address_input(vo.getMember_idx(), vo.getMember_name(), postcode, roadAddress, detailAddress, extraAddress);
 			return "redirect:/msg/member_update_ok?mid="+name;
 		}
 		else {
 			if(member_new_pwd.equals(member_new_pwd2)) {
 				vo.setMember_pwd(passwordEncoder.encode(member_new_pwd));
 				memberService.set_member_pwd_update(vo);
+				String addr[] = vo.getMember_address().split("/");
+				String postcode = addr[0].trim();
+				String roadAddress = addr[1];
+				String detailAddress = addr[1];
+				String extraAddress = addr[1];
+				memberService.set_member_address_normal_reset(vo);
+				memberService.set_member_address_input(vo.getMember_idx(), vo.getMember_name(), postcode, roadAddress, detailAddress, extraAddress);
 				return "redirect:/msg/member_update_ok?mid="+name;
 			}
 		}
@@ -511,5 +527,105 @@ public class MemberController {
 		model.addAttribute("vos",vos);
 		return "member/mooneyes_member_cart";
 	}
+	
+	// 배송 주소록 관리 폼
+	@RequestMapping(value="/address", method=RequestMethod.GET)
+	public String addressGet(HttpSession session, Model model) {
+		String mid = session.getAttribute("sMid") == null ? "": (String) session.getAttribute("sMid");
+		MemberVO vo = memberService.get_mooneyes_member_check(mid);
+		ArrayList<AddressVO> address_vos = memberService.get_mooneyes_member_address(vo.getMember_idx());
+		model.addAttribute("vos",address_vos);
+		return "member/mooneyes_member_address";
+	}
+	
+	// 배송 주소록 추가 폼
+	@RequestMapping(value="/address_input",method=RequestMethod.GET)
+	public String address_inputGet(HttpSession session, Model model) {
+		String mid = session.getAttribute("sMid") == null ? "" : (String) session.getAttribute("sMid");
+		MemberVO vo = memberService.get_mooneyes_member_check(mid);
+		model.addAttribute("member_idx",vo.getMember_idx());
+		return "member/mooneyes_member_address_input";
+	}
+	
+	// 배송 주소록 추가 등록 처리
+	@RequestMapping(value="/address_input",method=RequestMethod.POST)
+	public String address_inputPost(HttpSession session, Model model, AddressVO address_vo) {
+		String mid = session.getAttribute("sMid") == null ? "" : (String) session.getAttribute("sMid");
+		MemberVO vo = memberService.get_mooneyes_member_check(mid);
+		address_vo.setMember_idx(vo.getMember_idx());
+		
+		// 기본 배송지로 설정했을 경우 기존에 있는 배송지 중 기본 배송지를 삭제함.
+		if(address_vo.getMember_address_sw().equals("Y")) {
+			// 기본 배송지로 설정했을 경우에 회원 정보에 있는 주소를 수정함.
+			String postcode = address_vo.getMember_address_postcode()+"/";
+			String roadAddress = address_vo.getMember_address_roadAddress()+"/";
+			String detailAddress = address_vo.getMember_address_detailAddress()+"/";
+			String extraAddress = address_vo.getMember_address_extraAddress()+"/ ";
+			String address = postcode + roadAddress + detailAddress + extraAddress;
+			memberService.set_member_address_update(vo.getMember_idx(), address);
+			memberService.set_member_address_normal_reset(vo);
+		}
+		
+		// 주소록 DB에 저장처리
+		int res = 0;
+		res = memberService.set_mooneyes_member_address_input(address_vo);
+		
+		if(res == 1) return "redirect:/msg/member_address_inputOk";
+		
+		return "redirect:/msg/member_address_inputNo";
+	}
+	
+	// 기본 배송지 변경처리
+	@Transactional
+	@ResponseBody
+	@RequestMapping(value="/member_address_normal_update",method = RequestMethod.POST)
+	public String member_address_normal_updatePost(HttpSession session ,int member_address_idx) {
+		String mid = session.getAttribute("sMid") == null ? "" : (String) session.getAttribute("sMid");
+		MemberVO vo = memberService.get_mooneyes_member_check(mid);
+		int res = 0;
+		// 기본 배송지를 없앤다.
+		memberService.set_member_address_normal_reset(vo);
+		// 기본 배송지로 설정한다.
+		res = memberService.set_member_address_normal_set(member_address_idx);
+		return res+"";
+	}
+	
+	// 배송지 수정 폼
+	@RequestMapping(value="/member_address_edit",method=RequestMethod.GET)
+	public String member_address_editGet(Model model, int member_address_idx) {
+		AddressVO vo = memberService.get_mooneyes_address_search(member_address_idx);
+		model.addAttribute("vo",vo);
+		return "member/mooneyes_member_address_edit";
+	}
+	
+	// 배송지 수정 처리
+	@Transactional
+	@RequestMapping(value="/member_address_edit",method=RequestMethod.POST)
+	public String member_address_editPost(Model model, HttpSession session, AddressVO vo) {
+		String mid = (String) session.getAttribute("sMid");
+		MemberVO member_vo = memberService.get_mooneyes_member_check(mid);
+		int res = 0;
+		
+		if(vo.getMember_address_sw().equals("Y")) {
+			// 기본 배송지로 설정했을 경우 기존에 있는 배송지 중 기본 배송지를 삭제함.
+			memberService.set_member_address_normal_reset(member_vo);
+			
+			// 기본 배송지로 설정했을 경우에 회원 정보에 있는 주소를 수정함.
+			String postcode = vo.getMember_address_postcode()+"/";
+			String roadAddress = vo.getMember_address_roadAddress()+"/";
+			String detailAddress = vo.getMember_address_detailAddress()+"/";
+			String extraAddress = vo.getMember_address_extraAddress()+"/ ";
+			String address = postcode + roadAddress + detailAddress + extraAddress;
+			memberService.set_member_address_update(member_vo.getMember_idx(), address);
+		}
+		
+		res = memberService.get_mooneyes_address_update(vo);
+		model.addAttribute("vo",vo);
+		if(res == 1) {
+			return "redirect:/msg/address_update_ok";
+		}
+		return "redirect:/msg/address_update_no";
+	}
+	
 	
 }

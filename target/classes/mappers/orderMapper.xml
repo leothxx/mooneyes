@@ -4,6 +4,9 @@
 	<insert id="set_cash_order">
 		INSERT INTO mooneyes_order VALUES (DEFAULT,#{vo.member_idx},#{inputVO.product_idx},#{inputVO.order_price},#{inputVO.order_tot_price},#{inputVO.buyer_name},#{vo.order_address},#{vo.order_phone},#{vo.order_email},#{inputVO.delivery_msg},#{inputVO.order_count},#{inputVO.order_option},#{inputVO.order_point},#{inputVO.order_tot_point},DEFAULT,#{inputVO.addr_paymethod},#{inputVO.paymethod_bank_name},#{inputVO.paymethod_bank_buyer_name},#{inputVO.cashreceipt},#{inputVO.cashreceipt1},#{vo.cashreceipt_personal_number},#{inputVO.cashreceipt_employed_number},DEFAULT,#{inputVO.delivery_price});
 	</insert>
+	<insert id="set_card_order">
+		INSERT INTO mooneyes_order(order_idx, member_idx, product_idx, order_price, order_tot_price, order_name, order_address, order_phone, order_email, delivery_msg, order_count, order_option, order_point, order_tot_point, order_tot_point_sw, addr_paymethod, payment, delivery_price) VALUES (DEFAULT, #{vo.member_idx}, #{inputVO.product_idx}, #{inputVO.order_price}, #{inputVO.order_tot_price}, #{inputVO.buyer_name}, #{vo.order_address}, #{vo.order_phone},#{vo.order_email},#{inputVO.delivery_msg},#{inputVO.order_count},#{inputVO.order_option},#{inputVO.order_point},#{inputVO.order_tot_point},DEFAULT,#{inputVO.addr_paymethod},'Y',#{inputVO.delivery_price});
+	</insert>
 	<insert id="set_question">
 		INSERT INTO mooneyes_question VALUES (DEFAULT,#{member_vo.member_idx},#{member_vo.member_name},#{inputVO.question_pwd},#{title},#{inputVO.question});
 	</insert>

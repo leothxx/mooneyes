@@ -592,6 +592,7 @@
 			<input type="hidden" id="member_phone" name="member_phone" value="" />
 			<input type="hidden" id="member_address" name="member_address" value="" />
 			<input type="hidden" id="pwd_change_sw" name="pwd_change_sw" value="" />
+			<input type="hidden" id="member_idx" name="member_idx" value="${vo.member_idx}" />
 		</form>
 		<form name="modal-form" method="post">
 			<div id="modal" class="modal-overlay">

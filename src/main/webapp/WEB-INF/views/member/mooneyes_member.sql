@@ -29,4 +29,15 @@ CREATE TABLE mooneyes_member (
 	PRIMARY KEY(member_idx)
 );
 
-INSERT INTO mooneyes_member VALUES (DEFAULT,'admin','1234','¹®¾ÆÀÌÁî','28453/ÃæºÏ Ã»ÁÖ½Ã Èï´ö±¸ ¿ù¸í·Î 124/Çª¸¥¾ÆÆÄÆ® 103µ¿ 1303È£/(ºÀ¸íµ¿,Çª¸¥¾ÆÆÄÆ®)','shn2769@naver.com','043-271-5999','010-8417-2769','Y','Y',null,null,null,null,null,null,'Y','192.168.50.191','192.168.50.191',DEFAULT,DEFAULT,DEFAULT,4,DEFAULT,'abcd1234');
+CREATE TABLE mooneyes_question (
+	question_idx INT NOT NULL AUTO_INCREMENT,
+    member_idx INT NOT NULL,
+    member_name VARCHAR(50) NOT NULL,
+    question_pwd VARCHAR(200) NOT NULL,
+    question_title VARCHAR(30) NOT NULL,
+    question_desc TEXT NOT NULL,
+    PRIMARY KEY (question_idx, member_idx),
+    FOREIGN KEY (member_idx) REFERENCES mooneyes_member (member_idx) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT INTO mooneyes_member VALUES (DEFAULT,'admin','1234','ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½','28453/ï¿½ï¿½ï¿½ Ã»ï¿½Ö½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ 124/Çªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® 103ï¿½ï¿½ 1303È£/(ï¿½ï¿½ï¿½ï¿½,Çªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®)','shn2769@naver.com','043-271-5999','010-8417-2769','Y','Y',null,null,null,null,null,null,'Y','192.168.50.191','192.168.50.191',DEFAULT,DEFAULT,DEFAULT,4,DEFAULT,'abcd1234');

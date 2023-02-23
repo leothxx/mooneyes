@@ -132,7 +132,7 @@
 			<div class="col myshop_sub" style="border: 0px;"><a href="${ctp}/"><img src="${ctp}/images/board.png" /><br/><strong>BOARD</strong><br/>게시물 관리</a></div>
 		</div>
 		<div class="row myshop_main">
-			<div class="col myshop_sub"><a href="${ctp}/"><img src="${ctp}/images/delivery.png" /><br/><strong>ADDRESS</strong><br/>배송 주소록 관리</a></div>
+			<div class="col myshop_sub"><a href="${ctp}/member/address"><img src="${ctp}/images/delivery.png" /><br/><strong>ADDRESS</strong><br/>배송 주소록 관리</a></div>
 			<div class="col myshop_sub"><a href="${ctp}/"><img src="${ctp}/images/calendar.png" /><br/><strong>SUBSCRIPTION</strong><br/>정기 배송 관리</a></div>
 			<div class="col myshop_sub" style="border: 0px;"><a href="${ctp}/member/email_certification"><img src="${ctp}/images/email_certification.png" /><br/><strong>CERTIFICATION</strong><br/>이메일 인증</a></div>
 		</div>

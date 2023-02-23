@@ -9,5 +9,7 @@ public interface OrderService {
 	public int set_cash_order(OrderVO vo, Payment_inputVO inputVO);
 
 	public void set_question(MemberVO member_vo, Payment_inputVO inputVO, String title);
+
+	public int set_card_order(OrderVO order_vo, Payment_inputVO inputVO);
 	
 }

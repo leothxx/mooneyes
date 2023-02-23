@@ -1,9 +1,12 @@
 package com.spring.green2209S_09.service;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.green2209S_09.dao.MemberDAO;
+import com.spring.green2209S_09.vo.AddressVO;
 import com.spring.green2209S_09.vo.CartVO;
 import com.spring.green2209S_09.vo.MemberVO;
 
@@ -70,5 +73,51 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void set_member_cart(CartVO vo) {
 		memberDAO.set_member_cart(vo);
+	}
+
+	@Override
+	public void set_member_address_input(int member_idx, String member_name, String postcode, String roadAddress, String detailAddress,
+			String extraAddress) {
+		memberDAO.set_member_address_input(member_idx, member_name, postcode, roadAddress, detailAddress, extraAddress);
+	}
+
+	@Override
+	public void set_member_address_normal_reset(MemberVO vo) {
+		memberDAO.set_member_address_normal_reset(vo);
+	}
+
+	@Override
+	public ArrayList<AddressVO> get_mooneyes_member_address(int member_idx) {
+		return memberDAO.get_mooneyes_member_address(member_idx);
+	}
+
+	@Override
+	public int set_mooneyes_member_address_input(AddressVO address_vo) {
+		return memberDAO.set_mooneyes_member_address_input(address_vo);
+	}
+
+	@Override
+	public void set_member_address_update(int member_idx, String address) {
+		memberDAO.set_member_address_update(member_idx, address);
+	}
+
+	@Override
+	public int set_member_address_normal_set(int member_address_idx) {
+		return memberDAO.set_member_address_normal_set(member_address_idx);
+	}
+
+	@Override
+	public AddressVO get_mooneyes_address_search(int member_address_idx) {
+		return memberDAO.get_mooneyes_address_search(member_address_idx);
+	}
+
+	@Override
+	public int get_mooneyes_address_update(AddressVO vo) {
+		return memberDAO.get_mooneyes_address_update(vo);
+	}
+
+	@Override
+	public void set_member_point_update(int member_idx, int order_point) {
+		memberDAO.set_member_point_update(member_idx, order_point);
 	}
 }

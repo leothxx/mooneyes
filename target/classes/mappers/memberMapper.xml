@@ -10,6 +10,12 @@
 	<select id="get_member_nameEmail_Check" resultType="com.spring.green2209S_09.vo.MemberVO">
 		SELECT * FROM mooneyes_member WHERE member_email = #{member_email} and member_name = #{member_name};
 	</select>
+	<select id="get_mooneyes_member_address" resultType="com.spring.green2209S_09.vo.AddressVO">
+		SELECT * FROM mooneyes_member_address WHERE member_idx = #{member_idx} ORDER BY member_address_sw DESC;
+	</select>
+	<select id="get_mooneyes_address_search" resultType="com.spring.green2209S_09.vo.AddressVO">
+		SELECT * FROM mooneyes_member_address WHERE member_address_idx = #{member_address_idx};
+	</select>
 		
 	<insert id="set_mooneyes_member_join">
 		INSERT INTO mooneyes_member VALUES (DEFAULT, #{vo.member_mid}, #{vo.member_pwd}, #{vo.member_name}, #{vo.member_email}, null, null, #{vo.member_phone}, #{vo.member_sms_check}, #{vo.member_email_check}, null, null, null, null, null, null, DEFAULT, #{vo.member_signIp}, #{vo.member_signIp}, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, #{vo.member_email_key});
@@ -19,6 +25,12 @@
 	</insert>
 	<insert id="set_member_cart">
 		INSERT INTO mooneyes_member_cart VALUES (DEFAULT, #{vo.member_idx}, #{vo.product_idx}, #{vo.product_name}, #{vo.product_price}, #{vo.product_sale_price}, #{vo.product_point}, #{vo.product_vat}, #{vo.product_size}, #{vo.product_color}, #{vo.product_count});
+	</insert>
+	<insert id="set_member_address_input">
+		INSERT INTO mooneyes_member_address VALUES (DEFAULT, #{member_idx}, #{member_name}, '회원정보', #{postcode}, #{roadAddress}, #{detailAddress}, #{extraAddress}, 'Y');
+	</insert>
+	<insert id="set_mooneyes_member_address_input">
+		INSERT INTO mooneyes_member_address VALUES (DEFAULT, #{vo.member_idx}, #{vo.member_address_name}, #{vo.member_address_as}, #{vo.member_address_postcode}, #{vo.member_address_roadAddress}, #{vo.member_address_detailAddress}, #{vo.member_address_extraAddress}, #{vo.member_address_sw});
 	</insert>
 	
 	<update id="set_member_visit_update">
@@ -38,5 +50,20 @@
 	</update>	
 	<update id="set_member_email_certification">
 		UPDATE mooneyes_member SET member_point = member_point + 1000, member_certification = 'Y', member_level = 1 WHERE member_mid = #{vo.member_mid};
+	</update>	
+	<update id="set_member_address_normal_reset">
+		UPDATE mooneyes_member_address SET member_address_sw = 'N' WHERE member_idx = #{vo.member_idx};
+	</update>	
+	<update id="set_member_address_update">
+		UPDATE mooneyes_member SET member_address = #{address} WHERE member_idx = #{member_idx};
+	</update>	
+	<update id="set_member_address_normal_set">
+		UPDATE mooneyes_member_address SET member_address_sw = 'Y' WHERE member_address_idx = #{member_address_idx};
+	</update>	
+	<update id="get_mooneyes_address_update">
+		UPDATE mooneyes_member_address SET member_address_name = #{vo.member_address_name}, member_address_as = #{vo.member_address_as}, member_address_postcode = #{vo.member_address_postcode}, member_address_roadAddress = #{vo.member_address_roadAddress}, member_address_detailAddress = #{vo.member_address_detailAddress}, member_address_extraAddress = #{vo.member_address_extraAddress}, member_address_sw = #{vo.member_address_sw} WHERE member_address_idx = #{vo.member_address_idx};
+	</update>	
+	<update id="set_member_point_update">
+		UPDATE mooneyes_member SET member_point = member_point - #{order_point} WHERE member_idx = #{member_idx};
 	</update>	
 </mapper>

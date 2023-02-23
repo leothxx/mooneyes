@@ -10,6 +10,31 @@
 	<title>mooneyes_product_list.jsp</title>
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp"></jsp:include>
 	<script type="text/javascript" src="${ctp}/js/menu.js"></script>
+	<script>
+		'use strict';
+		function wishlist_input(product_idx) {
+			let query = {
+	 				product_idx : product_idx,
+	 				product_size : '',
+	 				product_color : ''
+	 		};
+	 		
+	 		$.ajax({
+	 			type: "post",
+	 			url: "${ctp}/product/wishlist-input",
+	 			data : query,
+	 			success : function(res) {
+	 				if(res == 0) alert("위시리스트 저장중 에러가 발생하였습니다.\n다시 시도해 주세요!");
+	 				else {
+	 					alert("위시리스트에 성공적으로 저장되었습니다!");
+	 				}
+	 			},
+	 			error : function() {
+	 				alert("전송 오류!");
+	 			}
+	 		});			
+		}
+	</script>
 	<style>
 		#product_view_option {
 			font-size: 1rem;
@@ -159,7 +184,7 @@
 				    		<p class="product-name" style="height:50px;">${vo.product_name}</p><hr/>
 				    		<c:if test="${vo.product_sale_price == 0}"><p class="product-price"><fmt:formatNumber value="${vo.product_price}" pattern="#,###"/>원</p></c:if>
 				    		<c:if test="${vo.product_sale_price != 0}"><p class="text-center"><span class="product-price"><img src="${ctp}/images/sale-icon.png" width="30vw"/>&nbsp;<del><fmt:formatNumber value="${vo.product_price}" pattern="#,###"/>원</del></span><span class="product-sale-price">&nbsp;<fmt:formatNumber value="${vo.product_sale_price}" pattern="#,###"/>원</span></p></c:if>
-				    		<p style="text-align: center;"><a href="javascript:cart_input('${vo.product_idx}')"><img src="${ctp}/images/icon_add_to_cart.jpg" class="cart-images"/></a></p>
+				    		<p style="text-align: center;"><a href="javascript:wishlist_input('${vo.product_idx}')"><img src="${ctp}/images/icon_add_to_wishlist.png" class="cart-images"/></a></p>
 			    		</a>
 					</div>
 				<c:if test="${st.count % 5 == 0}"></div></c:if>
