@@ -182,6 +182,7 @@ public class MemberController {
 			session.setAttribute("sLevel", vo.getMember_level());
 			session.setAttribute("sStrLevel", strLevel);
 			session.setAttribute("sMid", member_mid);
+			session.setAttribute("sIdx", vo.getMember_idx());
 			session.setAttribute("sName", vo.getMember_name());
 			session.setAttribute("basket", basket);
 			
@@ -304,6 +305,7 @@ public class MemberController {
 		session.setAttribute("sLevel", vo.getMember_level());
 		session.setAttribute("sStrLevel", strLevel);
 		session.setAttribute("sMid", vo.getMember_mid());
+		session.setAttribute("sIdx", vo.getMember_idx());
 		session.setAttribute("sName", vo.getMember_name());
 		session.setAttribute("basket", basket);
 		

@@ -99,8 +99,32 @@ public class MessageController {
 			model.addAttribute("url", "service/service");
 		}
 		else if(msgFlag.equals("service_input_no")) {
-			model.addAttribute("msg", "문의내용이 등록에 실패하였습니다!<br>다시 시도해주세요.");
+			model.addAttribute("msg", "문의내용이 등록에 실패하였습니다!<br/>다시 시도해주세요.");
 			model.addAttribute("url", "service/service_input");
+		}
+		else if(msgFlag.equals("service_update_ok")) {
+			model.addAttribute("msg", "문의내용이 수정되었습니다!");
+			model.addAttribute("url", "service/service");
+		}
+		else if(msgFlag.equals("service_update_no")) {
+			model.addAttribute("msg", "문의내용이 수정에 실패하였습니다!<br/>다시 시도해주세요.");
+			model.addAttribute("url", "service/service");
+		}
+		else if(msgFlag.equals("service_delete_ok")) {
+			model.addAttribute("msg", "문의내용이 삭제되었습니다.");
+			model.addAttribute("url", "service/service");
+		}
+		else if(msgFlag.equals("service_delete_no")) {
+			model.addAttribute("msg", "문의내용 삭제중 에러가 발생하였습니다!<br/>다시 시도해주세요.");
+			model.addAttribute("url", "service/service_view?service_idx="+mid);
+		}
+		else if(msgFlag.equals("service_answer_input_ok")) {
+			model.addAttribute("msg", "답변이 작성되었습니다.");
+			model.addAttribute("url", "service/service");
+		}
+		else if(msgFlag.equals("service_answer_input_no")) {
+			model.addAttribute("msg", "답변 작성중 에러가 발생하였습니다!<br/>다시 시도해주세요.");
+			model.addAttribute("url", "service/service_view?service_idx="+mid);
 		}
 		
 		return "include/message";

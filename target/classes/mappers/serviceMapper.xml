@@ -7,7 +7,22 @@
 	<select id="get_mooneyes_service_view" resultType="com.spring.green2209S_09.vo.ServiceVO">
 		SELECT * FROM mooneyes_service WHERE service_idx = #{service_idx};
 	</select>
+	<select id="get_mooneyes_service_answer" resultType="com.spring.green2209S_09.vo.Service_answerVO">
+		SELECT * FROM mooneyes_service_answer WHERE service_idx = #{service_idx} ORDER BY service_answer_idx DESC;
+	</select>
+	
 	<insert id="set_mooneyes_service_input">
 		INSERT INTO mooneyes_service VALUES (DEFAULT,#{vo.member_idx},#{vo.member_name},#{vo.service_title},#{vo.service_content},#{vo.service_category},#{vo.service_pwd},DEFAULT,#{vo.service_ip},DEFAULT);
 	</insert>
+	<insert id="set_mooneyes_service_answer_input">
+		INSERT INTO mooneyes_service_answer VALUES (DEFAULT,#{vo.service_idx},#{vo.member_idx},#{vo.service_answer_name},#{vo.service_answer_title},#{vo.service_answer_content},DEFAULT);
+	</insert>
+	
+	<update id="get_mooneyes_service_update">
+		UPDATE mooneyes_service SET member_name = #{vo.member_name}, service_title = #{vo.service_title}, service_content = #{vo.service_content}, service_category = #{vo.service_category}, service_pwd = #{vo.service_pwd}, service_ip = #{vo.service_ip}, service_answer_sw = #{vo.service_answer_sw} WHERE service_idx = #{vo.service_idx};
+	</update>
+	
+	<delete id="get_mooneyes_service_delete">
+		DELETE FROM mooneyes_service WHERE service_idx = #{service_idx};
+	</delete>
 </mapper>

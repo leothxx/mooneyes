@@ -9,4 +9,5 @@ public @Data class Service_answerVO {
 	private String service_answer_name;
 	private String service_answer_title;
 	private String service_answer_content;
+	private String service_answer_date;
 }
