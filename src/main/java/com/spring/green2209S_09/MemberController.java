@@ -26,10 +26,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.green2209S_09.service.CartService;
 import com.spring.green2209S_09.service.MemberService;
+import com.spring.green2209S_09.service.OrderService;
 import com.spring.green2209S_09.service.ProductService;
 import com.spring.green2209S_09.vo.AddressVO;
 import com.spring.green2209S_09.vo.CartVO;
 import com.spring.green2209S_09.vo.MemberVO;
+import com.spring.green2209S_09.vo.OrderVO;
 import com.spring.green2209S_09.vo.ProductAllVO;
 
 @Controller
@@ -43,6 +45,9 @@ public class MemberController {
 	
 	@Autowired
 	CartService cartService;
+	
+	@Autowired
+	OrderService orderService;
 	
 	@Autowired
 	JavaMailSender mailSender;
@@ -343,7 +348,22 @@ public class MemberController {
 	@RequestMapping(value="/mypage",method=RequestMethod.GET)
 	public String mypageGet(Model model, String id) {
 		MemberVO vo = memberService.get_mooneyes_member_check(id);
+		int n=0, y=0, d=0, o=0, c=0, e=0, r=0; // n = 입금전, y= 배송 준비중(결제완료) , d = 배송중 , o = 배송완료 , c = 취소 , e = 교환 , r = 반품
+		n = orderService.get_mooneyes_order_count_N(vo.getMember_idx());
+		y = orderService.get_mooneyes_order_count_Y(vo.getMember_idx());
+		d = orderService.get_mooneyes_order_count_D(vo.getMember_idx());
+		o = orderService.get_mooneyes_order_count_O(vo.getMember_idx());
+		c = orderService.get_mooneyes_order_count_C(vo.getMember_idx());
+		e = orderService.get_mooneyes_order_count_E(vo.getMember_idx());
+		r = orderService.get_mooneyes_order_count_R(vo.getMember_idx());
 		model.addAttribute("vo",vo);
+		model.addAttribute("N",n);
+		model.addAttribute("Y",y);
+		model.addAttribute("D",d);
+		model.addAttribute("O",o);
+		model.addAttribute("C",c);
+		model.addAttribute("E",e);
+		model.addAttribute("R",r);
 		return "member/mooneyes_mypage";
 	}
 	

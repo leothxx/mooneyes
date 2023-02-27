@@ -9,7 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -79,6 +78,11 @@ public class HomeController {
     
 		out.flush();
 		os.close();
+	}
+	
+	@RequestMapping(value="/error/ready", method=RequestMethod.GET)
+	public String readyGet() {
+		return "error/ready";
 	}
 	
 }

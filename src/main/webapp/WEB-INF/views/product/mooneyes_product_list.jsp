@@ -10,6 +10,7 @@
 	<title>mooneyes_product_list.jsp</title>
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp"></jsp:include>
 	<script type="text/javascript" src="${ctp}/js/menu.js"></script>
+	<link rel="stylesheet" href="${ctp}/resources/css/product-list.css">
 	<script>
 		'use strict';
 		function wishlist_input(product_idx) {
@@ -35,107 +36,6 @@
 	 		});			
 		}
 	</script>
-	<style>
-		#product_view_option {
-			font-size: 1rem;
-			padding-left: 5px;
-			border: 1px solid #ececec;
-		}
-		.cart-images {
-			width: 120px;
-			height: 30px;
-		}
-		.best-item-main-logo {
-			font-weight: 800;
-			font-size: 2rem;
-			color: #000;
-		}
-		.best-item-message {
-			font-weight: 800;
-			font-size: 1rem;
-			color: #aaa;
-		}
-		.product-name {
-			text-align: center;
-			font-weight: 700;
-			font-size: 1.1rem;
-			color: #111;
-			padding: 5px;
-		}
-		.product-price {
-			text-align: center;
-			font-weight: 800;
-			font-size: 1rem;
-			color: #333;
-		}
-		.product-sale-price {
-			text-align: center;
-			font-weight: 800;
-			font-size: 1rem;
-			color: red;
-		}
-		.best-product_image, .new-product_image {
-			width: 250px;
-			height: 320px;
-		}
-		.product-click:hover {
-			text-decoration: none;
-			transition: 0.5s ease-out;
-			opacity: 0.7;
-		}
-		.product-click:not(:hover) {
-    		transition: 1s ease-out;
-		}
-		.this {
-			background: #fff;
-			color: #000;
-		    border: 1px solid #ececec;
-		    border-radius: 50%;
-		    font-size: 1rem;
-		    padding: 0px 5px;
-		}
-		.this:hover {
-		    background: #fff;
-		    color: #000;
-		    text-decoration: none;
-		}
-		.active .this {
-		    background: #000;
-		    color: #fff;
-		    border: 1px solid #000;
-		    border-radius: 50%;
-		    font-size: 1rem;
-		    padding: 0px 5px;
-		}
-		.this-circle {
-			background: #fff;
-		    color: #aaa;
-		    border: 1px solid #ececec;
-		    border-radius: 50%;
-		    font-size: 1rem;
-		    padding: 0px 5px;
-		}
-		.this-circle:hover {
-			background: #000;
-			border: 1px solid #000;
-			color: #fff;
-		}
-		.category-menu {
-			text-align: center;
-			font-size: 0.9rem;
-		}
-		.menu-category {
-			list-style:none;
-		    margin:0 auto;
-		    padding:0px;
-		}
-		.menu-category li {
-			padding: 20px;
-			margin: 0px;
-			border: 0px;
-			float: left;
-		}
-	</style>
 </head>
 <body>
 	<!-- 왼쪽 메뉴 -->

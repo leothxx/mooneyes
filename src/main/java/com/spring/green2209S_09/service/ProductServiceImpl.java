@@ -195,4 +195,9 @@ public class ProductServiceImpl implements ProductService {
 	public WishListVO get_wishlist_search(int product_wishlist_idx) {
 		return productDAO.get_wishlist_search(product_wishlist_idx);
 	}
+
+	@Override
+	public ArrayList<ProductAllVO> get_product_search_text(int startIndexNo, int pageSize, String searchString) {
+		return productDAO.get_product_search_text(startIndexNo, pageSize ,searchString);
+	}
 }

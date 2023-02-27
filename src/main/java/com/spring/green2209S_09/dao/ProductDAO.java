@@ -62,6 +62,10 @@ public interface ProductDAO {
 	public WishListVO get_wishlist_search(@Param("product_wishlist_idx") int product_wishlist_idx);
 
 	public int totRecCnt2(@Param("part")String part,@Param("searchString") String searchString);
+
+	public ArrayList<ProductAllVO> get_product_search_text(@Param("startIndexNo") int startIndexNo,@Param("pageSize") int pageSize, @Param("searchString") String searchString);
+
+	public int totRecCnt3(@Param("part")String part, @Param("payment") String payment, @Param("member_idx") String member_idx);
 	
 	
 }

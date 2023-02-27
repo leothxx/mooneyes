@@ -54,5 +54,7 @@ public interface ProductService {
 
 	public WishListVO get_wishlist_search(int product_wishlist_idx);
 
+	public ArrayList<ProductAllVO> get_product_search_text(int startIndexNo, int pageSize, String searchString);
+
 
 }

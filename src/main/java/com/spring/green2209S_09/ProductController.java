@@ -276,12 +276,29 @@ public class ProductController {
 			productService.set_wishlist_delete(product_wishlist_idx);
 		}
 		
-		// 장바구니 수량 세션에 다시 담기
+		// 장바구니 수량 세션에 다시 담기 
 		String mid = session.getAttribute("sMid") == null ? "" : (String) session.getAttribute("sMid");
 		MemberVO member_vo = memberService.get_mooneyes_member_check(mid);
 		int basket = cartService.get_member_cart_count(vo.getMember_idx());
 		session.setAttribute("basket", basket);
 		
 		return res+"";
+	}
+	
+	// 상품명 검색시
+	@RequestMapping(value="/search",method=RequestMethod.GET)
+	public String searchGet(Model model, HttpSession session,
+			@RequestParam(name="searchString", defaultValue="", required = false)String searchString,
+			@RequestParam(name="pag", defaultValue="1", required = false)int pag,
+			@RequestParam(name="pageSize", defaultValue="20", required = false)int pageSize) {
+		PageVO pageVo = new PageVO();
+		String mid = session.getAttribute("sMid") == null ? "" : (String) session.getAttribute("sMid");
+		MemberVO vo = memberService.get_mooneyes_member_check(mid);
+		pageVo = pageProcess.totRecCnt(pag, pageSize, "productSearch", searchString, "");
+		ArrayList<ProductAllVO> vos = productService.get_product_search_text(pageVo.getStartIndexNo(),pageSize,searchString);
+		model.addAttribute("pageVo",pageVo);
+		model.addAttribute("vos", vos);
+		model.addAttribute("searchString",searchString);
+		return "product/mooneyes_product_search_view";
 	}
 }

@@ -109,31 +109,31 @@
 		<div class="row mb-2" style="border: 1px solid #ececec; padding: 10px 10px 10px 20px;">POINT :&nbsp;&nbsp;<font color="blue"><fmt:formatNumber value="${vo.member_point}" pattern="#,###"/>원</font></div>
 		<div class="order_page row p-3" style="border: 1px solid #ececec; font-size: 1.1rem; font-weight: 800;">나의 주문처리 현황</div>
 		<div class="row" style="border-left: 1px solid #ececec; border-right: 1px solid #ececec;">
-			<div class="col order-list"><a href="${ctp}/member/order_list"><strong>입금전</strong><br/><span class="count">0</span></a></div>
-			<div class="col order-list"><a href="${ctp}/member/order_list"><strong>배송준비중</strong><br/><span class="count">0</span></a></div>
-			<div class="col order-list"><a href="${ctp}/member/order_list"><strong>배송중</strong><br/><span class="count">0</span></a></div>
-			<div class="col order-list" style="border: 0px;"><a href="${ctp}/member/order_list"><strong>배송완료</strong><br/><span class="count">0</span></a></div>
+			<div class="col order-list"><a href="${ctp}/order/order_list?payment=N"><strong>입금전</strong><br/><span class="count">${N}</span></a></div>
+			<div class="col order-list"><a href="${ctp}/order/order_list?payment=Y"><strong>배송준비중</strong><br/><span class="count">${Y}</span></a></div>
+			<div class="col order-list"><a href="${ctp}/order/order_list?payment=D"><strong>배송중</strong><br/><span class="count">${D}</span></a></div>
+			<div class="col order-list" style="border: 0px;"><a href="${ctp}/order/order_list?payment=O"><strong>배송완료</strong><br/><span class="count">${O}</span></a></div>
 		</div>
 		<div class="row cs">
-			<div class="col cs-list"><a href="${ctp}/member/order_list"><strong style="display: block; text-align: center;">취소</strong><font class="count" style="display: inline-block; text-align: center;">0</font></a></div>
-			<div class="col cs-list"><a href="${ctp}/member/order_list"><strong style="display: block; text-align: center;">교환</strong><font class="count" style="display: inline-block; text-align: center;">0</font></a></div>
-			<div class="col cs-list" style="border: 0px; display: block; text-align: center; margin: 10px 0px 10px 0px;"><a href="${ctp}/member/order_list"><strong style="text-align: center;">반품 </strong><font class="count" style="display: inline-block; text-align: center;">0</font></a></div>
+			<div class="col cs-list"><a href="${ctp}/order/order_list?payment=C"><strong style="display: block; text-align: center;">취소</strong><font class="count" style="display: inline-block; text-align: center;">${C}</font></a></div>
+			<div class="col cs-list"><a href="${ctp}/order/order_list?payment=E"><strong style="display: block; text-align: center;">교환</strong><font class="count" style="display: inline-block; text-align: center;">${E}</font></a></div>
+			<div class="col cs-list" style="border: 0px; display: block; text-align: center; margin: 10px 0px 10px 0px;"><a href="${ctp}/order/order_list?payment=R"><strong style="text-align: center;">반품 </strong><font class="count" style="display: inline-block; text-align: center;">${R}</font></a></div>
 		</div>
 		<div class="row myshop_main">
-			<div class="col myshop_sub"><a href="${ctp}/member/order_list"><img src="${ctp}/images/order_list_search.png" /><br/><strong>ORDER</strong><br/>주문내역 조회</a></div>
+			<div class="col myshop_sub"><a href="${ctp}/order/order_list"><img src="${ctp}/images/order_list_search.png" /><br/><strong>ORDER</strong><br/>주문내역 조회</a></div>
 			<div class="col myshop_sub"><a href="${ctp}/member/my_info?mid=${vo.member_mid}"><img src="${ctp}/images/member_info.png" /><br/><strong>PROFILE</strong><br/>회원 정보</a></div>
 			<div class="col myshop_sub"><a href="${ctp}/product/wish_list"><img src="${ctp}/images/wishlist.png" /><br/><strong>WISHLIST</strong><br/>관심 상품</a></div>
-			<div class="col myshop_sub" style="border: 0px;"><a href="${ctp}/"><img src="${ctp}/images/like.png" /><br/><strong>LIKE IT</strong><br/>좋아요</a></div>
+			<div class="col myshop_sub" style="border: 0px;"><a href="${ctp}/error/ready"><img src="${ctp}/images/like.png" /><br/><strong>LIKE IT</strong><br/>좋아요</a></div>
 		</div>
 		<div class="row myshop_main">
-			<div class="col myshop_sub"><a href="${ctp}/"><img src="${ctp}/images/point.png" /><br/><strong>MILEAGE</strong><br/>POINT</a></div>
+			<div class="col myshop_sub"><a href="${ctp}/error/ready"><img src="${ctp}/images/point.png" /><br/><strong>MILEAGE</strong><br/>POINT</a></div>
 			<div class="col myshop_sub"><a href="${ctp}/service/service"><img src="${ctp}/images/headphone.png" /><br/><strong>CONSULT</strong><br/>고객센터</a></div>
-			<div class="col myshop_sub"><a href="${ctp}/"><img src="${ctp}/images/coupons.png" /><br/><strong>COUPON</strong><br/>쿠폰</a></div>
-			<div class="col myshop_sub" style="border: 0px;"><a href="${ctp}/"><img src="${ctp}/images/board.png" /><br/><strong>BOARD</strong><br/>게시물 관리</a></div>
+			<div class="col myshop_sub"><a href="${ctp}/error/ready"><img src="${ctp}/images/coupons.png" /><br/><strong>COUPON</strong><br/>쿠폰</a></div>
+			<div class="col myshop_sub" style="border: 0px;"><a href="${ctp}/error/ready"><img src="${ctp}/images/board.png" /><br/><strong>BOARD</strong><br/>게시물 관리</a></div>
 		</div>
 		<div class="row myshop_main">
 			<div class="col myshop_sub"><a href="${ctp}/member/address"><img src="${ctp}/images/delivery.png" /><br/><strong>ADDRESS</strong><br/>배송 주소록 관리</a></div>
-			<div class="col myshop_sub"><a href="${ctp}/"><img src="${ctp}/images/calendar.png" /><br/><strong>SUBSCRIPTION</strong><br/>정기 배송 관리</a></div>
+			<div class="col myshop_sub"><a href="${ctp}/error/ready"><img src="${ctp}/images/calendar.png" /><br/><strong>SUBSCRIPTION</strong><br/>정기 배송 관리</a></div>
 			<div class="col myshop_sub" style="border: 0px;"><a href="${ctp}/member/email_certification"><img src="${ctp}/images/email_certification.png" /><br/><strong>CERTIFICATION</strong><br/>이메일 인증</a></div>
 		</div>
 	</div>

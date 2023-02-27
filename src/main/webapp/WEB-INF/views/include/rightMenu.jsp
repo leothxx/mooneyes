@@ -2,6 +2,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
+<script>
+	'use strict';
+	
+	function product_search() {
+		let search = $("#search").val();
+		location.href="${ctp}/product/search?searchString="+search;
+	}
+</script>
 <!-- Right menu -->
 <style>
 	#right {
@@ -86,8 +94,8 @@
     	</div>
     	<div id="searchForm">
     		<a href="javascript:searchFormClose()"><i class="fa fa-times" aria-hidden="true"></i></a>
-    		<input type="text" name="search" id="search" />
-	    	<a href=""><i class="fa fa-search" aria-hidden="true"></i></a>
+    		<input type="text" name="search" id="search" onkeyup="javascript:if(window.event.keyCode==13){product_search()}" />
+	    	<a href="javascript:product_search()"><i class="fa fa-search" aria-hidden="true"></i></a>
     	</div>
 	    <div id="side_on"><a href="javascript:sidebarOn()" class="tuxedo-menu-trigger"><i class="fa fa-bars" aria-hidden="true"></i></a></div>
 	</div>
@@ -111,13 +119,13 @@
 			</ul>
 			<ul>
 				<h2>MY PAGE</h2>
-				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href=""></c:if>ORDER LIST</a></li>
-				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href=""></c:if>MILEAGE</a></li>
-				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href=""></c:if>MY COUPON</a></li>
-				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href=""></c:if>MY DEPOSITS</a></li>
-				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href=""></c:if>1:1 BOARD</a></li>
-				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href=""></c:if>MY BOARD</a></li>
-				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href=""></c:if>MY ADDRESS</a></li>
+				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href="${ctp}/error/ready"></c:if>ORDER LIST</a></li>
+				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href="${ctp}/error/ready"></c:if>MILEAGE</a></li>
+				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href="${ctp}/error/ready"></c:if>MY COUPON</a></li>
+				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href="${ctp}/error/ready"></c:if>MY DEPOSITS</a></li>
+				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href="${ctp}/error/ready"></c:if>1:1 BOARD</a></li>
+				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href="${ctp}/error/ready"></c:if>MY BOARD</a></li>
+				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href="${ctp}/member/address"></c:if>MY ADDRESS</a></li>
 				<li><c:if test="${sMid == null}"><a href="${ctp}/member/login"></c:if><c:if test="${sMid != null}"><a href="${ctp}/product/wish_list"></c:if>WISH LIST</a></li>
 			</ul>
 		</div>

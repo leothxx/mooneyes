@@ -11,6 +11,7 @@
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp"></jsp:include>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   	<script src="${ctp}/js/postcode.js"></script>
+  	<link rel="stylesheet" href="${ctp}/resources/css/payment-view.css" />
   	<script>
   		'use strict';
   		$(function(){
@@ -71,195 +72,6 @@
   			});
   		});
   	</script>
-	<style>
-		.payment_view {
-			font-size: 1rem;
-			font-family: 'NotoSansKR',"맑은 고딕",Malgun Gothic,AppleSDGothicNeo,"돋움",Dotum,sans-serif;
-			letter-spacing: -0.4px;
-		}
-		.payment-title {
-		    position: relative;
-		    color: #fff;
-		    font-size: 20px;
-		    font-weight: 700;
-		    text-align: center;
-		    border: 1px solid #D7D7D7;
-		    border-right: 0px;
-		    border-left: 0px;
-		    background: #595959;
-		}
-		.payment_top_view, .delivery-view, .plus-input-view, .order-view, .point-view, .payment-info-view, .payment-method-view, .point-information-view, .payment-payment-form-view {
-			background: #fff;
-		}
-		.payment input[type="radio"] {
-		    margin: 0;
-		    width: 22px;
-		    height: 22px;
-		    border: 0;
-		    vertical-align: text-top;
-		    cursor: pointer;
-		    background: url(//img.echosting.cafe24.com/skin/mobile/common/bg_newRadio.png) no-repeat 0 0;
-		    background-size: 22px 22px;
-		    -webkit-appearance: none;
-		}
-		.payment input:not(:disabled):checked[type="radio"] {
-		    background-image: url(//img.echosting.cafe24.com/skin/mobile/common/bg_newRadio_checked.png);
-		    -webkit-appearance: none;
-		}
-		.payment input[type="checkbox"] {
-		    margin: 0;
-		    width: 20px;
-		    height: 20px;
-		    border: 0;
-	     	vertical-align: text-top;
-		    cursor: pointer;
-		    background: url(//img.echosting.cafe24.com/skin/mobile/common/bg_newCheckbox.png) no-repeat 0 0;
-		    background-size: 20px 20px;
-		    -webkit-appearance: none;
-		    margin-bottom: 1px;
-		}
-		input:not(:disabled):checked[type="checkbox"] {
-		    background-image: url(//img.echosting.cafe24.com/skin/mobile/common/bg_newCheckbox_checked.png);
-		    -webkit-appearance: none;
-		}
-		.payment_view label {
-			vertical-align: -1px;
-		}
-		.payment-form {
-			width: 100%;
-			border: 1px solid #ececec;
-			padding: 10px 0px 10px 10px;
-		}
-		.payment-form:focus {
-			outline: none;
-		}
-		.payment-table-name {
-			padding: 10px 0px 10px 30px;
-		}
-		.payment .payment_top_view .count {
-		    overflow: hidden;
-		    position: absolute;
-		    right: 50px;
-		    top: 2px;
-		    min-width: 10px;
-		    padding: 0 2px;
-		    height: 14px;
-		    border-radius: 14px;
-		    font-weight: bold;
-		    font-size: 9px;
-		    line-height: 13px;
-		    color: #fff;
-		    text-align: center;
-		    background: #ff0000;
-		}
-		.product_delete_btn_css {
-			padding: 2px 5px;
-			border: 1px solid #b5b5b5;
-			color : #b5b5b5;
-			font-size: 1.2rem;
-		}
-		.product_delete_btn_css:hover {
-			text-decoration: none;
-			color : #b5b5b5;
-		}
-		.product_view_name {
-			font-size: 0.9rem;
-			color: #000;
-			font-weight: 700;
-		}
-		.product_view_option, .product_view_count {
-			color: #999;
-			font-size: 0.9rem;
-			font-weight: 500;
-		}
-		.product_view_price {
-			color: #000;
-			font-size: 0.9rem;
-			font-weight: 700;
-		}
-		.payment-point-all-btn {
-			color: #000;
-			border: 1px solid #b5b5b5;
-			background-color: #fff;
-			padding: 10px;
-		}
-		.payment_member_point {
-			color: #3971FF;
-		}
-		.radio-inner {
-		    display: flex;
-		    flex-direction: column;
-		    font-size: 15px;
-		    font-weight: 400;
-		    color: #383838;
-		    overflow: visible;
-		    opacity: 1;
-		    height: auto;
-		    padding: 0px 10px;
-		    -webkit-transition: height .3s ease,opacity .3s ease-out;
-		    -moz-transition: height .3s ease,opacity .3s ease-out;
-		    -ms-transition: height .3s ease,opacity .3s ease-out;
-		    -o-transition: height .3s ease,opacity .3s ease-out;
-		    transition: height .3s ease,opacity .3s ease-out;
-		}
-		.radio-inner .ec-base-label {
- 		   position: relative;
- 		   font-size: 15px;
- 		   margin-right: 0px;
- 		   display: inline-block;
- 		   
-		}
-		.radio-inner .ec-base-label input {
-		    position: absolute;
-		    top: 0;
-		    left: 0;
-		    opacity: 0;
-		}
-		.radio-inner .ec-base-label > label {
-		    display: block;
-		    font-size: 15px;
-		    border: 1px solid #EBEBEB;
-		    border-bottom: 0;
-		    padding: 17px 25px;
-		    width: 100%;
-		}
-		.radio-inner > .ec-base-label > input:checked ~ label {
-		    border: 1px solid #3971FF;
-		    color: #3971FF;
-		    font-weight: 700;
-		    padding: 17px 25px 16px;
-		}
-		#addr_paymethod0_view, #addr_paymethod1_view {
-			border: 1px solid #EAEAEA;
-    		background-color: #FAFAFD;
-    		font-size: 0.9rem;
-		}
-		.payment-btn-css {
-			width: 100%;
-			font-size: 1.2rem;
-			color: #fff;
-			font-weight: 600;
-			background: #3971FF;
-			text-align: center;
-			padding: 10px;
-			border: 0px;
-		}
-		.help-view-text {
-			font-size: 0.8rem;
-			color: #666;
-			padding: 20px;
-			letter-spacing: -1px;
-		}
-		.payment_view input[type="number"]::-webkit-outer-spin-button,
-		.payment_view input[type="number"]::-webkit-inner-spin-button {
-		    -webkit-appearance: none;
-		    margin: 0;
-		}
-		#mooneyes_logo_btn:hover {
-			text-decoration: none;
-			color: #000;
-		}
-	</style>
 </head>
 <body>
 	<div class="payment" style="width: 100%; margin: 0 auto;">
@@ -268,7 +80,7 @@
 				<div class="row payment_top_view" style="padding: 15px 10px; width:100%; margin: 0 auto;">
 					<div class="col-2"><a href="javascript:history.back();"><img src="${ctp}/images/left_arrow_icon.png" width="25px"/></a></div>
 					<div class="col text-center" style="font-size: 1.2rem;"><a href="${ctp}/" id="mooneyes_logo_btn"><b>문아이즈 KOREA</b></a></div>
-					<div class="col-2 text-right"><a href=""><img src="${ctp}/images/bag-icon.png" width="25px"/><c:if test="${basket != null}"><span class="count EC-Layout_Basket-count-display"><span class="EC-Layout-Basket-count">${basket}</span></span></c:if></a>&nbsp;&nbsp;<a href=""><img src="${ctp}/images/account-icon.png" width="25px"/></a></div>
+					<div class="col-2 text-right"><a href="${ctp}/member/cart"><img src="${ctp}/images/bag-icon.png" width="25px"/><c:if test="${basket != null}"><span class="count EC-Layout_Basket-count-display"><span class="EC-Layout-Basket-count">${basket}</span></span></c:if></a>&nbsp;&nbsp;<a href="${ctp}/member/my_info?mid=${sMid}"><img src="${ctp}/images/account-icon.png" width="25px"/></a></div>
 				</div>
 				<div class="row" style="width: 100%; margin: 0 auto;">
 					<div class="col payment-title" style="padding: 15px;">주문/결제</div>

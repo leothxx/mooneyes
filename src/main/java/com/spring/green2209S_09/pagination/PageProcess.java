@@ -28,6 +28,12 @@ public class PageProcess {
 		else if(section.equals("wishList")) {
 			totRecCnt = productDAO.totRecCnt2("wishList",part);
 		}
+		else if(section.equals("productSearch")) {
+			totRecCnt = productDAO.totRecCnt2("product_search",part);
+		}
+		else if(section.equals("payment")) {
+			totRecCnt = productDAO.totRecCnt3("payment",part, searchString);
+		}
 		
 		
 		int totPage = (totRecCnt % pageSize)==0 ? totRecCnt / pageSize : (totRecCnt / pageSize) + 1;

@@ -44,7 +44,16 @@
 		<if test='part != "" and part gt 100 and searchString == ""'>SELECT count(*) FROM mooneyes_product AS product JOIN mooneyes_product_image AS image ON product.product_idx = image.product_idx WHERE product.category_mini = #{part};</if>
 	</select>
 	<select id="totRecCnt2" resultType="int">
-		SELECT count(*) FROM mooneyes_product_wishlist WHERE member_idx = #{searchString};
+		<if test="part == 'wishList'">SELECT count(*) FROM mooneyes_product_wishlist WHERE member_idx = #{searchString};</if>
+		<if test="part == 'product_search'">SELECT count(*) FROM mooneyes_product AS product JOIN mooneyes_product_image AS image ON product.product_idx = image.product_idx WHERE product.product_name LIKE '%${searchString}%';</if>
+	</select>
+	<select id="totRecCnt3" resultType="int">
+		<if test="payment != ''">
+			SELECT count(*) FROM mooneyes_order WHERE member_idx = #{member_idx} AND payment = #{payment};
+		</if>
+		<if test="payment == ''">
+			SELECT count(*) FROM mooneyes_order WHERE member_idx = #{member_idx};
+		</if>
 	</select>
 	<select id="get_what_main_category" resultType="com.spring.green2209S_09.vo.MainCategoryVO">
 		SELECT * FROM mooneyes_product_main_category WHERE category_main = #{category_main};
@@ -60,6 +69,9 @@
 	</select>
 	<select id="get_wishlist_search" resultType="com.spring.green2209S_09.vo.WishListVO">
 		SELECT * FROM mooneyes_product_wishlist WHERE product_wishlist_idx = #{product_wishlist_idx};
+	</select>
+	<select id="get_product_search_text" resultType="com.spring.green2209S_09.vo.ProductAllVO">
+		SELECT * FROM mooneyes_product AS product JOIN mooneyes_product_image AS image ON product.product_idx = image.product_idx WHERE product.product_name LIKE '%${searchString}%' ORDER BY product.product_idx DESC LIMIT #{startIndexNo},#{pageSize};
 	</select>
 	
 	<insert id="set_product_input">

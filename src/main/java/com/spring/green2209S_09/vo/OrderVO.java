@@ -27,6 +27,7 @@ public @Data class OrderVO {
 	private String cashreceipt_employed_number;
 	private String payment;
 	private int delivery_price;
+	private String order_date;
 	
 	private int product_images_idx;
 	private String product_fSName;
@@ -34,4 +35,6 @@ public @Data class OrderVO {
 	private int product_fileSize;
 	private String create_date;
 	private String product_file_delete_check;
+	
+	private String product_name;
 }
