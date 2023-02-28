@@ -91,8 +91,9 @@
 					<div class="col-1 p-0" style="border-right: 1px solid #ececec;">주문번호</div>
 					<div class="col-1 p-0" style="border-right: 1px solid #ececec;">주문자성명</div>
 					<div class="col p-0" style="border-right: 1px solid #ececec;">상품명</div>
+					<div class="col-1 p-0" style="border-right: 1px solid #ececec;">결제수단</div>
 					<div class="col-1 p-0" style="border-right: 1px solid #ececec;">결제금액</div>
-					<div class="col-2 p-0" style="border-right: 1px solid #ececec;">주문일자${size}</div>
+					<div class="col-1 p-0" style="border-right: 1px solid #ececec;">주문일자</div>
 					<div class="col-1 p-0">주문상태</div>
 				</div>
 				<c:forEach var="vo" items="${vos}" varStatus="st">
@@ -100,15 +101,16 @@
 					<c:if test="${!empty vo.order_idx}">
 					<c:set var="product_idx_arr" value="${fn:split(vo.product_idx,'/')}" />
 					<c:set var="productCount" value="${fn:length(product_idx_arr)}" />
-					<a href="${ctp}/order/order_list_view?order_idx=${vo.order_idx}" class="order-list-view-css">
+					<a href="${ctp}/order/order_list_view?order_idx=${vo.order_idx}&member_cart_idx=${vo.product_idx}" class="order-list-view-css">
 						<div>
 							<c:if test="${size != st.count}"><div class="row" style="font-size: 0.9rem; width: 100%; margin: 0 auto; padding: 10px; border: 1px solid #ececec; border-bottom: 0px;"></c:if>
 							<c:if test="${size == st.count}"><div class="row" style="font-size: 0.9rem; width: 100%; margin: 0 auto; padding: 10px; border: 1px solid #ececec;"></c:if>
 								<div class="col-1 p-0" style="border-right: 1px solid #ececec; padding: 10px;">${vo.order_idx}</div>
 								<div class="col-1 p-0" style="border-right: 1px solid #ececec; padding: 10px;">${vo.order_name}</div>
 								<div class="col p-0" style="border-right: 1px solid #ececec;">${vo.product_name} <c:if test="${productCount != 1}">등 ${productCount}개</c:if></div>
+								<div class="col-1 p-0" style="border-right: 1px solid #ececec;"><c:if test="${vo.addr_paymethod == 'card'}">카드결제</c:if><c:if test="${vo.addr_paymethod == 'cash'}">무통장입금</c:if></div>
 								<div class="col-1 p-0" style="border-right: 1px solid #ececec;"><fmt:formatNumber value="${vo.order_tot_price}" pattern="#,###"/>원</div>
-								<div class="col-2 p-0" style="border-right: 1px solid #ececec;">${fn:substring(vo.order_date,0,16)}</div>
+								<div class="col-1 p-0" style="border-right: 1px solid #ececec;">${fn:substring(vo.order_date,0,16)}</div>
 								<div class="col-1 p-0">
 									<c:if test="${vo.payment == 'N'}">입금전</c:if>
 									<c:if test="${vo.payment == 'Y'}">배송준비중</c:if>

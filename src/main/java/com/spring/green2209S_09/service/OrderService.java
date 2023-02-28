@@ -33,5 +33,7 @@ public interface OrderService {
 	public int get_mooneyes_order_count_R(int member_idx);
 
 	public OrderVO get_mooneyes_order(int order_idx);
+
+	public int set_mooneyes_order_cancel(int order_idx);
 	
 }

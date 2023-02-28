@@ -35,5 +35,7 @@ public interface OrderDAO {
 	public int get_mooneyes_order_count_R(@Param("member_idx") int member_idx);
 
 	public OrderVO get_mooneyes_order(@Param("order_idx") int order_idx);
+
+	public int get_mooneyes_order_cancel(@Param("order_idx") int order_idx);
 	
 }

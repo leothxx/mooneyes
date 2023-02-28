@@ -43,4 +43,7 @@
 		INSERT INTO mooneyes_question VALUES (DEFAULT,#{member_vo.member_idx},#{member_vo.member_name},#{inputVO.question_pwd},#{title},#{inputVO.question});
 	</insert>
 	
+	<update id="get_mooneyes_order_cancel">
+		UPDATE mooneyes_order SET payment = 'C' WHERE order_idx = #{order_idx};
+	</update>
 </mapper>

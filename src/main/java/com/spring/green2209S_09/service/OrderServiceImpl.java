@@ -79,4 +79,9 @@ public class OrderServiceImpl implements OrderService {
 	public OrderVO get_mooneyes_order(int order_idx) {
 		return orderDAO.get_mooneyes_order(order_idx);
 	}
+
+	@Override
+	public int set_mooneyes_order_cancel(int order_idx) {
+		return orderDAO.get_mooneyes_order_cancel(order_idx);
+	}
 }

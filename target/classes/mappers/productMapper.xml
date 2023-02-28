@@ -73,6 +73,9 @@
 	<select id="get_product_search_text" resultType="com.spring.green2209S_09.vo.ProductAllVO">
 		SELECT * FROM mooneyes_product AS product JOIN mooneyes_product_image AS image ON product.product_idx = image.product_idx WHERE product.product_name LIKE '%${searchString}%' ORDER BY product.product_idx DESC LIMIT #{startIndexNo},#{pageSize};
 	</select>
+	<select id="get_product_info_search" resultType="com.spring.green2209S_09.vo.CartVO">
+		SELECT * FROM mooneyes_product AS product JOIN mooneyes_product_image AS image ON product.product_idx = image.product_idx WHERE product.product_idx = #{product_idx};
+	</select>
 	
 	<insert id="set_product_input">
 		INSERT INTO mooneyes_product VALUES (DEFAULT,#{vo.category_main},#{vo.category_sub},#{vo.category_mini},#{vo.product_name},#{vo.product_price},#{vo.product_sale_price},#{vo.product_stock},#{vo.product_size},#{vo.product_color},#{vo.product_desc},DEFAULT);

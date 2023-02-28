@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.spring.green2209S_09.vo.CartVO;
 import com.spring.green2209S_09.vo.MainCategoryVO;
 import com.spring.green2209S_09.vo.Main_Sub_CategoryVO;
 import com.spring.green2209S_09.vo.MiniCategoryVO;
@@ -66,6 +67,8 @@ public interface ProductDAO {
 	public ArrayList<ProductAllVO> get_product_search_text(@Param("startIndexNo") int startIndexNo,@Param("pageSize") int pageSize, @Param("searchString") String searchString);
 
 	public int totRecCnt3(@Param("part")String part, @Param("payment") String payment, @Param("member_idx") String member_idx);
+
+	public CartVO get_product_info_search(@Param("product_idx") String product_idx);
 	
 	
 }

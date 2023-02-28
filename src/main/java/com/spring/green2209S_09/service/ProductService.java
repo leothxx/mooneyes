@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.spring.green2209S_09.vo.CartVO;
 import com.spring.green2209S_09.vo.MainCategoryVO;
 import com.spring.green2209S_09.vo.Main_Sub_CategoryVO;
 import com.spring.green2209S_09.vo.MiniCategoryVO;
@@ -55,6 +56,8 @@ public interface ProductService {
 	public WishListVO get_wishlist_search(int product_wishlist_idx);
 
 	public ArrayList<ProductAllVO> get_product_search_text(int startIndexNo, int pageSize, String searchString);
+
+	public CartVO get_product_info_search(String product_idx);
 
 
 }

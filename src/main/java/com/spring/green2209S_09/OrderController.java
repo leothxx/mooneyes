@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.green2209S_09.pagination.PageProcess;
 import com.spring.green2209S_09.pagination.PageVO;
@@ -17,6 +18,7 @@ import com.spring.green2209S_09.service.CartService;
 import com.spring.green2209S_09.service.MemberService;
 import com.spring.green2209S_09.service.OrderService;
 import com.spring.green2209S_09.service.ProductService;
+import com.spring.green2209S_09.vo.CartVO;
 import com.spring.green2209S_09.vo.MemberVO;
 import com.spring.green2209S_09.vo.OrderVO;
 
@@ -87,13 +89,26 @@ public class OrderController {
 	}
 	
 	@RequestMapping(value="/order_list_view",method=RequestMethod.GET)
-	public String order_viewGet(HttpSession session, Model model,int order_idx) {
+	public String order_viewGet(HttpSession session, Model model,int order_idx,
+			@RequestParam(name="membert_cart_idx", defaultValue="", required = false) String member_cart_idx) {
 		String mid = session.getAttribute("sMid") == null ? "" : (String) session.getAttribute("sMid");
 		MemberVO member_vo = memberService.get_mooneyes_member_check(mid);
 		OrderVO vo = orderService.get_mooneyes_order(order_idx);
 		String[] address_arr = vo.getOrder_address().split("/");
 		String[] phone_arr = vo.getOrder_phone().split("-");
 		String[] email_arr = vo.getOrder_email().split("@");
+		String[] cashreceipt_personal_number_arr; 
+		if(vo.getCashreceipt_personal_number() != null && !vo.getCashreceipt_personal_number().equals("010--") && !vo.getCashreceipt_personal_number().equals("")) {
+			cashreceipt_personal_number_arr = vo.getCashreceipt_personal_number().split("-");
+			model.addAttribute("cashreceipt_personal_number1", cashreceipt_personal_number_arr[0]);
+			model.addAttribute("cashreceipt_personal_number2", cashreceipt_personal_number_arr[1]);
+			model.addAttribute("cashreceipt_personal_number3", cashreceipt_personal_number_arr[2]);
+		}
+		else {
+			model.addAttribute("cashreceipt_personal_number1", "");
+			model.addAttribute("cashreceipt_personal_number2", "");
+			model.addAttribute("cashreceipt_personal_number3", "");
+		}
 		model.addAttribute("postCode",address_arr[0]);
 		model.addAttribute("roadAddress",address_arr[1]);
 		model.addAttribute("detailAddress",address_arr[2]);
@@ -110,7 +125,35 @@ public class OrderController {
 		}
 		model.addAttribute("vo",vo);
 		model.addAttribute("member_vo",member_vo);
+		
+		// 주문한 상품 정보 모두 가져오기
+		CartVO cart_vo = new CartVO();
+		ArrayList<CartVO> cart_vos = new ArrayList<>();
+		String product_idx_arr[] = vo.getProduct_idx().split("/");
+		String order_count_arr[] = vo.getOrder_count().split("/");
+		String order_option_arr[] = vo.getOrder_option().split(":");
+		
+		for(int i=0; i<product_idx_arr.length; i++) {
+			cart_vo = productService.get_product_info_search(product_idx_arr[i]);
+			cart_vo.setProduct_count(Integer.parseInt(order_count_arr[i]));
+			String order_option[] = order_option_arr[i].split("/");
+			cart_vo.setProduct_color(order_option[0]);
+			cart_vo.setProduct_size(order_option[1]);
+			cart_vos.add(cart_vo);
+		}
+		
+		model.addAttribute("cart_vos",cart_vos);
+		model.addAttribute("cart_vos_size", cart_vos.size());
 		return "order/mooneyes_order_view";
+	}
+	
+	// 주문 취소 신청시
+	@ResponseBody
+	@RequestMapping(value="/order_cancel",method=RequestMethod.POST)
+	public String order_cancelPost(int order_idx) {
+		int res = 0;
+		res = orderService.set_mooneyes_order_cancel(order_idx);
+		return res+"";
 	}
 	
 	
